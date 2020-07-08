@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Engine\Engine.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="HowlitePCH.cpp" />
+    <ClCompile Include="Engine\Window.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Event\Event.cpp">
+      <Filter>Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Event\WindowEvent.cpp">
+      <Filter>Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Event\MouseEvent.cpp">
+      <Filter>Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Event\KeyboardEvent.cpp">
+      <Filter>Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Main.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Exception.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\GraphicSystem.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\UI\Imgui\imgui.cpp">
+      <Filter>Renderer\UI\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\UI\Imgui\imgui_demo.cpp">
+      <Filter>Renderer\UI\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\UI\Imgui\imgui_draw.cpp">
+      <Filter>Renderer\UI\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\UI\Imgui\imgui_impl_dx11.cpp">
+      <Filter>Renderer\UI\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\UI\Imgui\imgui_impl_win32.cpp">
+      <Filter>Renderer\UI\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\UI\Imgui\imgui_widgets.cpp">
+      <Filter>Renderer\UI\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\UI\UISystem.cpp">
+      <Filter>Renderer\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\InputSystem.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\DXGIInfoQueue.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{ff6e49d1-aff9-4e08-a030-c38802c1d943}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Event">
+      <UniqueIdentifier>{46872af7-ae09-4321-974d-e9db788dc52f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer">
+      <UniqueIdentifier>{d9253ca7-4ab5-410a-ac28-f9c278db2cc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\UI">
+      <UniqueIdentifier>{111faaad-2031-4d42-931f-73ab21b79e74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\UI\Imgui">
+      <UniqueIdentifier>{7f18ca60-7350-45d2-9365-b543c8de6d28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{0eb3628f-2624-4cea-ac6e-de83a80249ca}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Engine\Engine.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="HowlitePCH.h" />
+    <ClInclude Include="Engine\Window.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Event\Event.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Event\WindowEvent.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Event\MouseEvent.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Event\KeyboardEvent.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="Engine\Exception.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\GraphicSystem.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\UI\Imgui\imconfig.h">
+      <Filter>Renderer\UI\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\UI\Imgui\imgui.h">
+      <Filter>Renderer\UI\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\UI\Imgui\imgui_impl_dx11.h">
+      <Filter>Renderer\UI\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\UI\Imgui\imgui_impl_win32.h">
+      <Filter>Renderer\UI\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\UI\Imgui\imgui_internal.h">
+      <Filter>Renderer\UI\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\UI\Imgui\imstb_rectpack.h">
+      <Filter>Renderer\UI\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\UI\Imgui\imstb_textedit.h">
+      <Filter>Renderer\UI\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\UI\Imgui\imstb_truetype.h">
+      <Filter>Renderer\UI\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\UI\UISystem.h">
+      <Filter>Renderer\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\InputSystem.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\DXGIInfoQueue.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Howlite.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resource\Icons\icon.ico" />
+  </ItemGroup>
+</Project>
