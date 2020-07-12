@@ -119,6 +119,8 @@ namespace Howlite {
 		class HUISystem& GetUISystemInstance();
 
 	private:
+		friend class HBindable;
+
 		void CreateDeviceAndSwapchain(HWND hWnd, uint32_t Width, uint32_t Height);
 		void CreateViewport(uint32_t Width, uint32_t Height);
 		void CreateRenderTargetView();

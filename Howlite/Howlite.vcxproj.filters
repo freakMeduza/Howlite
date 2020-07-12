@@ -56,6 +56,12 @@
     <ClCompile Include="Renderer\DXGIInfoQueue.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="Renderer\Bindable.cpp">
+      <Filter>Renderer\Bindable</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\Buffer.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -75,6 +81,15 @@
     </Filter>
     <Filter Include="Input">
       <UniqueIdentifier>{0eb3628f-2624-4cea-ac6e-de83a80249ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\Bindable">
+      <UniqueIdentifier>{e24013bc-fb57-40d3-ac96-aec9a6a09f2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\Drawable">
+      <UniqueIdentifier>{5506c921-db2d-4306-90c4-03e56ae743d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{086d85d8-7ae0-4db7-8c4a-d2c8996a124e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +151,12 @@
     </ClInclude>
     <ClInclude Include="Renderer\DXGIInfoQueue.h">
       <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Bindable.h">
+      <Filter>Renderer\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Buffer.h">
+      <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

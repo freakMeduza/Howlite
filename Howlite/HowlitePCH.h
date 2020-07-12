@@ -39,6 +39,13 @@
 template<typename Type> using ScopedPointer = std::unique_ptr<Type>;
 template<typename Type> using SharedPointer = std::shared_ptr<Type>;
 
+using HID = size_t;
+
+inline static HID CreateObjectID(const std::string& Value) 
+{
+	return std::hash<std::string>{}(Value);
+}
+
 template<typename Type, typename ... Arg>
 constexpr ScopedPointer<Type> CreateScopedPointer(Arg&& ... Args)
 {

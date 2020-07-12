@@ -49,6 +49,8 @@ namespace {
 			<< DXGetErrorDescription(ErrorCode)
 			<< std::endl
 			<< DXGetErrorString(ErrorCode);
+	#else
+		H_UNUSED(ErrorCode)
 	#endif
 		return ss.str();
 	}

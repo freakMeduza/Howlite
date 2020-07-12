@@ -9,6 +9,8 @@
 #include "Renderer/UI/UISystem.h"
 #include "Input/InputSystem.h"
 
+#include "Common/Buffer.h"
+
 namespace Howlite {
 
 	HEngine* HEngine::mEngineInstance = nullptr;
@@ -45,11 +47,10 @@ namespace Howlite {
 		return *mEngineInstance;
 	}
 
-
 	int HEngine::Run()
 	{
 		mIsRun = true;
-		
+
 		static bool show = true;
 		static bool vsync = GetGraphicSystemInstance().IsVSyncEnabled();
 

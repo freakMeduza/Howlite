@@ -88,6 +88,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Common\Buffer.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\Exception.cpp" />
     <ClCompile Include="Engine\Main.cpp" />
@@ -103,6 +104,7 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">HowlitePCH.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="Input\InputSystem.cpp" />
+    <ClCompile Include="Renderer\Bindable.cpp" />
     <ClCompile Include="Renderer\DXGIInfoQueue.cpp" />
     <ClCompile Include="Renderer\GraphicSystem.cpp" />
     <ClCompile Include="Renderer\UI\Imgui\imgui.cpp">
@@ -132,6 +134,7 @@
     <ClCompile Include="Renderer\UI\UISystem.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Common\Buffer.h" />
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\Exception.h" />
     <ClInclude Include="Engine\Window.h" />
@@ -141,6 +144,7 @@
     <ClInclude Include="Event\WindowEvent.h" />
     <ClInclude Include="HowlitePCH.h" />
     <ClInclude Include="Input\InputSystem.h" />
+    <ClInclude Include="Renderer\Bindable.h" />
     <ClInclude Include="Renderer\DXGIInfoQueue.h" />
     <ClInclude Include="Renderer\GraphicSystem.h" />
     <ClInclude Include="Renderer\UI\Imgui\imconfig.h" />
