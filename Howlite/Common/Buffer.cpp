@@ -116,6 +116,27 @@ namespace Howlite {
 		return {};
 	}
 
+	HLayout::HLayout(const std::initializer_list<HEAttributeType>& Types)
+	{
+		for (HEAttributeType type : Types)
+		{
+			mAttributes.emplace_back(type, GetSize());
+		}
+	}
+
+	bool HLayout::Contains(HEAttributeType AttributeType) const noexcept
+	{
+		for (const HAttribute& attribute : mAttributes)
+		{
+			if (attribute.GetType() == AttributeType)
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	size_t HLayout::GetSize() const noexcept
 	{
 		return mAttributes.size() == 0u ? 0u : mAttributes.back().GetOffsetAfter();

@@ -9,8 +9,6 @@
 #include "Renderer/UI/UISystem.h"
 #include "Input/InputSystem.h"
 
-#include "Common/Buffer.h"
-
 namespace Howlite {
 
 	HEngine* HEngine::mEngineInstance = nullptr;

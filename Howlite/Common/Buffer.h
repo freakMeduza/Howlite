@@ -118,6 +118,8 @@ namespace Howlite {
 		HLayout() = default;
 		~HLayout() = default;
 
+		HLayout(const std::initializer_list<HEAttributeType>& Types);
+
 		/**
 		 * Get Attribute
 		 * @return 
@@ -135,6 +137,13 @@ namespace Howlite {
 
 			H_ASSERT(false, "Failed to get attribute. Attribute type mismatch.");
 		}
+
+		/**
+		 * Is Attribute Type Exist In Layout
+		 * @param AttributeType 
+		 * @return 
+		 */
+		bool Contains(HEAttributeType AttributeType) const noexcept;
 
 		/**
 		 * Get Size In Bytes
@@ -172,83 +181,30 @@ namespace Howlite {
 		template<typename HEAttributeType Type>
 		inline auto& GetAttribute()
 		{
-			using namespace DirectX;
-
 			auto ptr = mData + mLayout.GetAttribute<Type>().GetOffset();
-
-			if constexpr (Type == HEAttributeType::Position2D)
-			{
-				return *reinterpret_cast<XMFLOAT2*>(ptr);
-			}
-			else if constexpr (Type == HEAttributeType::Position3D)
-			{
-				return *reinterpret_cast<XMFLOAT3*>(ptr);
-			}
-			else if constexpr (Type == HEAttributeType::Normal3D)
-			{
-				return *reinterpret_cast<XMFLOAT3*>(ptr);
-			}
-			else if constexpr (Type == HEAttributeType::Color3D)
-			{
-				return *reinterpret_cast<XMFLOAT3*>(ptr);
-			}
-			else if constexpr (Type == HEAttributeType::Color4D)
-			{
-				return *reinterpret_cast<XMFLOAT4*>(ptr);
-			}
-
-			H_ASSERT(false, "Failed to get attribute. Unknown HEAttributeType.");
+			return *reinterpret_cast<typename HAttributeMap<Type>::SystemType*>(ptr);
 		}
-
 
 		template<typename HEAttributeType Type, typename T>
 		inline void SetAttribute(T&& Value)
 		{
-			using namespace DirectX;
-
+			using system_type = typename HAttributeMap<Type>::SystemType;
+			
 			auto ptr = mData + mLayout.GetAttribute<Type>().GetOffset();
-
-			if constexpr (Type == HEAttributeType::Position2D)
+			if constexpr (std::is_assignable<system_type, T>::value)
 			{
-				SetAttribute<HEAttributeType::Position2D>(ptr, std::forward<T>(Value));
-			}
-			else if constexpr (Type == HEAttributeType::Position3D)
-			{
-				SetAttribute<HEAttributeType::Position3D>(ptr, std::forward<T>(Value));
-			}
-			else if constexpr (Type == HEAttributeType::Normal3D)
-			{
-				SetAttribute<HEAttributeType::Normal3D>(ptr, std::forward<T>(Value));
-			}
-			else if constexpr (Type == HEAttributeType::Color3D)
-			{
-				SetAttribute<HEAttributeType::Color3D>(ptr, std::forward<T>(Value));
-			}
-			else if constexpr (Type == HEAttributeType::Color4D)
-			{
-				SetAttribute<HEAttributeType::Color4D>(ptr, std::forward<T>(Value));
-			}
-
-			H_ASSERT(false, "Failed to set attribute 'Unknown HEAttributeType Type'.");
-		}
-
-	private:
-		friend class HBuffer;
-
-		HElement(uint8_t* Data, const HLayout& Layout);
-
-		template<typename DestinationType, typename SourceType>
-		inline void SetAttribute(uint8_t* Attribute, SourceType&& SourceValue)
-		{
-			if constexpr (std::is_assignable<DestinationType, SourceType>::value)
-			{
-				*reinterpret_cast<DestinationType*>(Attribute) = SourceValue;
+				*reinterpret_cast<system_type*>(ptr) = Value;
 			}
 			else
 			{
 				H_ASSERT(false, "Failed to set attribute. Parameter type mismatch 'std::is_assignable<DestinationType, SourceType>::value == false'.");
 			}
 		}
+
+	private:
+		friend class HBuffer;
+
+		HElement(uint8_t* Data, const HLayout& Layout);
 
 		uint8_t* mData{ nullptr };
 		const HLayout& mLayout;
