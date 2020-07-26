@@ -56,11 +56,32 @@
     <ClCompile Include="Renderer\DXGIInfoQueue.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="Common\Buffer.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
     <ClCompile Include="Renderer\Bindable.cpp">
       <Filter>Renderer\Bindable</Filter>
     </ClCompile>
-    <ClCompile Include="Common\Buffer.cpp">
-      <Filter>Common</Filter>
+    <ClCompile Include="Renderer\VertexBuffer.cpp">
+      <Filter>Renderer\Bindable</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\IndexBuffer.cpp">
+      <Filter>Renderer\Bindable</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\InputLayout.cpp">
+      <Filter>Renderer\Bindable</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\ConstantBuffer.cpp">
+      <Filter>Renderer\Bindable</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Topology.cpp">
+      <Filter>Renderer\Bindable</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\VertexShader.cpp">
+      <Filter>Renderer\Bindable</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\PixelShader.cpp">
+      <Filter>Renderer\Bindable</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -90,6 +111,9 @@
     </Filter>
     <Filter Include="Common">
       <UniqueIdentifier>{086d85d8-7ae0-4db7-8c4a-d2c8996a124e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{96d9bbf0-3185-4964-97b6-ebfaeae8c0ac}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -152,11 +176,35 @@
     <ClInclude Include="Renderer\DXGIInfoQueue.h">
       <Filter>Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="Common\Buffer.h">
+      <Filter>Common</Filter>
+    </ClInclude>
     <ClInclude Include="Renderer\Bindable.h">
       <Filter>Renderer\Bindable</Filter>
     </ClInclude>
-    <ClInclude Include="Common\Buffer.h">
-      <Filter>Common</Filter>
+    <ClInclude Include="Renderer\VertexBuffer.h">
+      <Filter>Renderer\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\IndexBuffer.h">
+      <Filter>Renderer\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\InputLayout.h">
+      <Filter>Renderer\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\ConstantBuffer.h">
+      <Filter>Renderer\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Topology.h">
+      <Filter>Renderer\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\VertexShader.h">
+      <Filter>Renderer\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\PixelShader.h">
+      <Filter>Renderer\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\BindableCommon.h">
+      <Filter>Renderer\Bindable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -164,5 +212,13 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\Icons\icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shader\VertexShader.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\PixelShader.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

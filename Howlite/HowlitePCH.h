@@ -4,12 +4,14 @@
 #include <Windows.h>
 
 #include <string>
+#include <tuple>
 #include <array>
 #include <memory>
 #include <sstream>
 #include <optional>
 #include <exception>
 #include <functional>
+#include <unordered_map>
 
 #include "resource.h"
 
@@ -31,7 +33,7 @@
 #include <DirectXMath.h>
 
 #include "Engine/Exception.h"
-
+#include "Renderer/DXGIInfoQueue.h"
 #include "Renderer/UI/Imgui/imgui.h"
 #include "Renderer/UI/Imgui/imgui_impl_dx11.h"
 #include "Renderer/UI/Imgui/imgui_impl_win32.h"
@@ -72,6 +74,28 @@ throw Howlite::HException{ __FILE__, __LINE__, ErrorMessage }; \
 } \
 }
 
+#ifdef _DEBUG
+#define H_DXGI_INFOQUEUE(GraphicSystem) \
+Howlite::HDXGIInfoQueue& DXGIInfoQueue = GetDXGIInfoQueue(GraphicSystem);
+
+#define H_DX_SAFECALL(x) \
+{ \
+DXGIInfoQueue.ClearMessageQueue(); \
+HRESULT hresult = (x); \
+if(FAILED(hresult)) \
+{ \
+std::string message; \
+for(const std::string& line : DXGIInfoQueue.GetMessageQueue()) \
+{ \
+message += line; \
+} \
+throw Howlite::HException{ __FILE__, __LINE__, hresult, Howlite::EExceptionType::Graphic, message }; \
+} \
+}
+
+#else
+#define H_DXGI_INFOQUEUE(GraphicSystem)
+
 #define H_DX_SAFECALL(x) \
 { \
 HRESULT hresult = (x); \
@@ -81,6 +105,10 @@ throw Howlite::HException{ __FILE__, __LINE__, hresult, Howlite::EExceptionType:
 } \
 }
 
+#endif
+
+#define H_TYPENAME(x) #x
+
 #define H_DECLARE_EVENT_TYPE(x) \
 static inline EHEventType GetStaticEventType() noexcept { return x; } \
 inline EHEventType GetEventType() const noexcept override { return GetStaticEventType(); } \
@@ -88,3 +116,4 @@ inline const char* GetEventName() const noexcept override { return #x; }
 
 #define H_BIND_EVENT_CALLBACK(x) \
 std::bind(&x, this, std::placeholders::_1)
+

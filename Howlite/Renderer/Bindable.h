@@ -14,16 +14,6 @@ namespace Howlite {
 		 * @return 
 		 */
 		virtual void Bind(HGraphicSystem& GraphicSystem) const noexcept = 0;
-		
-		/**
-		 * Get Obect ID
-		 * @return 
-		 */
-		inline virtual HID GetObjectID() const 
-		{
-			H_ASSERT(false, "Failed to get object ID.");
-			return CreateObjectID("");
-		}
 
 	protected:
 		static ID3D11Device& GetDevice(HGraphicSystem& GraphicSystem) noexcept;

@@ -105,8 +105,13 @@
     </ClCompile>
     <ClCompile Include="Input\InputSystem.cpp" />
     <ClCompile Include="Renderer\Bindable.cpp" />
+    <ClCompile Include="Renderer\ConstantBuffer.cpp" />
     <ClCompile Include="Renderer\DXGIInfoQueue.cpp" />
     <ClCompile Include="Renderer\GraphicSystem.cpp" />
+    <ClCompile Include="Renderer\IndexBuffer.cpp" />
+    <ClCompile Include="Renderer\InputLayout.cpp" />
+    <ClCompile Include="Renderer\PixelShader.cpp" />
+    <ClCompile Include="Renderer\Topology.cpp" />
     <ClCompile Include="Renderer\UI\Imgui\imgui.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
@@ -132,6 +137,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Renderer\UI\UISystem.cpp" />
+    <ClCompile Include="Renderer\VertexBuffer.cpp" />
+    <ClCompile Include="Renderer\VertexShader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common\Buffer.h" />
@@ -145,8 +152,14 @@
     <ClInclude Include="HowlitePCH.h" />
     <ClInclude Include="Input\InputSystem.h" />
     <ClInclude Include="Renderer\Bindable.h" />
+    <ClInclude Include="Renderer\BindableCommon.h" />
+    <ClInclude Include="Renderer\ConstantBuffer.h" />
     <ClInclude Include="Renderer\DXGIInfoQueue.h" />
     <ClInclude Include="Renderer\GraphicSystem.h" />
+    <ClInclude Include="Renderer\IndexBuffer.h" />
+    <ClInclude Include="Renderer\InputLayout.h" />
+    <ClInclude Include="Renderer\PixelShader.h" />
+    <ClInclude Include="Renderer\Topology.h" />
     <ClInclude Include="Renderer\UI\Imgui\imconfig.h" />
     <ClInclude Include="Renderer\UI\Imgui\imgui.h" />
     <ClInclude Include="Renderer\UI\Imgui\imgui_impl_dx11.h" />
@@ -156,6 +169,8 @@
     <ClInclude Include="Renderer\UI\Imgui\imstb_textedit.h" />
     <ClInclude Include="Renderer\UI\Imgui\imstb_truetype.h" />
     <ClInclude Include="Renderer\UI\UISystem.h" />
+    <ClInclude Include="Renderer\VertexBuffer.h" />
+    <ClInclude Include="Renderer\VertexShader.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
@@ -163,6 +178,16 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\Icons\icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shader\PixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Shader\VertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

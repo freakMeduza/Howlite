@@ -94,6 +94,12 @@ namespace Howlite {
 		void EndFrame();
 
 		/**
+		 * Draw Indexed
+		 * @param IndexCount 
+		 */
+		void DrawIndexed(UINT IndexCount);
+
+		/**
 		 * Resize Buffers
 		 * @param Width 
 		 * @param Height 

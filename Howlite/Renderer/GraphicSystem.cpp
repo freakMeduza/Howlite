@@ -47,6 +47,33 @@ namespace Howlite {
 		mSwapchain->Present(mVSyncIsEnabled ? 1u : 0u, 0u);
 	}
 
+	void HGraphicSystem::DrawIndexed(UINT IndexCount)
+	{
+	#if _DEBUG
+		mDXGIInfoQueue->ClearMessageQueue();
+		mContext->DrawIndexed(IndexCount, 0u, 0u);
+		const std::vector<std::string>& messages = mDXGIInfoQueue->GetMessageQueue();
+		if(!messages.empty())
+		{
+			std::string errorString;
+			for(const std::string& line : messages)
+			{
+				errorString += line;
+				errorString.push_back('\n');
+			}
+
+			if (!errorString.empty())
+			{
+				errorString.pop_back();
+			}
+
+			throw HException{ __FILE__, __LINE__, errorString };
+		}
+	#else
+		mContext->DrawIndexed(IndexCount, 0u, 0u);
+	#endif
+	}
+
 	void HGraphicSystem::ResizeBuffers(uint32_t Width, uint32_t Height)
 	{
 		mRenderTargetView.Reset();
@@ -103,26 +130,46 @@ namespace Howlite {
 		createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
 	#endif
 
-		H_DX_SAFECALL(D3D11CreateDeviceAndSwapChain(
-			nullptr,
-			D3D_DRIVER_TYPE_HARDWARE,
-			nullptr,
-			createDeviceFlags,
-			featureLevelArray,
-			1,
-			D3D11_SDK_VERSION,
-			&swapchain,
-			&mSwapchain,
-			&mDevice,
-			&featureLevel,
-			&mContext))
+		{
+			HRESULT result = D3D11CreateDeviceAndSwapChain(nullptr,
+															D3D_DRIVER_TYPE_HARDWARE,
+															nullptr,
+															createDeviceFlags,
+															featureLevelArray,
+															1,
+															D3D11_SDK_VERSION,
+															&swapchain,
+															&mSwapchain,
+															&mDevice,
+															&featureLevel,
+															&mContext);
+
+			if(FAILED(result))
+			{
+				throw HException{ __FILE__, __LINE__, result, EExceptionType::Graphic };
+			}
+		}
 	}
 
 	void HGraphicSystem::CreateRenderTargetView()
 	{
 		Microsoft::WRL::ComPtr<ID3D11Resource> buffer{ nullptr };
-		H_DX_SAFECALL(mSwapchain->GetBuffer(0, __uuidof(ID3D11Resource), &buffer))
-		H_DX_SAFECALL(mDevice->CreateRenderTargetView(buffer.Get(), nullptr, &mRenderTargetView))
+		
+		{
+			HRESULT result = mSwapchain->GetBuffer(0, __uuidof(ID3D11Resource), &buffer);
+			if(FAILED(result))
+			{
+				throw HException{ __FILE__, __LINE__, result, EExceptionType::Graphic };
+			}
+		}
+
+		{
+			HRESULT result = mDevice->CreateRenderTargetView(buffer.Get(), nullptr, &mRenderTargetView);
+			if (FAILED(result))
+			{
+				throw HException{ __FILE__, __LINE__, result, EExceptionType::Graphic };
+			}
+		}
 	}
 
 	void HGraphicSystem::CreateViewport(uint32_t Width, uint32_t Height)
