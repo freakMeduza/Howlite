@@ -53,7 +53,7 @@ namespace Howlite {
 
 		static bool vsync = GetGraphicSystemInstance().IsVSyncEnabled();
 
-		HCube cube{ GetGraphicSystemInstance() };
+		HCube cube{ "Cube Entity", GetGraphicSystemInstance() };
 
 		while (mIsRun)
 		{

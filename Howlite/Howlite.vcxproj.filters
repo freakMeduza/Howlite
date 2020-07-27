@@ -89,6 +89,9 @@
     <ClCompile Include="Renderer\Cube.cpp">
       <Filter>Renderer\Drawable</Filter>
     </ClCompile>
+    <ClCompile Include="Renderer\TransformBuffer.cpp">
+      <Filter>Renderer\Bindable</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -217,6 +220,9 @@
     </ClInclude>
     <ClInclude Include="Renderer\Cube.h">
       <Filter>Renderer\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\TransformBuffer.h">
+      <Filter>Renderer\Bindable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
