@@ -3,6 +3,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 
+#include <set>
 #include <string>
 #include <tuple>
 #include <array>

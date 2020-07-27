@@ -4,7 +4,7 @@ namespace Howlite {
 
 	class HEngine {
 	public:
-		HEngine(HINSTANCE Instance, LPSTR CmdLine);
+		HEngine(HINSTANCE Instance);
 		~HEngine();
 
 		HEngine(HEngine&&) = delete;
@@ -54,6 +54,7 @@ namespace Howlite {
 		bool OnWindowResized(class HWindowResizedEvent& Event);
 		
 		bool mIsRun{ false };
+		bool mVSyncIsEnabled{ false };
 		
 		ScopedPointer<class HWindow> mWindow{ nullptr };
 		

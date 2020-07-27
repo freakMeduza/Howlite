@@ -4,6 +4,7 @@
 #include "BindableCommon.h"
 #include "Engine/Engine.h"
 #include "Engine/Window.h"
+#include "UI/UISystem.h"
 
 namespace {
 	std::tuple<Howlite::HBuffer, std::vector<uint32_t>> GetCube() noexcept
@@ -68,6 +69,29 @@ namespace Howlite {
 		{
 			AddBind(CreateSharedPointer<HInputLayout>(GraphicSystem, buffer.GetLayout(), vertexShader->GetShaderBytecode()));
 		}
+
+		HEngine::GetInstance().GetUISystemInstance().BindUIComponent(HUISystem::CreateUIComponent([this]()
+		{
+			if (ImGui::Begin(mName.c_str(), (bool*)nullptr))
+			{
+				ImGui::Text("Position:");
+				ImGui::SliderFloat("x", &mPosition.x, -50.0f, 50.0f, "%.1f");
+				ImGui::SliderFloat("y", &mPosition.y, -50.0f, 50.0f, "%.1f");
+				ImGui::SliderFloat("z", &mPosition.z, -50.0f, 50.0f, "%.1f");
+				ImGui::Text("Rotation:");
+				ImGui::SliderAngle("roll", &mRotation.x, -180.0f, 180.0f);
+				ImGui::SliderAngle("pitch", &mRotation.y, -180.0f, 180.0f);
+				ImGui::SliderAngle("yaw", &mRotation.z, -180.0f, 180.0f);
+				ImGui::ColorEdit3("Color", (float*)&mColorBuffer);
+				if (ImGui::Button("Reset", ImVec2{ 150, 25 }))
+				{
+					OnResetPosition();
+					OnResetRotation();
+					OnResetColor();
+				}
+				ImGui::End();
+			}
+		}));
 	}
 
 	DirectX::XMMATRIX HCube::GetTransform() const noexcept
@@ -83,35 +107,6 @@ namespace Howlite {
 		if (auto ptr = QueryBindable<HPixelConstantBuffer<ColorBuffer>>())
 		{
 			ptr->Update(graphicSystem, mColorBuffer);
-		}
-	}
-
-	void HCube::SpwanUIWindow()
-	{
-		if(ImGui::Begin(mName.c_str(), (bool*)nullptr))
-		{
-			ImGui::Text("Position:");
-			ImGui::SliderFloat("x", &mPosition.x, -50.0f, 50.0f, "%.1f");
-			ImGui::SliderFloat("y", &mPosition.y, -50.0f, 50.0f, "%.1f");
-			ImGui::SliderFloat("z", &mPosition.z, -50.0f, 50.0f, "%.1f");
-			if(ImGui::Button("Reset position", ImVec2{150, 25}))
-			{
-				OnResetPosition();
-			}
-			ImGui::Text("Rotation:");
-			ImGui::SliderAngle("roll", &mRotation.x, -180.0f, 180.0f);
-			ImGui::SliderAngle("pitch", &mRotation.y, -180.0f, 180.0f);
-			ImGui::SliderAngle("yaw", &mRotation.z, -180.0f, 180.0f);
-			if (ImGui::Button("Reset rotation", ImVec2{ 150, 25 }))
-			{
-				OnResetRotation();
-			}
-			ImGui::ColorEdit3("Color", (float*)&mColorBuffer);
-			if (ImGui::Button("Reset color", ImVec2{ 150, 25 }))
-			{
-				OnResetColor();
-			}
-			ImGui::End();
 		}
 	}
 

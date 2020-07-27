@@ -15,9 +15,8 @@ namespace Howlite {
 
 	HEngine* HEngine::mEngineInstance = nullptr;
 
-	HEngine::HEngine(HINSTANCE Instance, LPSTR CmdLine)
+	HEngine::HEngine(HINSTANCE Instance)
 	{
-		H_UNUSED(CmdLine)
 		H_ASSERT(mEngineInstance == nullptr, "Engine instance already exists.")
 
 		static constexpr uint32_t width = 1280u;
@@ -34,6 +33,17 @@ namespace Howlite {
 			dispatcher.Dispatch<HWindowClosedEvent>(H_BIND_EVENT_CALLBACK(HEngine::OnWindowClosed));
 			dispatcher.Dispatch<HWindowResizedEvent>(H_BIND_EVENT_CALLBACK(HEngine::OnWindowResized));
 		});
+
+		GetUISystemInstance().BindUIComponent(HUISystem::CreateUIComponent([this]()
+		{
+			if (ImGui::Begin("Metrics", (bool*)nullptr))
+			{
+				ImGuiIO& io = ImGui::GetIO();
+				ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
+				ImGui::Checkbox("vsync", &mVSyncIsEnabled);
+				ImGui::End();
+			}
+		}));
 	}
 
 	HEngine::~HEngine()
@@ -51,8 +61,6 @@ namespace Howlite {
 	{
 		mIsRun = true;
 
-		static bool vsync = GetGraphicSystemInstance().IsVSyncEnabled();
-
 		HCube cube{ "Cube Entity", GetGraphicSystemInstance() };
 
 		while (mIsRun)
@@ -61,20 +69,11 @@ namespace Howlite {
 
 			GetGraphicSystemInstance().BeginFrame(HColor::Black());
 
-			cube.SpwanUIWindow();
 			cube.Update(0.0f);
 			cube.Draw(GetGraphicSystemInstance());
 
-			if(ImGui::Begin("Metrics", (bool*)nullptr))
-			{
-				ImGuiIO& io = ImGui::GetIO();
-				ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
-				ImGui::Checkbox("vsync", &vsync);
-				ImGui::End();
-			}
-
 			GetGraphicSystemInstance().EndFrame();
-			GetGraphicSystemInstance().SetVSyncEnabled(vsync);
+			GetGraphicSystemInstance().SetVSyncEnabled(mVSyncIsEnabled);
 		}
 
 		return 0;

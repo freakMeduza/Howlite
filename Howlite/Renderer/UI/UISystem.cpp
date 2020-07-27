@@ -56,6 +56,14 @@ namespace Howlite {
         }
 	}
 
+    void HUISystem::Draw()
+    {
+        for(const HUIComponent& component : mUIComponents)
+        {
+            (*component)();
+        }
+    }
+
     void HUISystem::SetIsEnabled(bool IsEnabled) noexcept
     {
         mIsEnabled = IsEnabled;
@@ -69,6 +77,20 @@ namespace Howlite {
     LRESULT HUISystem::HandleMessage(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
     {
         return ImGui_ImplWin32_WndProcHandler(hWnd, Msg, wParam, lParam);
+    }
+
+    void HUISystem::BindUIComponent(HUIComponent UIComponent) noexcept
+    {
+        mUIComponents.insert(UIComponent);
+    }
+
+    void HUISystem::UnbindUIComponent(HUIComponent UIComponent) noexcept
+    {
+        auto it = std::find(mUIComponents.begin(), mUIComponents.end(), UIComponent);
+        if(it != mUIComponents.end())
+        {
+            mUIComponents.erase(it);
+        }
     }
 
 }

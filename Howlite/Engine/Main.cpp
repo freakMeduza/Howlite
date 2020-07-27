@@ -5,9 +5,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
 	H_UNUSED(hPrevInstance)
 	H_UNUSED(nShowCmd)
+	H_UNUSED(lpCmdLine)
 
 	try {
-		auto engine = CreateScopedPointer<Howlite::HEngine>(hInstance, lpCmdLine);
+		auto engine = CreateScopedPointer<Howlite::HEngine>(hInstance);
 
 		return engine->Run();
 	}

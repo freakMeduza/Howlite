@@ -13,11 +13,6 @@ namespace Howlite {
 		DirectX::XMMATRIX GetTransform() const noexcept override;
 		void Update(float DeltaTime) noexcept override;
 
-		/** 
-		 * Spawn UI Window
-		 */
-		void SpwanUIWindow();
-
 	private:
 		void OnResetPosition() noexcept;
 		void OnResetRotation() noexcept;

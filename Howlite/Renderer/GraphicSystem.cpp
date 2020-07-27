@@ -41,6 +41,7 @@ namespace Howlite {
 	{
 		if (GetUISystemInstance().IsEnabled())
 		{
+			GetUISystemInstance().Draw();
 			GetUISystemInstance().EndFrame();
 		}
 
