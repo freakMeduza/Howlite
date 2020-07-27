@@ -83,6 +83,12 @@
     <ClCompile Include="Renderer\PixelShader.cpp">
       <Filter>Renderer\Bindable</Filter>
     </ClCompile>
+    <ClCompile Include="Renderer\Drawable.cpp">
+      <Filter>Renderer\Drawable</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Cube.cpp">
+      <Filter>Renderer\Drawable</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -205,6 +211,12 @@
     </ClInclude>
     <ClInclude Include="Renderer\BindableCommon.h">
       <Filter>Renderer\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Drawable.h">
+      <Filter>Renderer\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Cube.h">
+      <Filter>Renderer\Drawable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

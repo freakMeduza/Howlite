@@ -106,6 +106,8 @@
     <ClCompile Include="Input\InputSystem.cpp" />
     <ClCompile Include="Renderer\Bindable.cpp" />
     <ClCompile Include="Renderer\ConstantBuffer.cpp" />
+    <ClCompile Include="Renderer\Cube.cpp" />
+    <ClCompile Include="Renderer\Drawable.cpp" />
     <ClCompile Include="Renderer\DXGIInfoQueue.cpp" />
     <ClCompile Include="Renderer\GraphicSystem.cpp" />
     <ClCompile Include="Renderer\IndexBuffer.cpp" />
@@ -154,6 +156,8 @@
     <ClInclude Include="Renderer\Bindable.h" />
     <ClInclude Include="Renderer\BindableCommon.h" />
     <ClInclude Include="Renderer\ConstantBuffer.h" />
+    <ClInclude Include="Renderer\Cube.h" />
+    <ClInclude Include="Renderer\Drawable.h" />
     <ClInclude Include="Renderer\DXGIInfoQueue.h" />
     <ClInclude Include="Renderer\GraphicSystem.h" />
     <ClInclude Include="Renderer\IndexBuffer.h" />
