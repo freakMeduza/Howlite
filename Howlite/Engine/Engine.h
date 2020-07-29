@@ -48,14 +48,21 @@ namespace Howlite {
 		 */
 		class HUISystem& GetUISystemInstance();
 
+		/** 
+		 * Get Camera Instance
+		 */
+		class HCamera& GetCameraInstance();
+
 	private:
 		bool OnKeyPressed(class HKeyPressedEvent& Event);
+		bool OnMouseRawInput(class HMouseRawInputEvent& Event);
 		bool OnWindowClosed(class HWindowClosedEvent& Event);
 		bool OnWindowResized(class HWindowResizedEvent& Event);
 		
 		bool mIsRun{ false };
 		bool mVSyncIsEnabled{ false };
 		
+		ScopedPointer<class HCamera> mCamera{ nullptr };
 		ScopedPointer<class HWindow> mWindow{ nullptr };
 		
 		static HEngine* mEngineInstance;

@@ -1,8 +1,9 @@
 #include "HowlitePCH.h"
 #include "TransformBuffer.h"
-
 #include "Engine/Engine.h"
 #include "Engine/Window.h"
+#include "Renderer/GraphicSystem.h"
+#include "Renderer/Camera.h"
 
 namespace Howlite {
 
@@ -25,23 +26,14 @@ namespace Howlite {
 	void HTransformBuffer::Bind(HGraphicSystem& GraphicSystem) const noexcept
 	{
 		using namespace DirectX;
-
 		const HWindow& window = HEngine::GetInstance().GetWindowInstance();
+		const HCamera& camera = HEngine::GetInstance().GetCameraInstance();
 		const float width = static_cast<float>(window.GetWidth());
 		const float height = static_cast<float>(window.GetHeight());
 		const XMMATRIX modelMatrix = mParent.GetTransform();
-		const XMMATRIX viewMatrix = XMMatrixLookAtLH(XMVectorSet(0.0f, 0.0f, -5.0f, 0.0f),
-													 XMVectorZero(),
-													 XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f));
-		const XMMATRIX projectionMatrix = XMMatrixPerspectiveLH(1.0f, height / width, 0.5f, 100.0f);
-
-		const TransformBuffer buffer{
-			XMMatrixTranspose(modelMatrix),
-			XMMatrixTranspose(viewMatrix),
-			XMMatrixTranspose(projectionMatrix),
-		};
-
-		mBuffer->Update(GraphicSystem, buffer);
+		const XMMATRIX viewMatrix = camera.GetViewMatrix();
+		const XMMATRIX projectionMatrix = camera.GetProjectionMatrix();
+		mBuffer->Update(GraphicSystem, TransformBuffer{ XMMatrixTranspose(modelMatrix), XMMatrixTranspose(viewMatrix), XMMatrixTranspose(projectionMatrix) });
 		mBuffer->Bind(GraphicSystem);
 	}
 

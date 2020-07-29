@@ -7,6 +7,7 @@
 #include "Event/KeyboardEvent.h"
 #include "Renderer/GraphicSystem.h"
 #include "Renderer/UI/UISystem.h"
+#include "Renderer/Camera.h"
 #include "Input/InputSystem.h"
 
 #include "Renderer/Cube.h"
@@ -28,8 +29,8 @@ namespace Howlite {
 		mWindow->SetMessageCallback([this](IHEvent& Event)
 		{
 			HEventDispatcher dispatcher{ Event };
-
 			dispatcher.Dispatch<HKeyPressedEvent>(H_BIND_EVENT_CALLBACK(HEngine::OnKeyPressed));
+			dispatcher.Dispatch<HMouseRawInputEvent>(H_BIND_EVENT_CALLBACK(HEngine::OnMouseRawInput));
 			dispatcher.Dispatch<HWindowClosedEvent>(H_BIND_EVENT_CALLBACK(HEngine::OnWindowClosed));
 			dispatcher.Dispatch<HWindowResizedEvent>(H_BIND_EVENT_CALLBACK(HEngine::OnWindowResized));
 		});
@@ -44,6 +45,12 @@ namespace Howlite {
 				ImGui::End();
 			}
 		}));
+
+		const DirectX::XMMATRIX& projectionMatrix = DirectX::XMMatrixPerspectiveLH(1.0f,
+																				   static_cast<float>(GetWindowInstance().GetHeight()) / static_cast<float>(GetWindowInstance().GetWidth()),
+																				   0.5f,
+																				   100.0f);
+		mCamera = CreateScopedPointer<HCamera>(projectionMatrix);
 	}
 
 	HEngine::~HEngine()
@@ -100,11 +107,40 @@ namespace Howlite {
 		return GetWindowInstance().GetGraphicSystemInstance().GetUISystemInstance();
 	}
 
+	HCamera& HEngine::GetCameraInstance()
+	{
+		H_ASSERT(mCamera != nullptr, "Failed to get camera instance.")
+		return *mCamera;
+	}
+
 	bool HEngine::OnKeyPressed(HKeyPressedEvent& Event)
 	{
 		if (Event.GetKey() == VK_ESCAPE)
 		{
 			mIsRun = false;
+			return true;
+		}
+
+		return false;
+	}
+
+	bool HEngine::OnMouseRawInput(HMouseRawInputEvent& Event)
+	{
+		const HInputSystem& inputSystem = GetInputSystemInstance();
+		const HInputSystem::HPoint& delta = Event.GetPoint();
+
+		HCamera& camera = GetCameraInstance();
+		if(inputSystem.IsKeyPressed(VK_MENU))
+		{
+			if(inputSystem.IsLeftMouseButtonPressed())
+			{
+				camera.Rotate((float)delta.Y, (float)delta.X);
+			}
+			else if(inputSystem.IsRightMouseButtonPressed())
+			{
+				camera.Translate((float)delta.Y);
+			}
+
 			return true;
 		}
 

@@ -34,6 +34,7 @@
 #include <DirectXMath.h>
 
 #include "Engine/Exception.h"
+#include "Common/Tick.h"
 #include "Renderer/DXGIInfoQueue.h"
 #include "Renderer/UI/Imgui/imgui.h"
 #include "Renderer/UI/Imgui/imgui_impl_dx11.h"

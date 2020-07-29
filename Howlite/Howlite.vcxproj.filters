@@ -92,6 +92,12 @@
     <ClCompile Include="Renderer\TransformBuffer.cpp">
       <Filter>Renderer\Bindable</Filter>
     </ClCompile>
+    <ClCompile Include="Renderer\Camera.cpp">
+      <Filter>Renderer\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\Tick.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -123,6 +129,9 @@
     </Filter>
     <Filter Include="Shader">
       <UniqueIdentifier>{96d9bbf0-3185-4964-97b6-ebfaeae8c0ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\Camera">
+      <UniqueIdentifier>{987f2549-0258-4c0f-a796-562817e906fa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -223,6 +232,15 @@
     </ClInclude>
     <ClInclude Include="Renderer\TransformBuffer.h">
       <Filter>Renderer\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Camera.h">
+      <Filter>Renderer\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Tick.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Math.h">
+      <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

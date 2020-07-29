@@ -100,9 +100,9 @@ namespace Howlite {
 			* DirectX::XMMatrixTranslation(mPosition.x, mPosition.y, mPosition.z);
 	}
 
-	void HCube::Update(float DeltaTime) noexcept
+	void HCube::Update(HTick Tick) noexcept
 	{
-		H_UNUSED(DeltaTime)
+		H_UNUSED(Tick)
 		HGraphicSystem& graphicSystem = HEngine::GetInstance().GetGraphicSystemInstance();
 		if (auto ptr = QueryBindable<HPixelConstantBuffer<ColorBuffer>>())
 		{

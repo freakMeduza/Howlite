@@ -54,6 +54,17 @@ namespace Howlite {
 
 		mGraphicSystem = CreateScopedPointer<HGraphicSystem>(mHandler, mWidth, mHeight);
 
+		RAWINPUTDEVICE device;
+		device.usUsagePage = 0x01; // mouse page
+		device.usUsage     = 0x02; // mouse usage
+		device.dwFlags     = 0;
+		device.hwndTarget  = nullptr;
+
+		if (RegisterRawInputDevices(&device, 1, sizeof(device)) == FALSE)
+		{
+			H_ERROR(GetLastError())
+		}
+
 		::ShowWindow(mHandler, SW_SHOWDEFAULT);
 		::UpdateWindow(mHandler);
 	}
@@ -392,9 +403,9 @@ namespace Howlite {
 			{
 				HWindow* window = reinterpret_cast<HWindow*>(::GetWindowLongPtr(hWnd, GWLP_USERDATA));
 				UINT size{ 0u };
-				H_ASSERT(::GetRawInputData(reinterpret_cast<HRAWINPUT>(lParam), RID_INPUT, nullptr, &size, sizeof(RAWINPUTHEADER)) == -1, "Failed to get raw input data.");
+				H_ASSERT(::GetRawInputData(reinterpret_cast<HRAWINPUT>(lParam), RID_INPUT, nullptr, &size, sizeof(RAWINPUTHEADER)) != -1, "Failed to get raw input data.");
 				std::vector<BYTE> buffer(size);
-				H_ASSERT(::GetRawInputData(reinterpret_cast<HRAWINPUT>(lParam), RID_INPUT, buffer.data(), &size, sizeof(RAWINPUTHEADER)) != size, "Failed to get raw input data.");
+				H_ASSERT(::GetRawInputData(reinterpret_cast<HRAWINPUT>(lParam), RID_INPUT, buffer.data(), &size, sizeof(RAWINPUTHEADER)) == size, "Failed to get raw input data.");
 				auto& input = reinterpret_cast<const RAWINPUT&>(*buffer.data());
 
 				if (input.header.dwType == RIM_TYPEMOUSE && (input.data.mouse.lLastX != 0 || input.data.mouse.lLastY != 0))

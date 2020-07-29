@@ -11,7 +11,7 @@ namespace Howlite {
 
 		// Drawable interface
 		DirectX::XMMATRIX GetTransform() const noexcept override;
-		void Update(float DeltaTime) noexcept override;
+		void Update(HTick Tick) noexcept override;
 
 	private:
 		void OnResetPosition() noexcept;

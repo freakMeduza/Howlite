@@ -89,6 +89,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Common\Buffer.cpp" />
+    <ClCompile Include="Common\Tick.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\Exception.cpp" />
     <ClCompile Include="Engine\Main.cpp" />
@@ -105,6 +106,7 @@
     </ClCompile>
     <ClCompile Include="Input\InputSystem.cpp" />
     <ClCompile Include="Renderer\Bindable.cpp" />
+    <ClCompile Include="Renderer\Camera.cpp" />
     <ClCompile Include="Renderer\ConstantBuffer.cpp" />
     <ClCompile Include="Renderer\Cube.cpp" />
     <ClCompile Include="Renderer\Drawable.cpp" />
@@ -145,6 +147,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common\Buffer.h" />
+    <ClInclude Include="Common\Math.h" />
+    <ClInclude Include="Common\Tick.h" />
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\Exception.h" />
     <ClInclude Include="Engine\Window.h" />
@@ -156,6 +160,7 @@
     <ClInclude Include="Input\InputSystem.h" />
     <ClInclude Include="Renderer\Bindable.h" />
     <ClInclude Include="Renderer\BindableCommon.h" />
+    <ClInclude Include="Renderer\Camera.h" />
     <ClInclude Include="Renderer\ConstantBuffer.h" />
     <ClInclude Include="Renderer\Cube.h" />
     <ClInclude Include="Renderer\Drawable.h" />
