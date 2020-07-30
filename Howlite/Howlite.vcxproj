@@ -89,6 +89,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Common\Buffer.cpp" />
+    <ClCompile Include="Common\Color.cpp" />
+    <ClCompile Include="Common\Image.cpp" />
     <ClCompile Include="Common\Tick.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\Exception.cpp" />
@@ -115,6 +117,7 @@
     <ClCompile Include="Renderer\IndexBuffer.cpp" />
     <ClCompile Include="Renderer\InputLayout.cpp" />
     <ClCompile Include="Renderer\PixelShader.cpp" />
+    <ClCompile Include="Renderer\Sampler.cpp" />
     <ClCompile Include="Renderer\Topology.cpp" />
     <ClCompile Include="Renderer\TransformBuffer.cpp" />
     <ClCompile Include="Renderer\UI\Imgui\imgui.cpp">
@@ -147,6 +150,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common\Buffer.h" />
+    <ClInclude Include="Common\Color.h" />
+    <ClInclude Include="Common\Image.h" />
     <ClInclude Include="Common\Math.h" />
     <ClInclude Include="Common\Tick.h" />
     <ClInclude Include="Engine\Engine.h" />
@@ -169,6 +174,7 @@
     <ClInclude Include="Renderer\IndexBuffer.h" />
     <ClInclude Include="Renderer\InputLayout.h" />
     <ClInclude Include="Renderer\PixelShader.h" />
+    <ClInclude Include="Renderer\Sampler.h" />
     <ClInclude Include="Renderer\Topology.h" />
     <ClInclude Include="Renderer\TransformBuffer.h" />
     <ClInclude Include="Renderer\UI\Imgui\imconfig.h" />

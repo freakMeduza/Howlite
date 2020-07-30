@@ -74,7 +74,7 @@ namespace Howlite {
 		{
 			HWindow::ProcessMessages();
 
-			GetGraphicSystemInstance().BeginFrame(HColor::Black());
+			GetGraphicSystemInstance().BeginFrame(HColor::DarkGray);
 
 			cube.Update(0.0f);
 			cube.Draw(GetGraphicSystemInstance());

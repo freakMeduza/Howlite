@@ -7,7 +7,7 @@
 #include "UI/UISystem.h"
 
 namespace {
-	std::tuple<Howlite::HBuffer, std::vector<uint32_t>> GetCube() noexcept
+	[[maybe_unused]] static std::tuple<Howlite::HBuffer, std::vector<uint32_t>> GetCube() noexcept
 	{
 		Howlite::HBuffer buffer{ Howlite::HLayout{Howlite::HEAttributeType::Position3D}, 24 };
 
@@ -49,6 +49,53 @@ namespace {
 
 		return { std::move(buffer), std::move(indices) };
 	}
+
+	[[maybe_unused]] static std::tuple<Howlite::HBuffer, std::vector<uint32_t>> GetSkinnedCube() noexcept
+	{
+		Howlite::HBuffer buffer{ Howlite::HLayout{Howlite::HEAttributeType::Position3D, Howlite::HEAttributeType::UV2D}, 14 };
+
+		static constexpr float side = 1.0f;
+
+		buffer[0].SetAttribute<Howlite::HEAttributeType::Position3D>(DirectX::XMFLOAT3{ -side,-side,-side });
+		buffer[0].SetAttribute<Howlite::HEAttributeType::UV2D>(DirectX::XMFLOAT2{ 2.0f / 3.0f,0.0f / 4.0f });
+		buffer[1].SetAttribute<Howlite::HEAttributeType::Position3D>(DirectX::XMFLOAT3{ side,-side,-side });
+		buffer[1].SetAttribute<Howlite::HEAttributeType::UV2D>(DirectX::XMFLOAT2{ 1.0f / 3.0f,0.0f / 4.0f });
+		buffer[2].SetAttribute<Howlite::HEAttributeType::Position3D>(DirectX::XMFLOAT3{ -side,side,-side });
+		buffer[2].SetAttribute<Howlite::HEAttributeType::UV2D>(DirectX::XMFLOAT2{ 2.0f / 3.0f,1.0f / 4.0f });
+		buffer[3].SetAttribute<Howlite::HEAttributeType::Position3D>(DirectX::XMFLOAT3{ side,side,-side });
+		buffer[3].SetAttribute<Howlite::HEAttributeType::UV2D>(DirectX::XMFLOAT2{ 1.0f / 3.0f,1.0f / 4.0f });
+		buffer[4].SetAttribute<Howlite::HEAttributeType::Position3D>(DirectX::XMFLOAT3{ -side,-side,side });
+		buffer[4].SetAttribute<Howlite::HEAttributeType::UV2D>(DirectX::XMFLOAT2{ 2.0f / 3.0f,3.0f / 4.0f });
+		buffer[5].SetAttribute<Howlite::HEAttributeType::Position3D>(DirectX::XMFLOAT3{ side,-side,side });
+		buffer[5].SetAttribute<Howlite::HEAttributeType::UV2D>(DirectX::XMFLOAT2{ 1.0f / 3.0f,3.0f / 4.0f });
+		buffer[6].SetAttribute<Howlite::HEAttributeType::Position3D>(DirectX::XMFLOAT3{ -side,side,side });
+		buffer[6].SetAttribute<Howlite::HEAttributeType::UV2D>(DirectX::XMFLOAT2{ 2.0f / 3.0f,2.0f / 4.0f });
+		buffer[7].SetAttribute<Howlite::HEAttributeType::Position3D>(DirectX::XMFLOAT3{ side,side,side });
+		buffer[7].SetAttribute<Howlite::HEAttributeType::UV2D>(DirectX::XMFLOAT2{ 1.0f / 3.0f,2.0f / 4.0f });
+		buffer[8].SetAttribute<Howlite::HEAttributeType::Position3D>(DirectX::XMFLOAT3{ -side,-side,-side });
+		buffer[8].SetAttribute<Howlite::HEAttributeType::UV2D>(DirectX::XMFLOAT2{ 2.0f / 3.0f,4.0f / 4.0f });
+		buffer[9].SetAttribute<Howlite::HEAttributeType::Position3D>(DirectX::XMFLOAT3{ side,-side,-side });
+		buffer[9].SetAttribute<Howlite::HEAttributeType::UV2D>(DirectX::XMFLOAT2{ 1.0f / 3.0f,4.0f / 4.0f });
+		buffer[10].SetAttribute<Howlite::HEAttributeType::Position3D>(DirectX::XMFLOAT3{ -side,-side,-side });
+		buffer[10].SetAttribute<Howlite::HEAttributeType::UV2D>(DirectX::XMFLOAT2{ 3.0f / 3.0f,1.0f / 4.0f });
+		buffer[11].SetAttribute<Howlite::HEAttributeType::Position3D>(DirectX::XMFLOAT3{ -side,-side,side });
+		buffer[11].SetAttribute<Howlite::HEAttributeType::UV2D>(DirectX::XMFLOAT2{ 3.0f / 3.0f,2.0f / 4.0f });
+		buffer[12].SetAttribute<Howlite::HEAttributeType::Position3D>(DirectX::XMFLOAT3{ side,-side,-side });
+		buffer[12].SetAttribute<Howlite::HEAttributeType::UV2D>(DirectX::XMFLOAT2{ 0.0f / 3.0f,1.0f / 4.0f });
+		buffer[13].SetAttribute<Howlite::HEAttributeType::Position3D>(DirectX::XMFLOAT3{ side,-side,side });
+		buffer[13].SetAttribute<Howlite::HEAttributeType::UV2D>(DirectX::XMFLOAT2{ 0.0f / 3.0f,2.0f / 4.0f });
+
+		std::vector<uint32_t> indices{
+			 0,  2,  1,  2,  3,  1,
+			 4,  8,  5,  5,  8,  9,
+			 2,  6,  3,  3,  6,  7,
+			 4,  5,  7,  4,  7,  6,
+			 2, 10, 11,  2, 11,  6,
+			12,  3,  7, 12,  7, 13
+		};
+
+		return { std::move(buffer), std::move(indices) };
+	}
 }
 
 namespace Howlite {
@@ -56,7 +103,7 @@ namespace Howlite {
 	HCube::HCube(const std::string& Name, HGraphicSystem& GraphicSystem) :
 		mName{ Name }, mPosition{ 0.0f, 0.0f, 0.0f }, mRotation{ 0.0f, 0.0f, 0.0f }
 	{
-		auto [buffer, indices] = GetCube();
+		auto [buffer, indices] = GetSkinnedCube();
 
 		AddBind(CreateSharedPointer<HVertexBuffer>(GraphicSystem, buffer));
 		AddBind(CreateSharedPointer<HIndexBuffer>(GraphicSystem, indices));

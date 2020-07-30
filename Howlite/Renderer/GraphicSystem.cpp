@@ -33,7 +33,14 @@ namespace Howlite {
 			GetUISystemInstance().BeginFrame();
 		}
 
-		mContext->ClearRenderTargetView(mRenderTargetView.Get(), Color.GetData());
+		const float color[] = {
+			Color.GetRed<float>(),
+			Color.GetGreen<float>(),
+			Color.GetBlue<float>(),
+			Color.GetAlpha<float>()
+		};
+
+		mContext->ClearRenderTargetView(mRenderTargetView.Get(), color);
 		mContext->OMSetRenderTargets(1u, mRenderTargetView.GetAddressOf(), nullptr);
 	}
 

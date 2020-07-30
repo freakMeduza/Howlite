@@ -98,6 +98,15 @@
     <ClCompile Include="Common\Tick.cpp">
       <Filter>Common</Filter>
     </ClCompile>
+    <ClCompile Include="Renderer\Sampler.cpp">
+      <Filter>Renderer\Bindable</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\Image.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\Color.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -240,6 +249,15 @@
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="Common\Math.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Sampler.h">
+      <Filter>Renderer\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Image.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Color.h">
       <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>

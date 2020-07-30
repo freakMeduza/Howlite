@@ -6,6 +6,7 @@ namespace Howlite {
 		Position2D,
 		Position3D,
 		Normal3D,
+		UV2D,
 		Color3D,
 		Color4D,
 	};
@@ -34,6 +35,14 @@ namespace Howlite {
 		static constexpr DXGI_FORMAT DXGIFormat = DXGI_FORMAT_R32G32B32_FLOAT;
 		static constexpr const char* Semantic = "Normal";
 		static constexpr const char* Code = "N3";
+	};
+
+	template<> struct HAttributeMap<HEAttributeType::UV2D>
+	{
+		using SystemType = DirectX::XMFLOAT2;
+		static constexpr DXGI_FORMAT DXGIFormat = DXGI_FORMAT_R32G32_FLOAT;
+		static constexpr const char* Semantic = "UV";
+		static constexpr const char* Code = "UV2";
 	};
 
 	template<> struct HAttributeMap<HEAttributeType::Color3D>

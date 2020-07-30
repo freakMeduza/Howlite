@@ -25,6 +25,10 @@ namespace Howlite {
 			{
 				return sizeof(HAttributeMap<HEAttributeType::Normal3D>::SystemType);
 			}
+			case HEAttributeType::UV2D:
+			{
+				return sizeof(HAttributeMap<HEAttributeType::UV2D>::SystemType);
+			}
 			case HEAttributeType::Color3D:
 			{
 				return sizeof(HAttributeMap<HEAttributeType::Color3D>::SystemType);
@@ -74,6 +78,10 @@ namespace Howlite {
 			{
 				return CreateDescription<HEAttributeType::Normal3D>(mOffset);
 			}
+			case HEAttributeType::UV2D:
+			{
+				return CreateDescription<HEAttributeType::UV2D>(mOffset);
+			}
 			case HEAttributeType::Color3D:
 			{
 				return CreateDescription<HEAttributeType::Color3D>(mOffset);
@@ -102,6 +110,10 @@ namespace Howlite {
 			case HEAttributeType::Normal3D:
 			{
 				return HAttributeMap<HEAttributeType::Normal3D>::Code;
+			}
+			case HEAttributeType::UV2D:
+			{
+				return HAttributeMap<HEAttributeType::UV2D>::Code;
 			}
 			case HEAttributeType::Color3D:
 			{
