@@ -32,13 +32,13 @@ namespace Howlite {
 		 * Get Width
 		 * @return 
 		 */
-		uint32_t GetWidth() const noexcept;
+		uint32_t GetWidth() const;
 		
 		/**
 		 * Get Height
 		 * @return 
 		 */
-		uint32_t GetHeight() const noexcept;
+		uint32_t GetHeight() const;
 		
 		/**
 		 * Set Pixel
@@ -60,19 +60,18 @@ namespace Howlite {
 		 * Get Data Pointer
 		 * @return 
 		 */
-		HColor* GetData() noexcept;
+		HColor* GetData();
 
 		/**
 		 * Get Constant Data Pointer
 		 * @return 
 		 */
-		const HColor* GetData() const noexcept;
+		const HColor* GetData() const;
 
 	private:
-		uint32_t mWidth{ 0u };
-		uint32_t mHeight{ 0u };
-
-		std::vector<HColor> mPixels;
+		HImage(DirectX::ScratchImage ScratchImage);
+		static constexpr DXGI_FORMAT mFormat = DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM;
+		DirectX::ScratchImage mScratchImage;
 	};
 
 }

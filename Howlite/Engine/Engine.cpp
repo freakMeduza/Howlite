@@ -11,6 +11,7 @@
 #include "Input/InputSystem.h"
 
 #include "Renderer/Cube.h"
+#include "Common/Image.h"
 
 namespace Howlite {
 
@@ -70,6 +71,8 @@ namespace Howlite {
 
 		HCube cube{ "Cube Entity", GetGraphicSystemInstance() };
 
+		auto image = HImage::LoadFromFile("test_image.jpg");
+
 		while (mIsRun)
 		{
 			HWindow::ProcessMessages();
@@ -82,6 +85,8 @@ namespace Howlite {
 			GetGraphicSystemInstance().EndFrame();
 			GetGraphicSystemInstance().SetVSyncEnabled(mVSyncIsEnabled);
 		}
+
+		image->Save("another_image.jpg");
 
 		return 0;
 	}

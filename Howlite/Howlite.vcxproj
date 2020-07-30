@@ -45,13 +45,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir);$(DXSDK_DIR)\Include;</IncludePath>
-    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(DXSDK_DIR)\Lib\x64</LibraryPath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir);$(DXSDK_DIR)\Include;Dependencies\DirectXTex\Include</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(DXSDK_DIR)\Lib\x64;$(ProjectDir)\Dependencies\DirectXTex\Bin\Debug</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir);$(DXSDK_DIR)\Include;</IncludePath>
-    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(DXSDK_DIR)\Lib\x64</LibraryPath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir);$(DXSDK_DIR)\Include;Dependencies\DirectXTex\Include</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(DXSDK_DIR)\Lib\x64;$(ProjectDir)\Dependencies\DirectXTex\Bin\Release</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -91,6 +91,7 @@
     <ClCompile Include="Common\Buffer.cpp" />
     <ClCompile Include="Common\Color.cpp" />
     <ClCompile Include="Common\Image.cpp" />
+    <ClCompile Include="Common\String.cpp" />
     <ClCompile Include="Common\Tick.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\Exception.cpp" />
@@ -153,6 +154,7 @@
     <ClInclude Include="Common\Color.h" />
     <ClInclude Include="Common\Image.h" />
     <ClInclude Include="Common\Math.h" />
+    <ClInclude Include="Common\String.h" />
     <ClInclude Include="Common\Tick.h" />
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\Exception.h" />

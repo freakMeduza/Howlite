@@ -12,6 +12,7 @@
 #include <optional>
 #include <exception>
 #include <functional>
+#include <filesystem>
 #include <unordered_map>
 
 #include "resource.h"
@@ -31,10 +32,13 @@
 #pragma comment(lib, "DxErr.lib")
 #endif
 
+#include <DirectXTex.h>
+#pragma comment(lib, "DirectXTex.lib")
+
 #include <DirectXMath.h>
 
-#include "Engine/Exception.h"
 #include "Common/Tick.h"
+#include "Engine/Exception.h"
 #include "Renderer/DXGIInfoQueue.h"
 #include "Renderer/UI/Imgui/imgui.h"
 #include "Renderer/UI/Imgui/imgui_impl_dx11.h"

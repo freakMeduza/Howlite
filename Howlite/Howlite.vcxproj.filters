@@ -107,6 +107,9 @@
     <ClCompile Include="Common\Color.cpp">
       <Filter>Common</Filter>
     </ClCompile>
+    <ClCompile Include="Common\String.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -258,6 +261,9 @@
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="Common\Color.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\String.h">
       <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
