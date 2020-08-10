@@ -29,6 +29,7 @@ namespace Howlite {
 		using namespace DirectX;
 
 		ScratchImage image;
+
 		HRESULT hResult = LoadFromWICFile(HString::ToWideString(File).c_str(), WIC_FLAGS_IGNORE_SRGB, nullptr, image);
 		if(FAILED(hResult))
 		{

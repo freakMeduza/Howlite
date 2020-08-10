@@ -22,6 +22,13 @@ namespace Howlite {
 		void Rotate(const float Pitch, const float Yaw) noexcept;
 
 		/**
+		 * Set Projection Matrix
+		 * @param ProjectionMatrix 
+		 * @return 
+		 */
+		void SetProjectionMatrix(const DirectX::XMMATRIX& ProjectionMatrix) noexcept;
+
+		/**
 		 * Get Projection Matrix
 		 * @return 
 		 */
@@ -33,11 +40,18 @@ namespace Howlite {
 		 */
 		const DirectX::XMMATRIX GetViewMatrix() const noexcept;
 
+		/**
+		 * Get Position
+		 * @return 
+		 */
+		const DirectX::XMFLOAT3 GetPosition() const noexcept;
+
 	protected:
 		void OnReset() noexcept;
 
 		DirectX::XMMATRIX mProjectionMatrix;
-		DirectX::XMMATRIX mViewMatrix;
+
+		mutable DirectX::XMFLOAT3 mPosition;
 
 		float mRoll;
 		float mPitch;

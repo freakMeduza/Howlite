@@ -107,6 +107,18 @@ const HColor HColor::name (r / 255.0f, g / 255.0f, b / 255.0f, 1.0f);
 
 	}
 
+	HColor::HColor(const DirectX::XMFLOAT3& Color) :
+		HColor{ Color.x, Color.y, Color.z }
+	{
+
+	}
+
+	HColor::HColor(const DirectX::XMFLOAT4& Color) :
+		HColor{ Color.x, Color.y, Color.z, Color.w }
+	{
+
+	}
+
 	HColor::HColor(float RedChannel, float GreenChannel, float BlueChannel) :
 		HColor{ RedChannel, GreenChannel, BlueChannel, 1.0f }
 	{
@@ -132,6 +144,18 @@ const HColor HColor::name (r / 255.0f, g / 255.0f, b / 255.0f, 1.0f);
 	HColor::HColor(uint8_t RedChannel, uint8_t GreenChannel, uint8_t BlueChannel, uint8_t AlphaChannel)
 	{
 		mColor = AlphaChannel << 24 | BlueChannel << 16 | GreenChannel << 8 | RedChannel;
+	}
+
+	DirectX::XMFLOAT4 HColor::GetColor() const
+	{
+		using namespace DirectX;
+
+		const float r = GetRed<float>();
+		const float g = GetGreen<float>();
+		const float b = GetBlue<float>();
+		const float a = GetAlpha<float>();
+
+		return XMFLOAT4{ r, g, b, a };
 	}
 
 }

@@ -5,13 +5,20 @@
 #include "Event/MouseEvent.h"
 #include "Event/WindowEvent.h"
 #include "Event/KeyboardEvent.h"
-#include "Renderer/GraphicSystem.h"
-#include "Renderer/UI/UISystem.h"
-#include "Renderer/Camera.h"
+#include "Graphic/GraphicSystem.h"
+#include "Graphic/UI/UISystem.h"
+#include "Graphic/Camera.h"
 #include "Input/InputSystem.h"
 
-#include "Renderer/Cube.h"
+#include "Graphic/Cube.h"
+#include "Graphic/Light.h"
 #include "Common/Image.h"
+
+namespace {
+	// TODO: replace with lua scripting settings
+	static constexpr uint32_t DEFAULT_WIDTH = 1280u;
+	static constexpr uint32_t DEFAULT_HEIGHT = 720u;
+}
 
 namespace Howlite {
 
@@ -21,12 +28,9 @@ namespace Howlite {
 	{
 		H_ASSERT(mEngineInstance == nullptr, "Engine instance already exists.")
 
-		static constexpr uint32_t width = 1280u;
-		static constexpr uint32_t height = 720u;
-
 		mEngineInstance = this;
 		
-		mWindow = CreateScopedPointer<HWindow>(Instance, "Howlite", width, height);
+		mWindow = CreateScopedPointer<HWindow>(Instance, "Howlite", DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		mWindow->SetMessageCallback([this](IHEvent& Event)
 		{
 			HEventDispatcher dispatcher{ Event };
@@ -35,6 +39,9 @@ namespace Howlite {
 			dispatcher.Dispatch<HWindowClosedEvent>(H_BIND_EVENT_CALLBACK(HEngine::OnWindowClosed));
 			dispatcher.Dispatch<HWindowResizedEvent>(H_BIND_EVENT_CALLBACK(HEngine::OnWindowResized));
 		});
+
+		mInputSystem = CreateScopedPointer<HInputSystem>();
+		mGraphicSystem = CreateScopedPointer<HGraphicSystem>(mWindow->GetWindowHandler(), mWindow->GetWidth(), mWindow->GetHeight());
 
 		GetUISystemInstance().BindUIComponent(HUISystem::CreateUIComponent([this]()
 		{
@@ -47,11 +54,9 @@ namespace Howlite {
 			}
 		}));
 
-		const DirectX::XMMATRIX& projectionMatrix = DirectX::XMMatrixPerspectiveLH(1.0f,
-																				   static_cast<float>(GetWindowInstance().GetHeight()) / static_cast<float>(GetWindowInstance().GetWidth()),
-																				   0.5f,
-																				   100.0f);
-		mCamera = CreateScopedPointer<HCamera>(projectionMatrix);
+		const float width = static_cast<float>(GetWindowInstance().GetWidth());
+		const float height = static_cast<float>(GetWindowInstance().GetHeight());
+		mCamera = CreateScopedPointer<HCamera>(DirectX::XMMatrixPerspectiveLH(1.0f, height / width, 0.5f, 100.0f));
 	}
 
 	HEngine::~HEngine()
@@ -69,24 +74,23 @@ namespace Howlite {
 	{
 		mIsRun = true;
 
-		HCube cube{ "Cube Entity", GetGraphicSystemInstance() };
+		HGraphicSystem& graphicSystem = GetGraphicSystemInstance();
 
-		auto image = HImage::LoadFromFile("test_image.jpg");
+		HLight light{ GetGraphicSystemInstance(), 0.3f };
+		HCube cube{ GetGraphicSystemInstance() };
 
 		while (mIsRun)
 		{
 			HWindow::ProcessMessages();
 
-			GetGraphicSystemInstance().BeginFrame(HColor::DarkGray);
+			graphicSystem.BeginFrame(HColor::DarkGray);
 
-			cube.Update(0.0f);
+			light.Bind(GetGraphicSystemInstance());
 			cube.Draw(GetGraphicSystemInstance());
+			light.Draw(GetGraphicSystemInstance());
 
-			GetGraphicSystemInstance().EndFrame();
-			GetGraphicSystemInstance().SetVSyncEnabled(mVSyncIsEnabled);
+			graphicSystem.EndFrame(mVSyncIsEnabled);
 		}
-
-		image->Save("another_image.jpg");
 
 		return 0;
 	}
@@ -99,17 +103,19 @@ namespace Howlite {
 
 	HGraphicSystem& HEngine::GetGraphicSystemInstance()
 	{
-		return GetWindowInstance().GetGraphicSystemInstance();
+		H_ASSERT(mGraphicSystem != nullptr, "Failed to get graphic system instance.")
+		return *mGraphicSystem;
 	}
 
 	HInputSystem& HEngine::GetInputSystemInstance()
 	{
-		return GetWindowInstance().GetInputSystemInstance();
+		H_ASSERT(mInputSystem != nullptr, "Failed to get input system instance.")
+		return *mInputSystem;
 	}
 
 	HUISystem& HEngine::GetUISystemInstance()
 	{
-		return GetWindowInstance().GetGraphicSystemInstance().GetUISystemInstance();
+		return mGraphicSystem->GetUISystemInstance();
 	}
 
 	HCamera& HEngine::GetCameraInstance()
@@ -125,7 +131,6 @@ namespace Howlite {
 			mIsRun = false;
 			return true;
 		}
-
 		return false;
 	}
 
@@ -133,7 +138,6 @@ namespace Howlite {
 	{
 		const HInputSystem& inputSystem = GetInputSystemInstance();
 		const HInputSystem::HPoint& delta = Event.GetPoint();
-
 		HCamera& camera = GetCameraInstance();
 		if(inputSystem.IsKeyPressed(VK_MENU))
 		{
@@ -161,8 +165,11 @@ namespace Howlite {
 
 	bool HEngine::OnWindowResized(HWindowResizedEvent& Event)
 	{
-		H_UNUSED(Event)
-		return false;
+		const float width = static_cast<float>(Event.GetWidth());
+		const float height = static_cast<float>(Event.GetHeight());
+		GetCameraInstance().SetProjectionMatrix(DirectX::XMMatrixPerspectiveLH(1.0f, height / width, 0.5f, 100.0f));
+		GetGraphicSystemInstance().ResizeBuffers(Event.GetWidth(), Event.GetHeight());
+		return true;
 	}
 
 }

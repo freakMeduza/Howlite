@@ -39,10 +39,10 @@
 
 #include "Common/Tick.h"
 #include "Engine/Exception.h"
-#include "Renderer/DXGIInfoQueue.h"
-#include "Renderer/UI/Imgui/imgui.h"
-#include "Renderer/UI/Imgui/imgui_impl_dx11.h"
-#include "Renderer/UI/Imgui/imgui_impl_win32.h"
+#include "Graphic/DXGIInfoQueue.h"
+#include "Graphic/UI/Imgui/imgui.h"
+#include "Graphic/UI/Imgui/imgui_impl_dx11.h"
+#include "Graphic/UI/Imgui/imgui_impl_win32.h"
 
 template<typename Type> using ScopedPointer = std::unique_ptr<Type>;
 template<typename Type> using SharedPointer = std::shared_ptr<Type>;

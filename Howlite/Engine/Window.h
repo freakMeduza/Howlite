@@ -41,17 +41,7 @@ namespace Howlite {
 		 * @return 
 		 */
 		uint32_t GetHeight() const noexcept;
-
-		/** 
-		 * Get Graphic System Instance
-		 */
-		class HGraphicSystem& GetGraphicSystemInstance();
 		
-		/**
-		 * Get Input System Instance
-		 */
-		class HInputSystem& GetInputSystemInstance();
-
 	private:
 		void RegisterWindowClass();
 		void UnregisterWindowClass();
@@ -67,9 +57,6 @@ namespace Howlite {
 		
 		uint32_t mWidth{ 0 };
 		uint32_t mHeight{ 0 };
-
-		ScopedPointer<class HInputSystem> mInputSystem{ nullptr };
-		ScopedPointer<class HGraphicSystem> mGraphicSystem{ nullptr };
 
 	};
 

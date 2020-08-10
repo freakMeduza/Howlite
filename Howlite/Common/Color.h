@@ -102,6 +102,8 @@ namespace Howlite {
 		~HColor() = default;
 
 		HColor(uint32_t Color);
+		HColor(const DirectX::XMFLOAT3& Color);
+		HColor(const DirectX::XMFLOAT4& Color);
 		HColor(float RedChannel, float GreenChannel, float BlueChannel);
 		HColor(float RedChannel, float GreenChannel, float BlueChannel, float AlphaChannel);
 		HColor(uint8_t RedChannel, uint8_t GreenChannel, uint8_t BlueChannel);
@@ -205,6 +207,12 @@ namespace Howlite {
 				return (T)0;
 			}
 		}
+
+		/**
+		 * Get Color
+		 * @return 
+		 */
+		DirectX::XMFLOAT4 GetColor() const;
 
 	private:
 		uint32_t mColor{ 0u };

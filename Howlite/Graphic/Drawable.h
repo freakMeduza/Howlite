@@ -20,13 +20,6 @@ namespace Howlite {
 		virtual DirectX::XMMATRIX GetTransform() const noexcept = 0;
 
 		/**
-		 * Update
-		 * @param Tick 
-		 * @return 
-		 */
-		virtual void Update(HTick Tick) noexcept = 0;
-
-		/**
 		 * Draw
 		 * @param GraphicSystem 
 		 */

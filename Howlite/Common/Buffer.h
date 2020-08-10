@@ -148,6 +148,13 @@ namespace Howlite {
 		}
 
 		/**
+		 * Get Attribute By Index
+		 * @param Index 
+		 * @return 
+		 */
+		const HAttribute& GetAttributeByIndex(size_t Index) const;
+
+		/**
 		 * Is Attribute Type Exist In Layout
 		 * @param AttributeType 
 		 * @return 
@@ -187,14 +194,14 @@ namespace Howlite {
 	public:
 		~HElement() = default;
 
-		template<typename HEAttributeType Type>
+		template<HEAttributeType Type>
 		inline auto& GetAttribute()
 		{
 			auto ptr = mData + mLayout.GetAttribute<Type>().GetOffset();
 			return *reinterpret_cast<typename HAttributeMap<Type>::SystemType*>(ptr);
 		}
 
-		template<typename HEAttributeType Type, typename T>
+		template<HEAttributeType Type, typename T>
 		inline void SetAttribute(T&& Value)
 		{
 			using system_type = typename HAttributeMap<Type>::SystemType;
@@ -210,8 +217,42 @@ namespace Howlite {
 			}
 		}
 
+		template<typename T>
+		void SetAttributeByIndex(size_t Index, T&& Value)
+		{
+			const HAttribute& attribute = mLayout.GetAttributeByIndex(Index);
+			switch(attribute.GetType()) 
+			{
+				case HEAttributeType::Position2D:
+					SetAttribute<HEAttributeType::Position2D>(std::forward<T>(Value));
+					break;
+				case HEAttributeType::Position3D:
+					SetAttribute<HEAttributeType::Position3D>(std::forward<T>(Value));
+					break;
+				case HEAttributeType::Normal3D:
+					SetAttribute<HEAttributeType::Normal3D>(std::forward<T>(Value));
+					break;
+				case HEAttributeType::UV2D:
+					SetAttribute<HEAttributeType::UV2D>(std::forward<T>(Value));
+					break;
+				case HEAttributeType::Color3D:
+					SetAttribute<HEAttributeType::Color3D>(std::forward<T>(Value));
+					break;
+				case HEAttributeType::Color4D:
+					SetAttribute<HEAttributeType::Color4D>(std::forward<T>(Value));
+					break;
+			}
+		}
+
 	private:
 		friend class HBuffer;
+
+		template<typename Arg, typename ... Args>
+		void SetAttributeByIndex(size_t Index, Arg&& First, Args&& ... Rest)
+		{
+			SetAttributeByIndex(Index, std::forward<Arg>(First));
+			SetAttributeByIndex(Index + 1u, std::forward<Args>(Rest) ...);
+		}
 
 		HElement(uint8_t* Data, const HLayout& Layout);
 
@@ -230,6 +271,14 @@ namespace Howlite {
 		 * @param Size 
 		 */
 		void Resize(size_t Size);
+
+		template<typename ... Arg>
+		void EmplaceBack(Arg&& ... Args)
+		{
+			H_ASSERT(sizeof ... (Args) == GetLayout().GetAttributeCount(), "Failed to emplace back. Number of elements doesn't match buffer layout.")
+			mData.resize(mData.size() + mLayout.GetSize());
+			Back().SetAttributeByIndex(0u, std::forward<Arg>(Args) ...);
+		}
 
 		/**
 		 * Get Data Pointer

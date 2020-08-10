@@ -4,7 +4,7 @@
 
 namespace Howlite {
 
-	class HSampler : HBindable {
+	class HSampler : public HBindable {
 	public:
 		HSampler(HGraphicSystem& GraphicSystem);
 		~HSampler() override;

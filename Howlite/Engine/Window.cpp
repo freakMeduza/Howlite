@@ -5,8 +5,8 @@
 #include "Event/MouseEvent.h"
 #include "Event/WindowEvent.h"
 #include "Event/KeyboardEvent.h"
-#include "Renderer/GraphicSystem.h"
-#include "Renderer/UI/UISystem.h"
+#include "Graphic/GraphicSystem.h"
+#include "Graphic/UI/UISystem.h"
 #include "Input/InputSystem.h"
 
 namespace Howlite {
@@ -14,34 +14,27 @@ namespace Howlite {
 	HWindow::HWindow(HINSTANCE Instance, const char* Title, uint32_t Width, uint32_t Height) :
 		mInstance{ Instance }, mWidth{ Width }, mHeight{ Height }
 	{
-		mInputSystem = CreateScopedPointer<HInputSystem>();
-
 		RegisterWindowClass();
 
 		const DWORD style = WS_OVERLAPPEDWINDOW;
 
-		RECT rect;
-
-		ZeroMemory(&rect, sizeof(rect));
-
-		rect.right = rect.left + mWidth;
-		rect.top = rect.bottom + mHeight;
+		RECT rect{ 0, 0, (LONG)Width, (LONG)Height };
 
 		if(::AdjustWindowRect(&rect, style, FALSE) == FALSE)
 		{
 			H_ERROR(::GetLastError());
 		}
 
-		mWidth = rect.right - rect.left;
-		mHeight = rect.top - rect.bottom;
+		const auto width = rect.right - rect.left;
+		const auto height = rect.bottom - rect.top;
 
 		mHandler = ::CreateWindow(mWindowClassName,
 								  Title,
 								  style,
 								  CW_USEDEFAULT,
 								  CW_USEDEFAULT,
-								  mWidth,
-								  mHeight,
+								  width,
+								  height,
 								  nullptr,
 								  nullptr,
 								  mInstance,
@@ -51,8 +44,6 @@ namespace Howlite {
 		{
 			H_ERROR(::GetLastError());
 		}
-
-		mGraphicSystem = CreateScopedPointer<HGraphicSystem>(mHandler, mWidth, mHeight);
 
 		RAWINPUTDEVICE device;
 		device.usUsagePage = 0x01; // mouse page
@@ -108,18 +99,6 @@ namespace Howlite {
 		return mHeight;
 	}
 
-	HGraphicSystem& HWindow::GetGraphicSystemInstance()
-	{
-		H_ASSERT(mGraphicSystem != nullptr, "Failed to get graphic system instance 'mGraphicSystem == nullptr'.")
-		return *mGraphicSystem;
-	}
-
-	HInputSystem& HWindow::GetInputSystemInstance()
-	{
-		H_ASSERT(mInputSystem != nullptr, "Failed to get input system instance 'mInputSystem == nullptr'.")
-		return *mInputSystem;
-	}
-
 	void HWindow::RegisterWindowClass()
 	{
 		WNDCLASSEX windowClass;
@@ -133,7 +112,7 @@ namespace Howlite {
 		windowClass.hInstance     = mInstance;
 		windowClass.cbClsExtra    = 0;
 		windowClass.cbWndExtra    = 0;
-		windowClass.style         = CS_OWNDC | CS_HREDRAW | CS_VREDRAW;
+		windowClass.style         = CS_CLASSDC | CS_HREDRAW | CS_VREDRAW;
 		windowClass.lpfnWndProc   = &HWindow::HandleMessage;
 		windowClass.hbrBackground = nullptr;
 		windowClass.lpszMenuName  = nullptr;
@@ -180,10 +159,9 @@ namespace Howlite {
 				HWindow* window = reinterpret_cast<HWindow*>(::GetWindowLongPtr(hWnd, GWLP_USERDATA));
 				window->mWidth = (UINT)LOWORD(lParam);
 				window->mHeight = (UINT)HIWORD(lParam);
-				window->GetGraphicSystemInstance().ResizeBuffers(window->mWidth, window->mHeight);
 				if (window->mMessageCallback && wParam != SIZE_MINIMIZED)
 				{
-					HWindowResizedEvent event{ (UINT)LOWORD(lParam), (UINT)HIWORD(lParam) };
+					HWindowResizedEvent event{ window->mWidth, window->mHeight };
 					window->mMessageCallback(event);
 				}
 				break;
@@ -288,6 +266,7 @@ namespace Howlite {
 					HMouseButtonPressedEvent event{ VK_RBUTTON };
 					window->mMessageCallback(event);
 				}
+				break;
 			}
 			case WM_MBUTTONDOWN:
 			{
@@ -297,6 +276,7 @@ namespace Howlite {
 					HMouseButtonPressedEvent event{ VK_MBUTTON };
 					window->mMessageCallback(event);
 				}
+				break;
 			}
 			case WM_LBUTTONUP:
 			{

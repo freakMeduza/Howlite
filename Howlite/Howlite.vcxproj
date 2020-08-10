@@ -101,6 +101,49 @@
     <ClCompile Include="Event\KeyboardEvent.cpp" />
     <ClCompile Include="Event\MouseEvent.cpp" />
     <ClCompile Include="Event\WindowEvent.cpp" />
+    <ClCompile Include="Graphic\Bindable.cpp" />
+    <ClCompile Include="Graphic\Camera.cpp" />
+    <ClCompile Include="Graphic\ConstantBuffer.cpp" />
+    <ClCompile Include="Graphic\Cube.cpp" />
+    <ClCompile Include="Graphic\Drawable.cpp" />
+    <ClCompile Include="Graphic\DXGIInfoQueue.cpp" />
+    <ClCompile Include="Graphic\GraphicSystem.cpp" />
+    <ClCompile Include="Graphic\IndexBuffer.cpp" />
+    <ClCompile Include="Graphic\InputLayout.cpp" />
+    <ClCompile Include="Graphic\Light.cpp" />
+    <ClCompile Include="Graphic\PixelShader.cpp" />
+    <ClCompile Include="Graphic\Sampler.cpp" />
+    <ClCompile Include="Graphic\Sphere.cpp" />
+    <ClCompile Include="Graphic\Texture.cpp" />
+    <ClCompile Include="Graphic\Topology.cpp" />
+    <ClCompile Include="Graphic\TransformBuffer.cpp" />
+    <ClCompile Include="Graphic\UI\Imgui\imgui.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Graphic\UI\Imgui\imgui_demo.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Graphic\UI\Imgui\imgui_draw.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Graphic\UI\Imgui\imgui_impl_dx11.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Graphic\UI\Imgui\imgui_impl_win32.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Graphic\UI\Imgui\imgui_widgets.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Graphic\UI\UISystem.cpp" />
+    <ClCompile Include="Graphic\VertexBuffer.cpp" />
+    <ClCompile Include="Graphic\VertexShader.cpp" />
     <ClCompile Include="HowlitePCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">HowlitePCH.h</PrecompiledHeaderFile>
@@ -108,46 +151,6 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">HowlitePCH.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="Input\InputSystem.cpp" />
-    <ClCompile Include="Renderer\Bindable.cpp" />
-    <ClCompile Include="Renderer\Camera.cpp" />
-    <ClCompile Include="Renderer\ConstantBuffer.cpp" />
-    <ClCompile Include="Renderer\Cube.cpp" />
-    <ClCompile Include="Renderer\Drawable.cpp" />
-    <ClCompile Include="Renderer\DXGIInfoQueue.cpp" />
-    <ClCompile Include="Renderer\GraphicSystem.cpp" />
-    <ClCompile Include="Renderer\IndexBuffer.cpp" />
-    <ClCompile Include="Renderer\InputLayout.cpp" />
-    <ClCompile Include="Renderer\PixelShader.cpp" />
-    <ClCompile Include="Renderer\Sampler.cpp" />
-    <ClCompile Include="Renderer\Topology.cpp" />
-    <ClCompile Include="Renderer\TransformBuffer.cpp" />
-    <ClCompile Include="Renderer\UI\Imgui\imgui.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Renderer\UI\Imgui\imgui_demo.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Renderer\UI\Imgui\imgui_draw.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Renderer\UI\Imgui\imgui_impl_dx11.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Renderer\UI\Imgui\imgui_impl_win32.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Renderer\UI\Imgui\imgui_widgets.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Renderer\UI\UISystem.cpp" />
-    <ClCompile Include="Renderer\VertexBuffer.cpp" />
-    <ClCompile Include="Renderer\VertexShader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common\Buffer.h" />
@@ -163,33 +166,36 @@
     <ClInclude Include="Event\KeyboardEvent.h" />
     <ClInclude Include="Event\MouseEvent.h" />
     <ClInclude Include="Event\WindowEvent.h" />
+    <ClInclude Include="Graphic\Bindable.h" />
+    <ClInclude Include="Graphic\BindableCommon.h" />
+    <ClInclude Include="Graphic\Camera.h" />
+    <ClInclude Include="Graphic\ConstantBuffer.h" />
+    <ClInclude Include="Graphic\Cube.h" />
+    <ClInclude Include="Graphic\Drawable.h" />
+    <ClInclude Include="Graphic\DXGIInfoQueue.h" />
+    <ClInclude Include="Graphic\GraphicSystem.h" />
+    <ClInclude Include="Graphic\IndexBuffer.h" />
+    <ClInclude Include="Graphic\InputLayout.h" />
+    <ClInclude Include="Graphic\Light.h" />
+    <ClInclude Include="Graphic\PixelShader.h" />
+    <ClInclude Include="Graphic\Sampler.h" />
+    <ClInclude Include="Graphic\Sphere.h" />
+    <ClInclude Include="Graphic\Texture.h" />
+    <ClInclude Include="Graphic\Topology.h" />
+    <ClInclude Include="Graphic\TransformBuffer.h" />
+    <ClInclude Include="Graphic\UI\Imgui\imconfig.h" />
+    <ClInclude Include="Graphic\UI\Imgui\imgui.h" />
+    <ClInclude Include="Graphic\UI\Imgui\imgui_impl_dx11.h" />
+    <ClInclude Include="Graphic\UI\Imgui\imgui_impl_win32.h" />
+    <ClInclude Include="Graphic\UI\Imgui\imgui_internal.h" />
+    <ClInclude Include="Graphic\UI\Imgui\imstb_rectpack.h" />
+    <ClInclude Include="Graphic\UI\Imgui\imstb_textedit.h" />
+    <ClInclude Include="Graphic\UI\Imgui\imstb_truetype.h" />
+    <ClInclude Include="Graphic\UI\UISystem.h" />
+    <ClInclude Include="Graphic\VertexBuffer.h" />
+    <ClInclude Include="Graphic\VertexShader.h" />
     <ClInclude Include="HowlitePCH.h" />
     <ClInclude Include="Input\InputSystem.h" />
-    <ClInclude Include="Renderer\Bindable.h" />
-    <ClInclude Include="Renderer\BindableCommon.h" />
-    <ClInclude Include="Renderer\Camera.h" />
-    <ClInclude Include="Renderer\ConstantBuffer.h" />
-    <ClInclude Include="Renderer\Cube.h" />
-    <ClInclude Include="Renderer\Drawable.h" />
-    <ClInclude Include="Renderer\DXGIInfoQueue.h" />
-    <ClInclude Include="Renderer\GraphicSystem.h" />
-    <ClInclude Include="Renderer\IndexBuffer.h" />
-    <ClInclude Include="Renderer\InputLayout.h" />
-    <ClInclude Include="Renderer\PixelShader.h" />
-    <ClInclude Include="Renderer\Sampler.h" />
-    <ClInclude Include="Renderer\Topology.h" />
-    <ClInclude Include="Renderer\TransformBuffer.h" />
-    <ClInclude Include="Renderer\UI\Imgui\imconfig.h" />
-    <ClInclude Include="Renderer\UI\Imgui\imgui.h" />
-    <ClInclude Include="Renderer\UI\Imgui\imgui_impl_dx11.h" />
-    <ClInclude Include="Renderer\UI\Imgui\imgui_impl_win32.h" />
-    <ClInclude Include="Renderer\UI\Imgui\imgui_internal.h" />
-    <ClInclude Include="Renderer\UI\Imgui\imstb_rectpack.h" />
-    <ClInclude Include="Renderer\UI\Imgui\imstb_textedit.h" />
-    <ClInclude Include="Renderer\UI\Imgui\imstb_truetype.h" />
-    <ClInclude Include="Renderer\UI\UISystem.h" />
-    <ClInclude Include="Renderer\VertexBuffer.h" />
-    <ClInclude Include="Renderer\VertexShader.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
@@ -199,9 +205,29 @@
     <Image Include="Resource\Icons\icon.ico" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="Shader\PhongPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Shader\PhongVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
     <FxCompile Include="Shader\PixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Shader\TexturePixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0_level_9_3</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0_level_9_3</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Shader\TextureVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0_level_9_3</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0_level_9_3</ShaderModel>
     </FxCompile>
     <FxCompile Include="Shader\VertexShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>

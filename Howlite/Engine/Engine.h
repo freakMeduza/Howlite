@@ -54,6 +54,7 @@ namespace Howlite {
 		class HCamera& GetCameraInstance();
 
 	private:
+		// Events
 		bool OnKeyPressed(class HKeyPressedEvent& Event);
 		bool OnMouseRawInput(class HMouseRawInputEvent& Event);
 		bool OnWindowClosed(class HWindowClosedEvent& Event);
@@ -64,6 +65,8 @@ namespace Howlite {
 		
 		ScopedPointer<class HCamera> mCamera{ nullptr };
 		ScopedPointer<class HWindow> mWindow{ nullptr };
+		ScopedPointer<class HInputSystem> mInputSystem{ nullptr };
+		ScopedPointer<class HGraphicSystem> mGraphicSystem{ nullptr };
 		
 		static HEngine* mEngineInstance;
 	};

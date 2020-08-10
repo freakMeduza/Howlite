@@ -136,6 +136,11 @@ namespace Howlite {
 		}
 	}
 
+	const HAttribute& HLayout::GetAttributeByIndex(size_t Index) const
+	{
+		return mAttributes[Index];
+	}
+
 	bool HLayout::Contains(HEAttributeType AttributeType) const noexcept
 	{
 		for (const HAttribute& attribute : mAttributes)
