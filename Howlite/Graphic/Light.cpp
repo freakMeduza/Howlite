@@ -16,7 +16,6 @@ namespace Howlite {
 		mMesh = CreateScopedPointer<HSphere>(GraphicSystem, mBuffer.Position, Radius);
 		mLightBuffer = CreateScopedPointer<HPixelConstantBuffer<LightBuffer>>(GraphicSystem, mBuffer, 1u);
 
-		auto size = sizeof(LightBuffer);
 		mUIComponent = HUISystem::CreateUIComponent([this]()
 		{
 			if(ImGui::Begin(TAG, (bool*)nullptr))
