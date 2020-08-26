@@ -46,8 +46,16 @@ namespace Howlite {
 		 */
 		const DirectX::XMFLOAT3 GetPosition() const noexcept;
 
+		/**
+		 * Draw UI Window
+		 * @param IsOpen
+		 * @return
+		 */
+		void DrawUIWindow(bool* IsOpen) noexcept;
+
 	protected:
 		void OnReset() noexcept;
+		void OnTransform() noexcept;
 
 		DirectX::XMMATRIX mProjectionMatrix;
 

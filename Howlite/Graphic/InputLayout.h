@@ -17,7 +17,7 @@ namespace Howlite {
 		HInputLayout& operator=(const HInputLayout&) = delete;
 
 		// Bindable interface
-		void Bind(HGraphicSystem& GrahpicSystem) const noexcept;
+		void Bind(HGraphicSystem& GrahpicSystem) const noexcept override;
 
 	private:
 		HLayout mLayout;

@@ -10,7 +10,7 @@ namespace {
 	{
 		for (int i = 0; i < Buffer.GetElementCount(); i++)
 		{
-			auto& position = Buffer[i].GetAttribute<Howlite::HEAttributeType::Position3D>();
+			auto& position = Buffer[i].GetAttribute<Howlite::EAttributeType::Position3D>();
 			DirectX::XMStoreFloat3(&position, DirectX::XMVector3Transform(DirectX::XMLoadFloat3(&position), Matrix));
 		}
 	}
@@ -24,22 +24,22 @@ namespace {
 			auto v0 = Buffer[Indices[i]];
 			auto v1 = Buffer[Indices[i + 1]];
 			auto v2 = Buffer[Indices[i + 2]];
-			const auto p0 = XMLoadFloat3(&v0.GetAttribute<Howlite::HEAttributeType::Position3D>());
-			const auto p1 = XMLoadFloat3(&v1.GetAttribute<Howlite::HEAttributeType::Position3D>());
-			const auto p2 = XMLoadFloat3(&v2.GetAttribute<Howlite::HEAttributeType::Position3D>());
+			const auto p0 = XMLoadFloat3(&v0.GetAttribute<Howlite::EAttributeType::Position3D>());
+			const auto p1 = XMLoadFloat3(&v1.GetAttribute<Howlite::EAttributeType::Position3D>());
+			const auto p2 = XMLoadFloat3(&v2.GetAttribute<Howlite::EAttributeType::Position3D>());
 
 			const auto n = XMVector3Normalize(XMVector3Cross((p1 - p0), (p2 - p0)));
 
-			XMStoreFloat3(&v0.GetAttribute<Howlite::HEAttributeType::Normal3D>(), n);
-			XMStoreFloat3(&v1.GetAttribute<Howlite::HEAttributeType::Normal3D>(), n);
-			XMStoreFloat3(&v2.GetAttribute<Howlite::HEAttributeType::Normal3D>(), n);
+			XMStoreFloat3(&v0.GetAttribute<Howlite::EAttributeType::Normal3D>(), n);
+			XMStoreFloat3(&v1.GetAttribute<Howlite::EAttributeType::Normal3D>(), n);
+			XMStoreFloat3(&v2.GetAttribute<Howlite::EAttributeType::Normal3D>(), n);
 		}
 	}
 
 
 	[[maybe_unused]] static std::tuple<Howlite::HBuffer, std::vector<uint32_t>> GetCube() noexcept
 	{
-		using Type = Howlite::HEAttributeType;
+		using Type = Howlite::EAttributeType;
 
 		Howlite::HBuffer buffer{ Howlite::HLayout{Type::Position3D, Type::Normal3D}, 24 };
 
@@ -84,38 +84,38 @@ namespace {
 
 	[[maybe_unused]] static std::tuple<Howlite::HBuffer, std::vector<uint32_t>> GetSkinnedCube() noexcept
 	{
-		Howlite::HBuffer buffer{ Howlite::HLayout{Howlite::HEAttributeType::Position3D, Howlite::HEAttributeType::UV2D}, 14 };
+		Howlite::HBuffer buffer{ Howlite::HLayout{Howlite::EAttributeType::Position3D, Howlite::EAttributeType::UV2D}, 14 };
 
 		static constexpr float side = 1.0f;
 
-		buffer[0].SetAttribute<Howlite::HEAttributeType::Position3D>(DirectX::XMFLOAT3{ -side,-side,-side });
-		buffer[0].SetAttribute<Howlite::HEAttributeType::UV2D>(DirectX::XMFLOAT2{ 2.0f / 3.0f,0.0f / 4.0f });
-		buffer[1].SetAttribute<Howlite::HEAttributeType::Position3D>(DirectX::XMFLOAT3{ side,-side,-side });
-		buffer[1].SetAttribute<Howlite::HEAttributeType::UV2D>(DirectX::XMFLOAT2{ 1.0f / 3.0f,0.0f / 4.0f });
-		buffer[2].SetAttribute<Howlite::HEAttributeType::Position3D>(DirectX::XMFLOAT3{ -side,side,-side });
-		buffer[2].SetAttribute<Howlite::HEAttributeType::UV2D>(DirectX::XMFLOAT2{ 2.0f / 3.0f,1.0f / 4.0f });
-		buffer[3].SetAttribute<Howlite::HEAttributeType::Position3D>(DirectX::XMFLOAT3{ side,side,-side });
-		buffer[3].SetAttribute<Howlite::HEAttributeType::UV2D>(DirectX::XMFLOAT2{ 1.0f / 3.0f,1.0f / 4.0f });
-		buffer[4].SetAttribute<Howlite::HEAttributeType::Position3D>(DirectX::XMFLOAT3{ -side,-side,side });
-		buffer[4].SetAttribute<Howlite::HEAttributeType::UV2D>(DirectX::XMFLOAT2{ 2.0f / 3.0f,3.0f / 4.0f });
-		buffer[5].SetAttribute<Howlite::HEAttributeType::Position3D>(DirectX::XMFLOAT3{ side,-side,side });
-		buffer[5].SetAttribute<Howlite::HEAttributeType::UV2D>(DirectX::XMFLOAT2{ 1.0f / 3.0f,3.0f / 4.0f });
-		buffer[6].SetAttribute<Howlite::HEAttributeType::Position3D>(DirectX::XMFLOAT3{ -side,side,side });
-		buffer[6].SetAttribute<Howlite::HEAttributeType::UV2D>(DirectX::XMFLOAT2{ 2.0f / 3.0f,2.0f / 4.0f });
-		buffer[7].SetAttribute<Howlite::HEAttributeType::Position3D>(DirectX::XMFLOAT3{ side,side,side });
-		buffer[7].SetAttribute<Howlite::HEAttributeType::UV2D>(DirectX::XMFLOAT2{ 1.0f / 3.0f,2.0f / 4.0f });
-		buffer[8].SetAttribute<Howlite::HEAttributeType::Position3D>(DirectX::XMFLOAT3{ -side,-side,-side });
-		buffer[8].SetAttribute<Howlite::HEAttributeType::UV2D>(DirectX::XMFLOAT2{ 2.0f / 3.0f,4.0f / 4.0f });
-		buffer[9].SetAttribute<Howlite::HEAttributeType::Position3D>(DirectX::XMFLOAT3{ side,-side,-side });
-		buffer[9].SetAttribute<Howlite::HEAttributeType::UV2D>(DirectX::XMFLOAT2{ 1.0f / 3.0f,4.0f / 4.0f });
-		buffer[10].SetAttribute<Howlite::HEAttributeType::Position3D>(DirectX::XMFLOAT3{ -side,-side,-side });
-		buffer[10].SetAttribute<Howlite::HEAttributeType::UV2D>(DirectX::XMFLOAT2{ 3.0f / 3.0f,1.0f / 4.0f });
-		buffer[11].SetAttribute<Howlite::HEAttributeType::Position3D>(DirectX::XMFLOAT3{ -side,-side,side });
-		buffer[11].SetAttribute<Howlite::HEAttributeType::UV2D>(DirectX::XMFLOAT2{ 3.0f / 3.0f,2.0f / 4.0f });
-		buffer[12].SetAttribute<Howlite::HEAttributeType::Position3D>(DirectX::XMFLOAT3{ side,-side,-side });
-		buffer[12].SetAttribute<Howlite::HEAttributeType::UV2D>(DirectX::XMFLOAT2{ 0.0f / 3.0f,1.0f / 4.0f });
-		buffer[13].SetAttribute<Howlite::HEAttributeType::Position3D>(DirectX::XMFLOAT3{ side,-side,side });
-		buffer[13].SetAttribute<Howlite::HEAttributeType::UV2D>(DirectX::XMFLOAT2{ 0.0f / 3.0f,2.0f / 4.0f });
+		buffer[0].SetAttribute<Howlite::EAttributeType::Position3D>(DirectX::XMFLOAT3{ -side,-side,-side });
+		buffer[0].SetAttribute<Howlite::EAttributeType::UV2D>(DirectX::XMFLOAT2{ 2.0f / 3.0f,0.0f / 4.0f });
+		buffer[1].SetAttribute<Howlite::EAttributeType::Position3D>(DirectX::XMFLOAT3{ side,-side,-side });
+		buffer[1].SetAttribute<Howlite::EAttributeType::UV2D>(DirectX::XMFLOAT2{ 1.0f / 3.0f,0.0f / 4.0f });
+		buffer[2].SetAttribute<Howlite::EAttributeType::Position3D>(DirectX::XMFLOAT3{ -side,side,-side });
+		buffer[2].SetAttribute<Howlite::EAttributeType::UV2D>(DirectX::XMFLOAT2{ 2.0f / 3.0f,1.0f / 4.0f });
+		buffer[3].SetAttribute<Howlite::EAttributeType::Position3D>(DirectX::XMFLOAT3{ side,side,-side });
+		buffer[3].SetAttribute<Howlite::EAttributeType::UV2D>(DirectX::XMFLOAT2{ 1.0f / 3.0f,1.0f / 4.0f });
+		buffer[4].SetAttribute<Howlite::EAttributeType::Position3D>(DirectX::XMFLOAT3{ -side,-side,side });
+		buffer[4].SetAttribute<Howlite::EAttributeType::UV2D>(DirectX::XMFLOAT2{ 2.0f / 3.0f,3.0f / 4.0f });
+		buffer[5].SetAttribute<Howlite::EAttributeType::Position3D>(DirectX::XMFLOAT3{ side,-side,side });
+		buffer[5].SetAttribute<Howlite::EAttributeType::UV2D>(DirectX::XMFLOAT2{ 1.0f / 3.0f,3.0f / 4.0f });
+		buffer[6].SetAttribute<Howlite::EAttributeType::Position3D>(DirectX::XMFLOAT3{ -side,side,side });
+		buffer[6].SetAttribute<Howlite::EAttributeType::UV2D>(DirectX::XMFLOAT2{ 2.0f / 3.0f,2.0f / 4.0f });
+		buffer[7].SetAttribute<Howlite::EAttributeType::Position3D>(DirectX::XMFLOAT3{ side,side,side });
+		buffer[7].SetAttribute<Howlite::EAttributeType::UV2D>(DirectX::XMFLOAT2{ 1.0f / 3.0f,2.0f / 4.0f });
+		buffer[8].SetAttribute<Howlite::EAttributeType::Position3D>(DirectX::XMFLOAT3{ -side,-side,-side });
+		buffer[8].SetAttribute<Howlite::EAttributeType::UV2D>(DirectX::XMFLOAT2{ 2.0f / 3.0f,4.0f / 4.0f });
+		buffer[9].SetAttribute<Howlite::EAttributeType::Position3D>(DirectX::XMFLOAT3{ side,-side,-side });
+		buffer[9].SetAttribute<Howlite::EAttributeType::UV2D>(DirectX::XMFLOAT2{ 1.0f / 3.0f,4.0f / 4.0f });
+		buffer[10].SetAttribute<Howlite::EAttributeType::Position3D>(DirectX::XMFLOAT3{ -side,-side,-side });
+		buffer[10].SetAttribute<Howlite::EAttributeType::UV2D>(DirectX::XMFLOAT2{ 3.0f / 3.0f,1.0f / 4.0f });
+		buffer[11].SetAttribute<Howlite::EAttributeType::Position3D>(DirectX::XMFLOAT3{ -side,-side,side });
+		buffer[11].SetAttribute<Howlite::EAttributeType::UV2D>(DirectX::XMFLOAT2{ 3.0f / 3.0f,2.0f / 4.0f });
+		buffer[12].SetAttribute<Howlite::EAttributeType::Position3D>(DirectX::XMFLOAT3{ side,-side,-side });
+		buffer[12].SetAttribute<Howlite::EAttributeType::UV2D>(DirectX::XMFLOAT2{ 0.0f / 3.0f,1.0f / 4.0f });
+		buffer[13].SetAttribute<Howlite::EAttributeType::Position3D>(DirectX::XMFLOAT3{ side,-side,side });
+		buffer[13].SetAttribute<Howlite::EAttributeType::UV2D>(DirectX::XMFLOAT2{ 0.0f / 3.0f,2.0f / 4.0f });
 
 		std::vector<uint32_t> indices{
 			 0,  2,  1,  2,  3,  1,
@@ -142,7 +142,7 @@ namespace Howlite {
 		AddBind(CreateSharedPointer<HVertexShader>(GraphicSystem, L"PhongVertexShader.cso"));
 		AddBind(CreateSharedPointer<HPixelShader>(GraphicSystem, L"PhongPixelShader.cso"));
 		AddBind(CreateSharedPointer<HTopology>(GraphicSystem, D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
-		AddBind(CreateSharedPointer<HTransformBuffer>(GraphicSystem, *this));
+		AddBind(CreateSharedPointer<HTransformBuffer>(GraphicSystem, *this, EConstantBufferSlot::Transform));
 		if(auto vertexShader = QueryBindable<HVertexShader>())
 		{
 			AddBind(CreateSharedPointer<HInputLayout>(GraphicSystem, buffer.GetLayout(), vertexShader->GetShaderBytecode()));
@@ -159,7 +159,7 @@ namespace Howlite {
 			0.6f
 		}; 
 
-		AddBind(CreateSharedPointer<HPixelConstantBuffer<ColorBuffer>>(GraphicSystem, color, 2u));
+		AddBind(CreateSharedPointer<HPixelConstantBuffer<ColorBuffer>>(GraphicSystem, color, EConstantBufferSlot::Material));
 	}
 
 	DirectX::XMMATRIX HCube::GetTransform() const noexcept

@@ -22,7 +22,7 @@ namespace Howlite {
 		 * Set Windows Message Callback
 		 * @param Callback 
 		 */
-		void SetMessageCallback(std::function<void(class IHEvent&)> MesageCallback) noexcept;
+		void SetMessageCallback(std::function<void(class IEvent&)> MesageCallback) noexcept;
 
 		/**
 		 * Get Window Handler
@@ -48,7 +48,7 @@ namespace Howlite {
 
 		static LRESULT CALLBACK HandleMessage(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
 
-		std::function<void(class IHEvent&)> mMessageCallback;
+		std::function<void(class IEvent&)> mMessageCallback;
 		
 		static constexpr auto* mWindowClassName = TEXT("Howlite.Engine.Window");
 

@@ -2,22 +2,24 @@
 #include "Sphere.h"
 #include "BindableCommon.h"
 #include "Common/Math.h"
+#include "Common/String.h"
 #include "Engine/Engine.h"
 #include "Engine/Window.h"
+#include "Shader/ShaderTable.h"
 
 namespace {
 	[[maybe_unused]] static void Transform(DirectX::FXMMATRIX Matrix, Howlite::HBuffer& Buffer)
 	{
 		for (int i = 0; i < Buffer.GetElementCount(); i++)
 		{
-			auto& position = Buffer[i].GetAttribute<Howlite::HEAttributeType::Position3D>();
+			auto& position = Buffer[i].GetAttribute<Howlite::EAttributeType::Position3D>();
 			DirectX::XMStoreFloat3(&position, DirectX::XMVector3Transform(DirectX::XMLoadFloat3(&position), Matrix));
 		}
 	}
 
 	[[maybe_unused]] static std::tuple<Howlite::HBuffer, std::vector<uint32_t>> GetSphere() noexcept
 	{
-		Howlite::HBuffer buffer{ Howlite::HLayout{Howlite::HEAttributeType::Position3D}};
+		Howlite::HBuffer buffer{ Howlite::HLayout{Howlite::EAttributeType::Position3D}};
 
 		using namespace DirectX;
 
@@ -104,7 +106,7 @@ namespace {
 namespace Howlite {
 
 	HSphere::HSphere(HGraphicSystem& GraphicSystem, const DirectX::XMFLOAT3& Position, float Radius) :
-		mPosition{ Position }, mColor{ HColor::White.GetColor() }
+		mPosition{ Position }, mColor{ HColor::White.GetColorFloat4() }
 	{
 		auto [buffer, indices] = GetSphere();
 
@@ -112,11 +114,11 @@ namespace Howlite {
 
 		AddBind(CreateSharedPointer<HVertexBuffer>(GraphicSystem, buffer));
 		AddBind(CreateSharedPointer<HIndexBuffer>(GraphicSystem, indices));
-		AddBind(CreateSharedPointer<HVertexShader>(GraphicSystem, L"VertexShader.cso"));
-		AddBind(CreateSharedPointer<HPixelShader>(GraphicSystem, L"PixelShader.cso"));
-		AddBind(CreateSharedPointer<HTransformBuffer>(GraphicSystem, *this));
+		AddBind(CreateSharedPointer<HVertexShader>(GraphicSystem, HShaderTable::GetInstance()[EShaderType::Solid_VS]));
+		AddBind(CreateSharedPointer<HPixelShader>(GraphicSystem, HShaderTable::GetInstance()[EShaderType::Solid_PS]));
+		AddBind(CreateSharedPointer<HTransformBuffer>(GraphicSystem, *this, EConstantBufferSlot::Transform));
 		AddBind(CreateSharedPointer<HTopology>(GraphicSystem, D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
-		AddBind(CreateSharedPointer<HPixelConstantBuffer<DirectX::XMFLOAT4>>(GraphicSystem, mColor));
+		AddBind(CreateSharedPointer<HPixelConstantBuffer<DirectX::XMFLOAT4>>(GraphicSystem, mColor, EConstantBufferSlot::Material));
 
 		if (auto vertexShader = QueryBindable<HVertexShader>())
 		{
@@ -131,7 +133,8 @@ namespace Howlite {
 
 	void HSphere::SetColor(const HColor& Color) noexcept
 	{
-		mColor = Color.GetColor();
+		mColor = Color.GetColorFloat4();
+
 		if (auto constantBuffer = QueryBindable<HPixelConstantBuffer<DirectX::XMFLOAT4>>())
 		{
 			constantBuffer->Update(HEngine::GetInstance().GetGraphicSystemInstance(), mColor);

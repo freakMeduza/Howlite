@@ -32,9 +32,6 @@
     <ClCompile Include="Common\Buffer.cpp">
       <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="Common\Tick.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
     <ClCompile Include="Common\Image.cpp">
       <Filter>Common</Filter>
     </ClCompile>
@@ -80,44 +77,59 @@
     <ClCompile Include="Graphic\Camera.cpp">
       <Filter>Graphic\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Graphic\Cube.cpp">
-      <Filter>Graphic\Drawable</Filter>
-    </ClCompile>
     <ClCompile Include="Graphic\Drawable.cpp">
-      <Filter>Graphic\Drawable</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphic\Sphere.cpp">
       <Filter>Graphic\Drawable</Filter>
     </ClCompile>
     <ClCompile Include="Graphic\Light.cpp">
       <Filter>Graphic\Light</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphic\UI\Imgui\imgui.cpp">
-      <Filter>Graphic\UI\Imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphic\UI\Imgui\imgui_demo.cpp">
-      <Filter>Graphic\UI\Imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphic\UI\Imgui\imgui_draw.cpp">
-      <Filter>Graphic\UI\Imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphic\UI\Imgui\imgui_impl_dx11.cpp">
-      <Filter>Graphic\UI\Imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphic\UI\Imgui\imgui_impl_win32.cpp">
-      <Filter>Graphic\UI\Imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphic\UI\Imgui\imgui_widgets.cpp">
-      <Filter>Graphic\UI\Imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphic\UI\UISystem.cpp">
-      <Filter>Graphic\UI</Filter>
     </ClCompile>
     <ClCompile Include="Graphic\DXGIInfoQueue.cpp">
       <Filter>Graphic</Filter>
     </ClCompile>
     <ClCompile Include="Graphic\GraphicSystem.cpp">
       <Filter>Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic\Mesh.cpp">
+      <Filter>Graphic\Drawable</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic\Node.cpp">
+      <Filter>Graphic\Drawable</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic\Cube.cpp">
+      <Filter>Graphic\Drawable\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic\Sphere.cpp">
+      <Filter>Graphic\Drawable\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic\Model.cpp">
+      <Filter>Graphic\Drawable</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader\ShaderTable.cpp">
+      <Filter>Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UISystem.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Imgui\imgui.cpp">
+      <Filter>UI\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Imgui\imgui_demo.cpp">
+      <Filter>UI\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Imgui\imgui_draw.cpp">
+      <Filter>UI\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Imgui\imgui_impl_dx11.cpp">
+      <Filter>UI\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Imgui\imgui_impl_win32.cpp">
+      <Filter>UI\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Imgui\imgui_widgets.cpp">
+      <Filter>UI\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\UUID.cpp">
+      <Filter>Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -139,12 +151,6 @@
     <Filter Include="Graphic">
       <UniqueIdentifier>{d9253ca7-4ab5-410a-ac28-f9c278db2cc8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graphic\UI">
-      <UniqueIdentifier>{111faaad-2031-4d42-931f-73ab21b79e74}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphic\UI\Imgui">
-      <UniqueIdentifier>{7f18ca60-7350-45d2-9365-b543c8de6d28}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Graphic\Bindable">
       <UniqueIdentifier>{e24013bc-fb57-40d3-ac96-aec9a6a09f2a}</UniqueIdentifier>
     </Filter>
@@ -156,6 +162,24 @@
     </Filter>
     <Filter Include="Graphic\Light">
       <UniqueIdentifier>{4af32da1-2ff4-4983-85f2-843a732fa9d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphic\Drawable\Geometry">
+      <UniqueIdentifier>{d524e6a7-a5ba-4682-af96-9acdc9d0b35c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\HLSL">
+      <UniqueIdentifier>{037f0345-8acc-4455-9400-80f5f33d66ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\HLSL\VS">
+      <UniqueIdentifier>{beb46bb1-97d0-4e04-bb81-d3e9ee6ffee4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\HLSL\PS">
+      <UniqueIdentifier>{92e9b9c4-df75-432b-a702-550cb8ab0a81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{a014851b-fe19-4551-86a5-524a8fbf0052}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Imgui">
+      <UniqueIdentifier>{5d347265-889e-4348-9494-de383b536eb3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -186,9 +210,6 @@
       <Filter>Input</Filter>
     </ClInclude>
     <ClInclude Include="Common\Buffer.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Common\Tick.h">
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="Common\Math.h">
@@ -242,50 +263,65 @@
     <ClInclude Include="Graphic\Camera.h">
       <Filter>Graphic\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Graphic\Cube.h">
-      <Filter>Graphic\Drawable</Filter>
-    </ClInclude>
     <ClInclude Include="Graphic\Drawable.h">
-      <Filter>Graphic\Drawable</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphic\Sphere.h">
       <Filter>Graphic\Drawable</Filter>
     </ClInclude>
     <ClInclude Include="Graphic\Light.h">
       <Filter>Graphic\Light</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphic\UI\Imgui\imconfig.h">
-      <Filter>Graphic\UI\Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphic\UI\Imgui\imgui.h">
-      <Filter>Graphic\UI\Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphic\UI\Imgui\imgui_impl_dx11.h">
-      <Filter>Graphic\UI\Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphic\UI\Imgui\imgui_impl_win32.h">
-      <Filter>Graphic\UI\Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphic\UI\Imgui\imgui_internal.h">
-      <Filter>Graphic\UI\Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphic\UI\Imgui\imstb_rectpack.h">
-      <Filter>Graphic\UI\Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphic\UI\Imgui\imstb_textedit.h">
-      <Filter>Graphic\UI\Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphic\UI\Imgui\imstb_truetype.h">
-      <Filter>Graphic\UI\Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphic\UI\UISystem.h">
-      <Filter>Graphic\UI</Filter>
     </ClInclude>
     <ClInclude Include="Graphic\DXGIInfoQueue.h">
       <Filter>Graphic</Filter>
     </ClInclude>
     <ClInclude Include="Graphic\GraphicSystem.h">
       <Filter>Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic\Mesh.h">
+      <Filter>Graphic\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic\Node.h">
+      <Filter>Graphic\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic\Cube.h">
+      <Filter>Graphic\Drawable\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic\Sphere.h">
+      <Filter>Graphic\Drawable\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic\Model.h">
+      <Filter>Graphic\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader\ShaderTable.h">
+      <Filter>Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UISystem.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Imgui\imconfig.h">
+      <Filter>UI\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Imgui\imgui.h">
+      <Filter>UI\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Imgui\imgui_impl_dx11.h">
+      <Filter>UI\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Imgui\imgui_impl_win32.h">
+      <Filter>UI\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Imgui\imgui_internal.h">
+      <Filter>UI\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Imgui\imstb_rectpack.h">
+      <Filter>UI\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Imgui\imstb_textedit.h">
+      <Filter>UI\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Imgui\imstb_truetype.h">
+      <Filter>UI\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\UUID.h">
+      <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -295,23 +331,28 @@
     <Image Include="Resource\Icons\icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Shader\VertexShader.hlsl">
-      <Filter>Shader</Filter>
+    <FxCompile Include="Shader\Phong_PS.hlsl">
+      <Filter>Shader\HLSL\PS</Filter>
     </FxCompile>
-    <FxCompile Include="Shader\PixelShader.hlsl">
-      <Filter>Shader</Filter>
+    <FxCompile Include="Shader\Solid_PS.hlsl">
+      <Filter>Shader\HLSL\PS</Filter>
     </FxCompile>
-    <FxCompile Include="Shader\TextureVertexShader.hlsl">
-      <Filter>Shader</Filter>
+    <FxCompile Include="Shader\Texture_PS.hlsl">
+      <Filter>Shader\HLSL\PS</Filter>
     </FxCompile>
-    <FxCompile Include="Shader\TexturePixelShader.hlsl">
-      <Filter>Shader</Filter>
+    <FxCompile Include="Shader\Phong_VS.hlsl">
+      <Filter>Shader\HLSL\VS</Filter>
     </FxCompile>
-    <FxCompile Include="Shader\PhongVertexShader.hlsl">
-      <Filter>Shader</Filter>
+    <FxCompile Include="Shader\Texture_VS.hlsl">
+      <Filter>Shader\HLSL\VS</Filter>
     </FxCompile>
-    <FxCompile Include="Shader\PhongPixelShader.hlsl">
-      <Filter>Shader</Filter>
+    <FxCompile Include="Shader\Solid_VS.hlsl">
+      <Filter>Shader\HLSL\VS</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shader\ConstantBuffer.hlsli">
+      <Filter>Shader\HLSL</Filter>
+    </None>
   </ItemGroup>
 </Project>

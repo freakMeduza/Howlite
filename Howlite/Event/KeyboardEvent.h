@@ -4,7 +4,7 @@
 
 namespace Howlite {
 
-	class HKeyEvent : public IHEvent {
+	class HKeyEvent : public IEvent {
 	public:
 		HKeyEvent(unsigned char Key);
 		~HKeyEvent() override;
@@ -23,7 +23,7 @@ namespace Howlite {
 	class HKeyPressedEvent : public HKeyEvent
 	{
 	public:
-		H_DECLARE_EVENT_TYPE(EHEventType::KeyPressed)
+		H_GENERATE_EVENT(EEventType::KeyPressed)
 
 		HKeyPressedEvent(unsigned char Key);
 		~HKeyPressedEvent() override;
@@ -33,7 +33,7 @@ namespace Howlite {
 	class HKeyReleasedEvent : public HKeyEvent
 	{
 	public:
-		H_DECLARE_EVENT_TYPE(EHEventType::KeyReleased)
+		H_GENERATE_EVENT(EEventType::KeyReleased)
 
 		HKeyReleasedEvent(unsigned char Key);
 		~HKeyReleasedEvent() override;
@@ -43,7 +43,7 @@ namespace Howlite {
 	class HKeyTypedEvent : public HKeyEvent
 	{
 	public:
-		H_DECLARE_EVENT_TYPE(EHEventType::KeyTyped)
+		H_GENERATE_EVENT(EEventType::KeyTyped)
 
 		HKeyTypedEvent(unsigned char Key);
 		~HKeyTypedEvent() override;

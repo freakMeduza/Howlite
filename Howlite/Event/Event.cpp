@@ -3,7 +3,7 @@
 
 namespace Howlite {
 
-    HEventDispatcher::HEventDispatcher(IHEvent& Event) :
+    HEventDispatcher::HEventDispatcher(IEvent& Event) :
 		mEvent{ Event }
     {
 

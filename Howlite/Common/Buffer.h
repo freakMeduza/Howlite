@@ -2,7 +2,7 @@
 
 namespace Howlite {
 
-	enum class HEAttributeType {
+	enum class EAttributeType {
 		Position2D,
 		Position3D,
 		Normal3D,
@@ -11,9 +11,9 @@ namespace Howlite {
 		Color4D,
 	};
 
-	template<HEAttributeType> struct HAttributeMap;
+	template<EAttributeType> struct HAttributeMap;
 
-	template<> struct HAttributeMap<HEAttributeType::Position2D>
+	template<> struct HAttributeMap<EAttributeType::Position2D>
 	{
 		using SystemType = DirectX::XMFLOAT2;
 		static constexpr DXGI_FORMAT DXGIFormat = DXGI_FORMAT_R32G32_FLOAT;
@@ -21,7 +21,7 @@ namespace Howlite {
 		static constexpr const char* Code = "P2";
 	};
 
-	template<> struct HAttributeMap<HEAttributeType::Position3D>
+	template<> struct HAttributeMap<EAttributeType::Position3D>
 	{
 		using SystemType = DirectX::XMFLOAT3;
 		static constexpr DXGI_FORMAT DXGIFormat = DXGI_FORMAT_R32G32B32_FLOAT;
@@ -29,7 +29,7 @@ namespace Howlite {
 		static constexpr const char* Code = "P3";
 	};
 
-	template<> struct HAttributeMap<HEAttributeType::Normal3D>
+	template<> struct HAttributeMap<EAttributeType::Normal3D>
 	{
 		using SystemType = DirectX::XMFLOAT3;
 		static constexpr DXGI_FORMAT DXGIFormat = DXGI_FORMAT_R32G32B32_FLOAT;
@@ -37,7 +37,7 @@ namespace Howlite {
 		static constexpr const char* Code = "N3";
 	};
 
-	template<> struct HAttributeMap<HEAttributeType::UV2D>
+	template<> struct HAttributeMap<EAttributeType::UV2D>
 	{
 		using SystemType = DirectX::XMFLOAT2;
 		static constexpr DXGI_FORMAT DXGIFormat = DXGI_FORMAT_R32G32_FLOAT;
@@ -45,7 +45,7 @@ namespace Howlite {
 		static constexpr const char* Code = "UV2";
 	};
 
-	template<> struct HAttributeMap<HEAttributeType::Color3D>
+	template<> struct HAttributeMap<EAttributeType::Color3D>
 	{
 		using SystemType = DirectX::XMFLOAT3;
 		static constexpr DXGI_FORMAT DXGIFormat = DXGI_FORMAT_R32G32B32_FLOAT;
@@ -53,7 +53,7 @@ namespace Howlite {
 		static constexpr const char* Code = "C3";
 	};
 
-	template<> struct HAttributeMap<HEAttributeType::Color4D>
+	template<> struct HAttributeMap<EAttributeType::Color4D>
 	{
 		using SystemType = DirectX::XMFLOAT4;
 		static constexpr DXGI_FORMAT DXGIFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
@@ -64,7 +64,7 @@ namespace Howlite {
 	class HAttribute
 	{
 	public:
-		HAttribute(HEAttributeType AttributeType, size_t Offset);
+		HAttribute(EAttributeType AttributeType, size_t Offset);
 		~HAttribute() = default;
 
 		/**
@@ -72,7 +72,7 @@ namespace Howlite {
 		 * @param AttributeType 
 		 * @return 
 		 */
-		static size_t SizeOfType(HEAttributeType AttributeType) noexcept;
+		static size_t SizeOfType(EAttributeType AttributeType) noexcept;
 
 		/**
 		 * Get Size
@@ -96,7 +96,7 @@ namespace Howlite {
 		 * Get Type
 		 * @return 
 		 */
-		HEAttributeType GetType() const noexcept;
+		EAttributeType GetType() const noexcept;
 
 		/**
 		 * Get D3D11 Description
@@ -111,14 +111,14 @@ namespace Howlite {
 		const std::string GetCode() const noexcept;
 
 	private:
-		template<HEAttributeType Type>
+		template<EAttributeType Type>
 		inline static constexpr D3D11_INPUT_ELEMENT_DESC CreateDescription(size_t Offset) noexcept
 		{
 			return { HAttributeMap<Type>::Semantic, 0, HAttributeMap<Type>::DXGIFormat, 0, (UINT)Offset, D3D11_INPUT_PER_VERTEX_DATA, 0 };
 		}
 
 		size_t mOffset{ 0u };
-		HEAttributeType mAttributeType;
+		EAttributeType mAttributeType;
 
 	};
 
@@ -127,13 +127,13 @@ namespace Howlite {
 		HLayout() = default;
 		~HLayout() = default;
 
-		HLayout(const std::initializer_list<HEAttributeType>& Types);
+		HLayout(const std::initializer_list<EAttributeType>& Types);
 
 		/**
 		 * Get Attribute
 		 * @return 
 		 */
-		template<HEAttributeType Type>
+		template<EAttributeType Type>
 		const HAttribute& GetAttribute() const
 		{
 			for(const auto& attribute : mAttributes)
@@ -159,7 +159,7 @@ namespace Howlite {
 		 * @param AttributeType 
 		 * @return 
 		 */
-		bool Contains(HEAttributeType AttributeType) const noexcept;
+		bool Contains(EAttributeType AttributeType) const noexcept;
 
 		/**
 		 * Get Size In Bytes
@@ -194,14 +194,14 @@ namespace Howlite {
 	public:
 		~HElement() = default;
 
-		template<HEAttributeType Type>
+		template<EAttributeType Type>
 		inline auto& GetAttribute()
 		{
 			auto ptr = mData + mLayout.GetAttribute<Type>().GetOffset();
 			return *reinterpret_cast<typename HAttributeMap<Type>::SystemType*>(ptr);
 		}
 
-		template<HEAttributeType Type, typename T>
+		template<EAttributeType Type, typename T>
 		inline void SetAttribute(T&& Value)
 		{
 			using system_type = typename HAttributeMap<Type>::SystemType;
@@ -223,23 +223,23 @@ namespace Howlite {
 			const HAttribute& attribute = mLayout.GetAttributeByIndex(Index);
 			switch(attribute.GetType()) 
 			{
-				case HEAttributeType::Position2D:
-					SetAttribute<HEAttributeType::Position2D>(std::forward<T>(Value));
+				case EAttributeType::Position2D:
+					SetAttribute<EAttributeType::Position2D>(std::forward<T>(Value));
 					break;
-				case HEAttributeType::Position3D:
-					SetAttribute<HEAttributeType::Position3D>(std::forward<T>(Value));
+				case EAttributeType::Position3D:
+					SetAttribute<EAttributeType::Position3D>(std::forward<T>(Value));
 					break;
-				case HEAttributeType::Normal3D:
-					SetAttribute<HEAttributeType::Normal3D>(std::forward<T>(Value));
+				case EAttributeType::Normal3D:
+					SetAttribute<EAttributeType::Normal3D>(std::forward<T>(Value));
 					break;
-				case HEAttributeType::UV2D:
-					SetAttribute<HEAttributeType::UV2D>(std::forward<T>(Value));
+				case EAttributeType::UV2D:
+					SetAttribute<EAttributeType::UV2D>(std::forward<T>(Value));
 					break;
-				case HEAttributeType::Color3D:
-					SetAttribute<HEAttributeType::Color3D>(std::forward<T>(Value));
+				case EAttributeType::Color3D:
+					SetAttribute<EAttributeType::Color3D>(std::forward<T>(Value));
 					break;
-				case HEAttributeType::Color4D:
-					SetAttribute<HEAttributeType::Color4D>(std::forward<T>(Value));
+				case EAttributeType::Color4D:
+					SetAttribute<EAttributeType::Color4D>(std::forward<T>(Value));
 					break;
 			}
 		}

@@ -62,13 +62,22 @@ namespace Howlite {
 		
 		bool mIsRun{ false };
 		bool mVSyncIsEnabled{ false };
-		
+
 		ScopedPointer<class HCamera> mCamera{ nullptr };
 		ScopedPointer<class HWindow> mWindow{ nullptr };
+		ScopedPointer<class HUISystem> mUISystem{ nullptr };
 		ScopedPointer<class HInputSystem> mInputSystem{ nullptr };
 		ScopedPointer<class HGraphicSystem> mGraphicSystem{ nullptr };
 		
+		// Scene =======================================
+		SharedPointer<class HLight> mLight{ nullptr };
+		SharedPointer<class HModel> mModel{ nullptr };
+		// =============================================
+
 		static HEngine* mEngineInstance;
 	};
+
+
+
 
 }

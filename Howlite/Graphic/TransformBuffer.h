@@ -8,7 +8,7 @@ namespace Howlite {
 
 	class HTransformBuffer : public HBindable {
 	public:
-		HTransformBuffer(HGraphicSystem& GraphicSystem, const HDrawable& Parent, UINT Slot = 0);
+		HTransformBuffer(HGraphicSystem& GraphicSystem, const HDrawable& Parent, EConstantBufferSlot Slot);
 		~HTransformBuffer() override;
 
 		HTransformBuffer(HTransformBuffer&&) = delete;

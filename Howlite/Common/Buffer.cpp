@@ -3,39 +3,39 @@
 
 namespace Howlite {
 
-	HAttribute::HAttribute(HEAttributeType AttributeType, size_t Offset) :
+	HAttribute::HAttribute(EAttributeType AttributeType, size_t Offset) :
 		mOffset{ Offset }, mAttributeType{ AttributeType }
 	{
 
 	}
 	
-	size_t HAttribute::SizeOfType(HEAttributeType AttributeType) noexcept
+	size_t HAttribute::SizeOfType(EAttributeType AttributeType) noexcept
 	{
 		switch(AttributeType)
 		{
-			case HEAttributeType::Position2D:
+			case EAttributeType::Position2D:
 			{
-				return sizeof(HAttributeMap<HEAttributeType::Position2D>::SystemType);
+				return sizeof(HAttributeMap<EAttributeType::Position2D>::SystemType);
 			}
-			case HEAttributeType::Position3D:
+			case EAttributeType::Position3D:
 			{
-				return sizeof(HAttributeMap<HEAttributeType::Position3D>::SystemType);
+				return sizeof(HAttributeMap<EAttributeType::Position3D>::SystemType);
 			}
-			case HEAttributeType::Normal3D:
+			case EAttributeType::Normal3D:
 			{
-				return sizeof(HAttributeMap<HEAttributeType::Normal3D>::SystemType);
+				return sizeof(HAttributeMap<EAttributeType::Normal3D>::SystemType);
 			}
-			case HEAttributeType::UV2D:
+			case EAttributeType::UV2D:
 			{
-				return sizeof(HAttributeMap<HEAttributeType::UV2D>::SystemType);
+				return sizeof(HAttributeMap<EAttributeType::UV2D>::SystemType);
 			}
-			case HEAttributeType::Color3D:
+			case EAttributeType::Color3D:
 			{
-				return sizeof(HAttributeMap<HEAttributeType::Color3D>::SystemType);
+				return sizeof(HAttributeMap<EAttributeType::Color3D>::SystemType);
 			}
-			case HEAttributeType::Color4D:
+			case EAttributeType::Color4D:
 			{
-				return sizeof(HAttributeMap<HEAttributeType::Color4D>::SystemType);
+				return sizeof(HAttributeMap<EAttributeType::Color4D>::SystemType);
 			}
 		}
 
@@ -57,7 +57,7 @@ namespace Howlite {
 		return mOffset + GetSize();
 	}
 	
-	HEAttributeType HAttribute::GetType() const noexcept
+	EAttributeType HAttribute::GetType() const noexcept
 	{
 		return mAttributeType;
 	}
@@ -66,29 +66,29 @@ namespace Howlite {
 	{
 		switch (mAttributeType)
 		{
-			case HEAttributeType::Position2D:
+			case EAttributeType::Position2D:
 			{
-				return CreateDescription<HEAttributeType::Position2D>(mOffset);
+				return CreateDescription<EAttributeType::Position2D>(mOffset);
 			}
-			case HEAttributeType::Position3D:
+			case EAttributeType::Position3D:
 			{
-				return CreateDescription<HEAttributeType::Position3D>(mOffset);
+				return CreateDescription<EAttributeType::Position3D>(mOffset);
 			}
-			case HEAttributeType::Normal3D:
+			case EAttributeType::Normal3D:
 			{
-				return CreateDescription<HEAttributeType::Normal3D>(mOffset);
+				return CreateDescription<EAttributeType::Normal3D>(mOffset);
 			}
-			case HEAttributeType::UV2D:
+			case EAttributeType::UV2D:
 			{
-				return CreateDescription<HEAttributeType::UV2D>(mOffset);
+				return CreateDescription<EAttributeType::UV2D>(mOffset);
 			}
-			case HEAttributeType::Color3D:
+			case EAttributeType::Color3D:
 			{
-				return CreateDescription<HEAttributeType::Color3D>(mOffset);
+				return CreateDescription<EAttributeType::Color3D>(mOffset);
 			}
-			case HEAttributeType::Color4D:
+			case EAttributeType::Color4D:
 			{
-				return CreateDescription<HEAttributeType::Color4D>(mOffset);
+				return CreateDescription<EAttributeType::Color4D>(mOffset);
 			}
 		}
 
@@ -99,38 +99,38 @@ namespace Howlite {
 	{
 		switch (mAttributeType)
 		{
-			case HEAttributeType::Position2D:
+			case EAttributeType::Position2D:
 			{
-				return HAttributeMap<HEAttributeType::Position2D>::Code;
+				return HAttributeMap<EAttributeType::Position2D>::Code;
 			}
-			case HEAttributeType::Position3D:
+			case EAttributeType::Position3D:
 			{
-				return HAttributeMap<HEAttributeType::Position3D>::Code;
+				return HAttributeMap<EAttributeType::Position3D>::Code;
 			}
-			case HEAttributeType::Normal3D:
+			case EAttributeType::Normal3D:
 			{
-				return HAttributeMap<HEAttributeType::Normal3D>::Code;
+				return HAttributeMap<EAttributeType::Normal3D>::Code;
 			}
-			case HEAttributeType::UV2D:
+			case EAttributeType::UV2D:
 			{
-				return HAttributeMap<HEAttributeType::UV2D>::Code;
+				return HAttributeMap<EAttributeType::UV2D>::Code;
 			}
-			case HEAttributeType::Color3D:
+			case EAttributeType::Color3D:
 			{
-				return HAttributeMap<HEAttributeType::Color3D>::Code;
+				return HAttributeMap<EAttributeType::Color3D>::Code;
 			}
-			case HEAttributeType::Color4D:
+			case EAttributeType::Color4D:
 			{
-				return HAttributeMap<HEAttributeType::Color4D>::Code;
+				return HAttributeMap<EAttributeType::Color4D>::Code;
 			}
 		}
 
 		return {};
 	}
 
-	HLayout::HLayout(const std::initializer_list<HEAttributeType>& Types)
+	HLayout::HLayout(const std::initializer_list<EAttributeType>& Types)
 	{
-		for (HEAttributeType type : Types)
+		for (EAttributeType type : Types)
 		{
 			mAttributes.emplace_back(type, GetSize());
 		}
@@ -141,7 +141,7 @@ namespace Howlite {
 		return mAttributes[Index];
 	}
 
-	bool HLayout::Contains(HEAttributeType AttributeType) const noexcept
+	bool HLayout::Contains(EAttributeType AttributeType) const noexcept
 	{
 		for (const HAttribute& attribute : mAttributes)
 		{

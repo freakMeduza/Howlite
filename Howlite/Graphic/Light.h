@@ -28,23 +28,20 @@ namespace Howlite {
 		 */
 		void Bind(HGraphicSystem& GraphicSystem) const;
 
+		/**
+		 * Draw UI Window
+		 * @param IsOpen 
+		 * @return 
+		 */
+		void DrawUIWindow(bool* IsOpen) noexcept;
+
 	private:
 		void OnReset() noexcept;
 
-		struct LightBuffer
-		{
-			alignas(16) DirectX::XMFLOAT3 Position;
-			alignas(16) DirectX::XMFLOAT3 Color;
-			float Intencity;
-			float Kc;
-			float Kl;
-			float Kq;
-		} mBuffer;
-
+		HLightData mLightData;
 		mutable ScopedPointer<class HSphere> mMesh{ nullptr };
-		mutable ScopedPointer<HPixelConstantBuffer<LightBuffer>> mLightBuffer{ nullptr };
+		mutable ScopedPointer<HPixelConstantBuffer<HLightData>> mLightBuffer{ nullptr };
 
-		HUIComponent mUIComponent;
 	};
 
 }

@@ -4,10 +4,34 @@
 
 namespace Howlite {
 
+	enum class EConstantBufferSlot : uint8_t 
+	{
+		Transform,
+		Light,
+		Material
+	};
+
+	struct HTransformData {
+	
+	};
+
+	struct HLightData {
+		alignas(16) DirectX::XMFLOAT3 Position;
+		alignas(16) DirectX::XMFLOAT3 Color;
+		float Intencity;
+		float Kc;
+		float Kl;
+		float Kq;
+	};
+
+	struct HMaterialData {
+
+	};
+
 	template<typename T>
 	class HConstantBuffer : public HBindable {
 	public:
-		HConstantBuffer(HGraphicSystem& GraphicSystem, UINT Slot = 0u) :
+		HConstantBuffer(HGraphicSystem& GraphicSystem, EConstantBufferSlot Slot) :
 			mSlot{ Slot }
 		{
 			H_DXGI_INFOQUEUE(GraphicSystem)
@@ -26,7 +50,7 @@ namespace Howlite {
 			H_DX_SAFECALL(GetDevice(GraphicSystem).CreateBuffer(&buffer, nullptr, &mBuffer))
 		}
 		
-		HConstantBuffer(HGraphicSystem& GraphicSystem, const T& Data, UINT Slot = 0u) :
+		HConstantBuffer(HGraphicSystem& GraphicSystem, const T& Data, EConstantBufferSlot Slot) :
 			mSlot{ Slot }
 		{
 			H_DXGI_INFOQUEUE(GraphicSystem)
@@ -76,7 +100,8 @@ namespace Howlite {
 		}
 
 	protected:
-		UINT mSlot{ 0u };
+		EConstantBufferSlot mSlot;
+
 		Microsoft::WRL::ComPtr<ID3D11Buffer> mBuffer;
 
 	};
@@ -85,13 +110,13 @@ namespace Howlite {
 	class HVertexConstantBuffer : public HConstantBuffer<T>
 	{
 	public:
-		HVertexConstantBuffer(HGraphicSystem& GraphicSystem, UINT Slot = 0) :
+		HVertexConstantBuffer(HGraphicSystem& GraphicSystem, EConstantBufferSlot Slot) :
 			HConstantBuffer<T>(GraphicSystem, Slot)
 		{
 
 		}
 
-		HVertexConstantBuffer(HGraphicSystem& GraphicSystem, const T& Data, UINT Slot = 0) :
+		HVertexConstantBuffer(HGraphicSystem& GraphicSystem, const T& Data, EConstantBufferSlot Slot) :
 			HConstantBuffer<T>(GraphicSystem, Data, Slot)
 		{
 
@@ -108,7 +133,7 @@ namespace Howlite {
 		// Bindable interface
 		virtual void Bind(HGraphicSystem& GraphicSystem) const noexcept override
 		{
-			HBindable::GetContext(GraphicSystem).VSSetConstantBuffers(HConstantBuffer<T>::mSlot, 1u, HConstantBuffer<T>::mBuffer.GetAddressOf());
+			HBindable::GetContext(GraphicSystem).VSSetConstantBuffers(static_cast<UINT>(HConstantBuffer<T>::mSlot), 1u, HConstantBuffer<T>::mBuffer.GetAddressOf());
 		}
 
 	};
@@ -117,13 +142,13 @@ namespace Howlite {
 	class HPixelConstantBuffer : public HConstantBuffer<T>
 	{
 	public:
-		HPixelConstantBuffer(HGraphicSystem& GraphicSystem, UINT Slot = 0) :
+		HPixelConstantBuffer(HGraphicSystem& GraphicSystem, EConstantBufferSlot Slot = 0) :
 			HConstantBuffer<T>(GraphicSystem, Slot)
 		{
 
 		}
 
-		HPixelConstantBuffer(HGraphicSystem& GraphicSystem, const T& Data, UINT Slot = 0) :
+		HPixelConstantBuffer(HGraphicSystem& GraphicSystem, const T& Data, EConstantBufferSlot Slot = 0) :
 			HConstantBuffer<T>(GraphicSystem, Data, Slot)
 		{
 
@@ -140,7 +165,7 @@ namespace Howlite {
 		// Bindable interface
 		virtual void Bind(HGraphicSystem& GraphicSystem) const noexcept override
 		{
-			HBindable::GetContext(GraphicSystem).PSSetConstantBuffers(HConstantBuffer<T>::mSlot, 1u, HConstantBuffer<T>::mBuffer.GetAddressOf());
+			HBindable::GetContext(GraphicSystem).PSSetConstantBuffers(static_cast<UINT>(HConstantBuffer<T>::mSlot), 1u, HConstantBuffer<T>::mBuffer.GetAddressOf());
 		}
 
 	};

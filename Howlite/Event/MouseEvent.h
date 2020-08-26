@@ -5,9 +5,9 @@
 
 namespace Howlite {
 
-	class HMouseMovedEvent : public IHEvent {
+	class HMouseMovedEvent : public IEvent {
 	public:
-		H_DECLARE_EVENT_TYPE(EHEventType::MouseMoved)
+		H_GENERATE_EVENT(EEventType::MouseMoved)
 
 		HMouseMovedEvent(const HInputSystem::HPoint& Position);
 		~HMouseMovedEvent() override;
@@ -37,53 +37,53 @@ namespace Howlite {
 
 	class HMouseRawInputEvent : public HMouseMovedEvent {
 	public:
-		H_DECLARE_EVENT_TYPE(EHEventType::MouseRawInput)
+		H_GENERATE_EVENT(EEventType::MouseRawInput)
 
 		HMouseRawInputEvent(const HInputSystem::HPoint& RawInput);
 		~HMouseRawInputEvent() override;
 	};
 
-	class HMouseEnteredEvent : public IHEvent
+	class HMouseEnteredEvent : public IEvent
 	{
 	public:
-		H_DECLARE_EVENT_TYPE(EHEventType::MouseEntered)
+		H_GENERATE_EVENT(EEventType::MouseEntered)
 
 		HMouseEnteredEvent() = default;
 		~HMouseEnteredEvent() override = default;
 		
 	};
 
-	class HMouseLeavedEvent : public IHEvent
+	class HMouseLeavedEvent : public IEvent
 	{
 	public:
-		H_DECLARE_EVENT_TYPE(EHEventType::MouseLeaved)
+		H_GENERATE_EVENT(EEventType::MouseLeaved)
 
 		HMouseLeavedEvent() = default;
 		~HMouseLeavedEvent() override = default;
 
 	};
 
-	class HMouseScrolledUpEvent : public IHEvent
+	class HMouseScrolledUpEvent : public IEvent
 	{
 	public:
-		H_DECLARE_EVENT_TYPE(EHEventType::MouseScrolledUp)
+		H_GENERATE_EVENT(EEventType::MouseScrolledUp)
 
 		HMouseScrolledUpEvent() = default;
 		~HMouseScrolledUpEvent() override = default;
 
 	};
 
-	class HMouseScrolledDownEvent : public IHEvent
+	class HMouseScrolledDownEvent : public IEvent
 	{
 	public:
-		H_DECLARE_EVENT_TYPE(EHEventType::MouseScrolledDown)
+		H_GENERATE_EVENT(EEventType::MouseScrolledDown)
 
 		HMouseScrolledDownEvent() = default;
 		~HMouseScrolledDownEvent() override = default;
 
 	};
 
-	class HMouseButtonEvent : public IHEvent {
+	class HMouseButtonEvent : public IEvent {
 	public:
 		HMouseButtonEvent(unsigned char Button);
 		~HMouseButtonEvent() override;
@@ -101,7 +101,7 @@ namespace Howlite {
 	class HMouseButtonPressedEvent : public HMouseButtonEvent
 	{
 	public:
-		H_DECLARE_EVENT_TYPE(EHEventType::MouseButtonPressed)
+		H_GENERATE_EVENT(EEventType::MouseButtonPressed)
 
 		HMouseButtonPressedEvent(unsigned char Button);
 		~HMouseButtonPressedEvent() override;
@@ -111,7 +111,7 @@ namespace Howlite {
 	class HMouseButtonReleasedEvent : public HMouseButtonEvent
 	{
 	public:
-		H_DECLARE_EVENT_TYPE(EHEventType::MouseButtonReleased)
+		H_GENERATE_EVENT(EEventType::MouseButtonReleased)
 
 		HMouseButtonReleasedEvent(unsigned char Button);
 		~HMouseButtonReleasedEvent() override;

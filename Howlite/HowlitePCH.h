@@ -1,14 +1,50 @@
 #pragma once
 
 #define WIN32_LEAN_AND_MEAN
+#define NOGDICAPMASKS
+#define NOSYSMETRICS
+#define NOMENUS
+#define NOICONS
+#define NOSYSCOMMANDS
+#define NORASTEROPS
+#define OEMRESOURCE
+#define NOATOM
+#define NOCLIPBOARD
+#define NOCOLOR
+#define NOCTLMGR
+#define NODRAWTEXT
+#define NOKERNEL
+#define NONLS
+#define NOMEMMGR
+#define NOMETAFILE
+#define NOOPENFILE
+#define NOSCROLL
+#define NOSERVICE
+#define NOSOUND
+#define NOTEXTMETRIC
+#define NOWH
+#define NOCOMM
+#define NOKANJI
+#define NOHELP
+#define NOPROFILER
+#define NODEFERWINDOWPOS
+#define NOMCX
+#define NORPC
+#define NOPROXYSTUB
+#define NOIMAGE
+#define NOTAPE
+#define NOMINMAX
 #include <Windows.h>
 
 #include <set>
+#include <map>
 #include <string>
 #include <tuple>
 #include <array>
+#include <random>
 #include <memory>
 #include <sstream>
+#include <fstream>
 #include <optional>
 #include <exception>
 #include <functional>
@@ -37,12 +73,25 @@
 
 #include <DirectXMath.h>
 
-#include "Common/Tick.h"
 #include "Engine/Exception.h"
 #include "Graphic/DXGIInfoQueue.h"
-#include "Graphic/UI/Imgui/imgui.h"
-#include "Graphic/UI/Imgui/imgui_impl_dx11.h"
-#include "Graphic/UI/Imgui/imgui_impl_win32.h"
+#include "UI/Imgui/imgui.h"
+#include "UI/Imgui/imgui_impl_dx11.h"
+#include "UI/Imgui/imgui_impl_win32.h"
+
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
+#ifdef _DEBUG
+#pragma comment(lib, "assimp-vc141-mtd.lib")
+#pragma comment(lib, "zlibstaticd.lib")
+#pragma comment(lib, "IrrXMLd.lib")
+#else
+#pragma comment(lib, "assimp-vc141-mt.lib")
+#pragma comment(lib, "zlibstatic.lib")
+#pragma comment(lib, "IrrXML.lib")
+#endif
 
 template<typename Type> using ScopedPointer = std::unique_ptr<Type>;
 template<typename Type> using SharedPointer = std::shared_ptr<Type>;
@@ -115,11 +164,11 @@ throw Howlite::HException{ __FILE__, __LINE__, hresult, Howlite::EExceptionType:
 
 #define H_TYPENAME(x) #x
 
-#define H_DECLARE_EVENT_TYPE(x) \
-static inline EHEventType GetStaticEventType() noexcept { return x; } \
-inline EHEventType GetEventType() const noexcept override { return GetStaticEventType(); } \
+#define H_GENERATE_EVENT(x) \
+static inline EEventType GetStaticEventType() noexcept { return x; } \
+inline EEventType GetEventType() const noexcept override { return GetStaticEventType(); } \
 inline const char* GetEventName() const noexcept override { return #x; } 
 
-#define H_BIND_EVENT_CALLBACK(x) \
+#define H_BIND_EVENT(x) \
 std::bind(&x, this, std::placeholders::_1)
 

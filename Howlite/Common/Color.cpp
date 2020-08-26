@@ -146,7 +146,7 @@ const HColor HColor::name (r / 255.0f, g / 255.0f, b / 255.0f, 1.0f);
 		mColor = AlphaChannel << 24 | BlueChannel << 16 | GreenChannel << 8 | RedChannel;
 	}
 
-	DirectX::XMFLOAT4 HColor::GetColor() const
+	DirectX::XMFLOAT4 HColor::GetColorFloat4() const
 	{
 		using namespace DirectX;
 
@@ -156,6 +156,17 @@ const HColor HColor::name (r / 255.0f, g / 255.0f, b / 255.0f, 1.0f);
 		const float a = GetAlpha<float>();
 
 		return XMFLOAT4{ r, g, b, a };
+	}
+
+	DirectX::XMFLOAT3 HColor::GetColorFloat3() const
+	{
+		using namespace DirectX;
+
+		const float r = GetRed<float>();
+		const float g = GetGreen<float>();
+		const float b = GetBlue<float>();
+
+		return XMFLOAT3{ r, g, b };
 	}
 
 }

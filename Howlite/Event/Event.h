@@ -2,7 +2,7 @@
 
 namespace Howlite {
 
-	enum class EHEventType
+	enum class EEventType
 	{
 		Undefined,
 		WindowClosed,
@@ -22,15 +22,15 @@ namespace Howlite {
 		MouseRawInput
 	};
 
-	class IHEvent {
+	class IEvent {
 	public:
-		virtual ~IHEvent() = default;
+		virtual ~IEvent() = default;
 
 		/**
 		 * Get Event Type
 		 * @return 
 		 */
-		virtual EHEventType GetEventType() const noexcept = 0;
+		virtual EEventType GetEventType() const noexcept = 0;
 
 		/**
 		 * Get Event Name
@@ -44,7 +44,7 @@ namespace Howlite {
 
 	class HEventDispatcher {
 	public:
-		HEventDispatcher(IHEvent& Event);
+		HEventDispatcher(IEvent& Event);
 		~HEventDispatcher();
 
 		/**
@@ -67,7 +67,7 @@ namespace Howlite {
 		}
 
 	private:
-		IHEvent& mEvent;
+		IEvent& mEvent;
 
 	};
 

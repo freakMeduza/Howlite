@@ -1,13 +1,12 @@
 #include "HowlitePCH.h"
 #include "Window.h"
 #include "Engine.h"
-#include "Event/Event.h"
 #include "Event/MouseEvent.h"
 #include "Event/WindowEvent.h"
 #include "Event/KeyboardEvent.h"
 #include "Graphic/GraphicSystem.h"
-#include "Graphic/UI/UISystem.h"
 #include "Input/InputSystem.h"
+#include "UI/UISystem.h"
 
 namespace Howlite {
 
@@ -79,7 +78,7 @@ namespace Howlite {
 		}
 	}
 
-	void HWindow::SetMessageCallback(std::function<void(class IHEvent&)> MesageCallback) noexcept
+	void HWindow::SetMessageCallback(std::function<void(class IEvent&)> MesageCallback) noexcept
 	{
 		mMessageCallback = MesageCallback;
 	}
@@ -112,7 +111,7 @@ namespace Howlite {
 		windowClass.hInstance     = mInstance;
 		windowClass.cbClsExtra    = 0;
 		windowClass.cbWndExtra    = 0;
-		windowClass.style         = CS_CLASSDC | CS_HREDRAW | CS_VREDRAW;
+		windowClass.style         = CS_OWNDC | CS_HREDRAW | CS_VREDRAW;
 		windowClass.lpfnWndProc   = &HWindow::HandleMessage;
 		windowClass.hbrBackground = nullptr;
 		windowClass.lpszMenuName  = nullptr;

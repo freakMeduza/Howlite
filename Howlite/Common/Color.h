@@ -209,10 +209,16 @@ namespace Howlite {
 		}
 
 		/**
-		 * Get Color
+		 * Get Color Float4
 		 * @return 
 		 */
-		DirectX::XMFLOAT4 GetColor() const;
+		DirectX::XMFLOAT4 GetColorFloat4() const;
+
+		/**
+		 * Get Color Float3
+		 * @return 
+		 */
+		DirectX::XMFLOAT3 GetColorFloat3() const;
 
 	private:
 		uint32_t mColor{ 0u };

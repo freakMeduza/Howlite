@@ -45,13 +45,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir);$(DXSDK_DIR)\Include;Dependencies\DirectXTex\Include</IncludePath>
-    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(DXSDK_DIR)\Lib\x64;$(ProjectDir)\Dependencies\DirectXTex\Bin\Debug</LibraryPath>
+    <IncludePath>$(ProjectDir)\Dependencies\Assimp\Include;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir);$(DXSDK_DIR)\Include;Dependencies\DirectXTex\Include</IncludePath>
+    <LibraryPath>$(ProjectDir)\Dependencies\zlib\Bin\Debug;$(ProjectDir)\Dependencies\irrXML\Bin\Debug;$(ProjectDir)\Dependencies\Assimp\Bin\Debug;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(DXSDK_DIR)\Lib\x64;$(ProjectDir)\Dependencies\DirectXTex\Bin\Debug</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir);$(DXSDK_DIR)\Include;Dependencies\DirectXTex\Include</IncludePath>
-    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(DXSDK_DIR)\Lib\x64;$(ProjectDir)\Dependencies\DirectXTex\Bin\Release</LibraryPath>
+    <IncludePath>$(ProjectDir)\Dependencies\Assimp\Include;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir);$(DXSDK_DIR)\Include;Dependencies\DirectXTex\Include</IncludePath>
+    <LibraryPath>$(ProjectDir)\Dependencies\zlib\Bin\Release;$(ProjectDir)\Dependencies\irrXML\Bin\Release;$(ProjectDir)\Dependencies\Assimp\Bin\Release;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(DXSDK_DIR)\Lib\x64;$(ProjectDir)\Dependencies\DirectXTex\Bin\Release</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -62,6 +62,8 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>HowlitePCH.h</PrecompiledHeaderFile>
+      <FunctionLevelLinking>
+      </FunctionLevelLinking>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -92,7 +94,7 @@
     <ClCompile Include="Common\Color.cpp" />
     <ClCompile Include="Common\Image.cpp" />
     <ClCompile Include="Common\String.cpp" />
-    <ClCompile Include="Common\Tick.cpp" />
+    <ClCompile Include="Common\UUID.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\Exception.cpp" />
     <ClCompile Include="Engine\Main.cpp" />
@@ -111,37 +113,15 @@
     <ClCompile Include="Graphic\IndexBuffer.cpp" />
     <ClCompile Include="Graphic\InputLayout.cpp" />
     <ClCompile Include="Graphic\Light.cpp" />
+    <ClCompile Include="Graphic\Mesh.cpp" />
+    <ClCompile Include="Graphic\Model.cpp" />
+    <ClCompile Include="Graphic\Node.cpp" />
     <ClCompile Include="Graphic\PixelShader.cpp" />
     <ClCompile Include="Graphic\Sampler.cpp" />
     <ClCompile Include="Graphic\Sphere.cpp" />
     <ClCompile Include="Graphic\Texture.cpp" />
     <ClCompile Include="Graphic\Topology.cpp" />
     <ClCompile Include="Graphic\TransformBuffer.cpp" />
-    <ClCompile Include="Graphic\UI\Imgui\imgui.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Graphic\UI\Imgui\imgui_demo.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Graphic\UI\Imgui\imgui_draw.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Graphic\UI\Imgui\imgui_impl_dx11.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Graphic\UI\Imgui\imgui_impl_win32.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Graphic\UI\Imgui\imgui_widgets.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Graphic\UI\UISystem.cpp" />
     <ClCompile Include="Graphic\VertexBuffer.cpp" />
     <ClCompile Include="Graphic\VertexShader.cpp" />
     <ClCompile Include="HowlitePCH.cpp">
@@ -151,6 +131,32 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">HowlitePCH.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="Input\InputSystem.cpp" />
+    <ClCompile Include="Shader\ShaderTable.cpp" />
+    <ClCompile Include="UI\Imgui\imgui.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="UI\Imgui\imgui_demo.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="UI\Imgui\imgui_draw.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="UI\Imgui\imgui_impl_dx11.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="UI\Imgui\imgui_impl_win32.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="UI\Imgui\imgui_widgets.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="UI\UISystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common\Buffer.h" />
@@ -158,7 +164,7 @@
     <ClInclude Include="Common\Image.h" />
     <ClInclude Include="Common\Math.h" />
     <ClInclude Include="Common\String.h" />
-    <ClInclude Include="Common\Tick.h" />
+    <ClInclude Include="Common\UUID.h" />
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\Exception.h" />
     <ClInclude Include="Engine\Window.h" />
@@ -177,26 +183,30 @@
     <ClInclude Include="Graphic\IndexBuffer.h" />
     <ClInclude Include="Graphic\InputLayout.h" />
     <ClInclude Include="Graphic\Light.h" />
+    <ClInclude Include="Graphic\Mesh.h" />
+    <ClInclude Include="Graphic\Model.h" />
+    <ClInclude Include="Graphic\Node.h" />
     <ClInclude Include="Graphic\PixelShader.h" />
     <ClInclude Include="Graphic\Sampler.h" />
     <ClInclude Include="Graphic\Sphere.h" />
     <ClInclude Include="Graphic\Texture.h" />
     <ClInclude Include="Graphic\Topology.h" />
     <ClInclude Include="Graphic\TransformBuffer.h" />
-    <ClInclude Include="Graphic\UI\Imgui\imconfig.h" />
-    <ClInclude Include="Graphic\UI\Imgui\imgui.h" />
-    <ClInclude Include="Graphic\UI\Imgui\imgui_impl_dx11.h" />
-    <ClInclude Include="Graphic\UI\Imgui\imgui_impl_win32.h" />
-    <ClInclude Include="Graphic\UI\Imgui\imgui_internal.h" />
-    <ClInclude Include="Graphic\UI\Imgui\imstb_rectpack.h" />
-    <ClInclude Include="Graphic\UI\Imgui\imstb_textedit.h" />
-    <ClInclude Include="Graphic\UI\Imgui\imstb_truetype.h" />
-    <ClInclude Include="Graphic\UI\UISystem.h" />
     <ClInclude Include="Graphic\VertexBuffer.h" />
     <ClInclude Include="Graphic\VertexShader.h" />
     <ClInclude Include="HowlitePCH.h" />
     <ClInclude Include="Input\InputSystem.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Shader\ShaderTable.h" />
+    <ClInclude Include="UI\Imgui\imconfig.h" />
+    <ClInclude Include="UI\Imgui\imgui.h" />
+    <ClInclude Include="UI\Imgui\imgui_impl_dx11.h" />
+    <ClInclude Include="UI\Imgui\imgui_impl_win32.h" />
+    <ClInclude Include="UI\Imgui\imgui_internal.h" />
+    <ClInclude Include="UI\Imgui\imstb_rectpack.h" />
+    <ClInclude Include="UI\Imgui\imstb_textedit.h" />
+    <ClInclude Include="UI\Imgui\imstb_truetype.h" />
+    <ClInclude Include="UI\UISystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Howlite.rc" />
@@ -205,34 +215,37 @@
     <Image Include="Resource\Icons\icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Shader\PhongPixelShader.hlsl">
+    <FxCompile Include="Shader\Phong_PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>
-    <FxCompile Include="Shader\PhongVertexShader.hlsl">
+    <FxCompile Include="Shader\Phong_VS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
-    <FxCompile Include="Shader\PixelShader.hlsl">
+    <FxCompile Include="Shader\Solid_PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>
-    <FxCompile Include="Shader\TexturePixelShader.hlsl">
+    <FxCompile Include="Shader\Texture_VS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0_level_9_3</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0_level_9_3</ShaderModel>
     </FxCompile>
-    <FxCompile Include="Shader\TextureVertexShader.hlsl">
+    <FxCompile Include="Shader\Texture_PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0_level_9_3</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0_level_9_3</ShaderModel>
     </FxCompile>
-    <FxCompile Include="Shader\VertexShader.hlsl">
+    <FxCompile Include="Shader\Solid_VS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shader\ConstantBuffer.hlsli" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

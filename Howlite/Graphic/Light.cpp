@@ -13,35 +13,13 @@ namespace Howlite {
 	HLight::HLight(HGraphicSystem& GraphicSystem, float Radius)
 	{
 		OnReset();
-		mMesh = CreateScopedPointer<HSphere>(GraphicSystem, mBuffer.Position, Radius);
-		mLightBuffer = CreateScopedPointer<HPixelConstantBuffer<LightBuffer>>(GraphicSystem, mBuffer, 1u);
-
-		mUIComponent = HUISystem::CreateUIComponent([this]()
-		{
-			if(ImGui::Begin(TAG, (bool*)nullptr))
-			{
-				ImGui::DragFloat3("Position", (float*)&mBuffer.Position, 1.0f, 0.0f, 0.0f, "%.1f");
-				ImGui::Separator();
-				ImGui::ColorEdit3("Color", (float*)&mBuffer.Color);
-				ImGui::Separator();
-				ImGui::InputFloat("Intencity", &mBuffer.Intencity, 0.0f, 0.5f, "%.3f");
-				ImGui::InputFloat("Constant", &mBuffer.Kc, 0.0f, 0.5f, "%.3f");
-				ImGui::InputFloat("Linear", &mBuffer.Kl, 0.0f, 0.5f, "%.3f");
-				ImGui::InputFloat("Quadratic", &mBuffer.Kq, 0.0f, 0.5f, "%.3f");
-				if(ImGui::Button("Reset"))
-				{
-					OnReset();
-				}
-				ImGui::End();
-			}
-		});
-
-		HEngine::GetInstance().GetUISystemInstance().BindUIComponent(mUIComponent);
+		mMesh = CreateScopedPointer<HSphere>(GraphicSystem, mLightData.Position, Radius);
+		mLightBuffer = CreateScopedPointer<HPixelConstantBuffer<HLightData>>(GraphicSystem, mLightData, EConstantBufferSlot::Light);
 	}
 
 	HLight::~HLight()
 	{
-		HEngine::GetInstance().GetUISystemInstance().UnbindUIComponent(mUIComponent);
+
 	}
 
 	void HLight::Draw(HGraphicSystem& GraphicSystem) const
@@ -51,25 +29,52 @@ namespace Howlite {
 
 	void HLight::Bind(HGraphicSystem& GraphicSystem) const
 	{
-		mMesh->SetPosition(mBuffer.Position);
-		mMesh->SetColor(HColor{ mBuffer.Color });
-		mLightBuffer->Update(GraphicSystem, mBuffer);
+		mMesh->SetPosition(mLightData.Position);
+		mMesh->SetColor(HColor{ mLightData.Color });
+		mLightBuffer->Update(GraphicSystem, mLightData);
 		mLightBuffer->Bind(GraphicSystem);
+	}
+
+	void HLight::DrawUIWindow(bool* IsOpen) noexcept
+	{
+		const ImGuiWindowFlags flags = ImGuiWindowFlags_AlwaysAutoResize;
+
+		if(!ImGui::Begin("Light", IsOpen, flags))
+		{
+			ImGui::End();
+			return;
+		}
+
+		ImGui::Text("Position");
+		ImGui::SliderFloat("x", &mLightData.Position.x, -1000.0f, 1000.0f, "%.1f");
+		ImGui::SliderFloat("y", &mLightData.Position.y, -1000.0f, 1000.0f, "%.1f");
+		ImGui::SliderFloat("z", &mLightData.Position.z, -1000.0f, 1000.0f, "%.1f");
+		ImGui::Separator();
+		ImGui::Text("Appearance");
+		ImGui::SliderFloat("Intencity", &mLightData.Intencity, 0.1f, 200.0f, "%.2f", 2.0f);
+		ImGui::ColorEdit3("Color", &mLightData.Color.x);
+		ImGui::Separator();
+		ImGui::Text("Modifiers");
+		ImGui::SliderFloat("Constant", &mLightData.Kc, 0.05f, 10.0f, "%.2f", 4.0f);
+		ImGui::SliderFloat("Linear", &mLightData.Kl, 0.0001f, 4.0f, "%.4f", 8.0f);
+		ImGui::SliderFloat("Quadratic", &mLightData.Kq, 0.0000001f, 10.0f, "%.7f", 10.0f);
+		ImGui::Separator();
+		if (ImGui::Button("Reset"))
+		{
+			OnReset();
+		}
+		ImGui::Separator();
+		ImGui::End();
 	}
 
 	void HLight::OnReset() noexcept
 	{
-		auto colorFloat3 = [](const DirectX::XMFLOAT4& Value)
-		{
-			return DirectX::XMFLOAT3{ Value.x, Value.y, Value.z };
-		};
-
-		mBuffer.Position = { 5.0f, 4.0f, 0.0f };
-		mBuffer.Color = colorFloat3(HColor::White.GetColor());
-		mBuffer.Intencity = 1.0f;
-		mBuffer.Kc = 1.0f;
-		mBuffer.Kl = 0.045f;
-		mBuffer.Kq = 0.0075f;
+		mLightData.Position  = { 140.0f, 140.0f, -350.0f };
+		mLightData.Color     = HColor::White.GetColorFloat3();
+		mLightData.Intencity = 200.0f;
+		mLightData.Kc        = 1.0f;
+		mLightData.Kl        = 0.045f;
+		mLightData.Kq        = 0.0075f;
 	}
 
 }

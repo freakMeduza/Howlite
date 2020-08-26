@@ -85,9 +85,6 @@ namespace Howlite {
 		InitializeRenderTargetView();
 		InitializeViewport(Width, Height);
 
-		mUISystem = CreateScopedPointer<HUISystem>(hWnd, mDevice.Get(), mContext.Get());
-		mUISystem->SetIsEnabled(true);
-	
 #if _DEBUG
 		mDXGIInfoQueue = CreateScopedPointer<HDXGIInfoQueue>();
 #endif
@@ -100,11 +97,6 @@ namespace Howlite {
 
 	void HGraphicSystem::BeginFrame(HColor Color)
 	{
-		if (GetUISystemInstance().IsEnabled())
-		{
-			GetUISystemInstance().BeginFrame();
-		}
-
 		const float color[] = {
 			Color.GetRed<float>(),
 			Color.GetGreen<float>(),
@@ -119,12 +111,6 @@ namespace Howlite {
 
 	void HGraphicSystem::EndFrame(bool VSync)
 	{
-		if (GetUISystemInstance().IsEnabled())
-		{
-			GetUISystemInstance().Draw();
-			GetUISystemInstance().EndFrame();
-		}
-
 		mSwapchain->Present(VSync? 1u : 0u, 0u);
 	}
 
@@ -165,10 +151,14 @@ namespace Howlite {
 		InitializeViewport(Width, Height);
 	}
 
-	HUISystem& HGraphicSystem::GetUISystemInstance()
+	ID3D11Device* HGraphicSystem::GetDeviceInternal() const
 	{
-		H_ASSERT(mUISystem != nullptr, "Failed to get UI system instance 'mUISystem == nullptr'.")
-		return *mUISystem;
+		return mDevice.Get();
+	}
+
+	ID3D11DeviceContext* HGraphicSystem::GetContextInternal() const
+	{
+		return mContext.Get();
 	}
 
 	void HGraphicSystem::InitializeDepthStencilView(uint32_t Width, uint32_t Height)

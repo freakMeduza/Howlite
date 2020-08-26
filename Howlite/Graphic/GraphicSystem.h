@@ -40,10 +40,17 @@ namespace Howlite {
 		 */
 		void ResizeBuffers(uint32_t Width, uint32_t Height);
 
-		/** 
-		 * Get UI System Instance
+		/**
+		 * Get D3D11 Device
+		 * @return 
 		 */
-		class HUISystem& GetUISystemInstance();
+		ID3D11Device* GetDeviceInternal() const;
+
+		/**
+		 * Get D3D11 Context
+		 * @return 
+		 */
+		ID3D11DeviceContext* GetContextInternal() const;
 
 	private:
 		friend class HBindable;
@@ -57,8 +64,7 @@ namespace Howlite {
 		Microsoft::WRL::ComPtr<ID3D11DeviceContext> mContext{ nullptr };
 		Microsoft::WRL::ComPtr<ID3D11RenderTargetView> mRenderTargetView{ nullptr };
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilView> mDepthStencilView{ nullptr };
-
-		ScopedPointer<class HUISystem> mUISystem{ nullptr };
+		
 		ScopedPointer<class HDXGIInfoQueue> mDXGIInfoQueue{ nullptr };
 	};
 

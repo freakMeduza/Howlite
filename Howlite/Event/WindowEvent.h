@@ -4,9 +4,9 @@
 
 namespace Howlite {
 
-	class HWindowResizedEvent : public IHEvent {
+	class HWindowResizedEvent : public IEvent {
 	public:
-		H_DECLARE_EVENT_TYPE(EHEventType::WindowResized)
+		H_GENERATE_EVENT(EEventType::WindowResized)
 		
 		HWindowResizedEvent(uint32_t Width, uint32_t Height);
 		~HWindowResizedEvent() override;
@@ -29,28 +29,28 @@ namespace Howlite {
 
 	};
 
-	class HWindowClosedEvent : public IHEvent
+	class HWindowClosedEvent : public IEvent
 	{
 	public:
-		H_DECLARE_EVENT_TYPE(EHEventType::WindowClosed)
+		H_GENERATE_EVENT(EEventType::WindowClosed)
 
 		HWindowClosedEvent() = default;
 		~HWindowClosedEvent() override = default;
 	};
 
-	class HWindowFocusedEvent : public IHEvent
+	class HWindowFocusedEvent : public IEvent
 	{
 	public:
-		H_DECLARE_EVENT_TYPE(EHEventType::WindowFocused)
+		H_GENERATE_EVENT(EEventType::WindowFocused)
 
 		HWindowFocusedEvent() = default;
 		~HWindowFocusedEvent() override = default;
 	};
 
-	class HWindowUnfocusedEvent : public IHEvent
+	class HWindowUnfocusedEvent : public IEvent
 	{
 	public:
-		H_DECLARE_EVENT_TYPE(EHEventType::WindowUnfocused)
+		H_GENERATE_EVENT(EEventType::WindowUnfocused)
 
 		HWindowUnfocusedEvent() = default;
 		~HWindowUnfocusedEvent() override = default;

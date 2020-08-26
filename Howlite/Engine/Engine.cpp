@@ -6,18 +6,22 @@
 #include "Event/WindowEvent.h"
 #include "Event/KeyboardEvent.h"
 #include "Graphic/GraphicSystem.h"
-#include "Graphic/UI/UISystem.h"
 #include "Graphic/Camera.h"
 #include "Input/InputSystem.h"
+#include "UI/UISystem.h"
 
 #include "Graphic/Cube.h"
 #include "Graphic/Light.h"
+#include "Graphic/Model.h"
+#include "Common/UUID.h"
 #include "Common/Image.h"
+#include "Common/String.h"
+#include "Graphic/BindableCommon.h"
 
 namespace {
 	// TODO: replace with lua scripting settings
-	static constexpr uint32_t DEFAULT_WIDTH = 1280u;
-	static constexpr uint32_t DEFAULT_HEIGHT = 720u;
+	static constexpr uint32_t DEFAULT_WIDTH = 1600u;
+	static constexpr uint32_t DEFAULT_HEIGHT = 900u;
 }
 
 namespace Howlite {
@@ -29,34 +33,26 @@ namespace Howlite {
 		H_ASSERT(mEngineInstance == nullptr, "Engine instance already exists.")
 
 		mEngineInstance = this;
-		
+
 		mWindow = CreateScopedPointer<HWindow>(Instance, "Howlite", DEFAULT_WIDTH, DEFAULT_HEIGHT);
-		mWindow->SetMessageCallback([this](IHEvent& Event)
+		mWindow->SetMessageCallback([this](IEvent& Event)
 		{
 			HEventDispatcher dispatcher{ Event };
-			dispatcher.Dispatch<HKeyPressedEvent>(H_BIND_EVENT_CALLBACK(HEngine::OnKeyPressed));
-			dispatcher.Dispatch<HMouseRawInputEvent>(H_BIND_EVENT_CALLBACK(HEngine::OnMouseRawInput));
-			dispatcher.Dispatch<HWindowClosedEvent>(H_BIND_EVENT_CALLBACK(HEngine::OnWindowClosed));
-			dispatcher.Dispatch<HWindowResizedEvent>(H_BIND_EVENT_CALLBACK(HEngine::OnWindowResized));
+			dispatcher.Dispatch<HKeyPressedEvent>(H_BIND_EVENT(HEngine::OnKeyPressed));
+			dispatcher.Dispatch<HMouseRawInputEvent>(H_BIND_EVENT(HEngine::OnMouseRawInput));
+			dispatcher.Dispatch<HWindowClosedEvent>(H_BIND_EVENT(HEngine::OnWindowClosed));
+			dispatcher.Dispatch<HWindowResizedEvent>(H_BIND_EVENT(HEngine::OnWindowResized));
 		});
 
 		mInputSystem = CreateScopedPointer<HInputSystem>();
 		mGraphicSystem = CreateScopedPointer<HGraphicSystem>(mWindow->GetWindowHandler(), mWindow->GetWidth(), mWindow->GetHeight());
-
-		GetUISystemInstance().BindUIComponent(HUISystem::CreateUIComponent([this]()
-		{
-			if (ImGui::Begin("Metrics", (bool*)nullptr))
-			{
-				ImGuiIO& io = ImGui::GetIO();
-				ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
-				ImGui::Checkbox("vsync", &mVSyncIsEnabled);
-				ImGui::End();
-			}
-		}));
+		mUISystem = CreateScopedPointer<HUISystem>(mWindow->GetWindowHandler(), mGraphicSystem->GetDeviceInternal(), mGraphicSystem->GetContextInternal());
+		mUISystem->SetIsEnabled(true);
 
 		const float width = static_cast<float>(GetWindowInstance().GetWidth());
 		const float height = static_cast<float>(GetWindowInstance().GetHeight());
-		mCamera = CreateScopedPointer<HCamera>(DirectX::XMMatrixPerspectiveLH(1.0f, height / width, 0.5f, 100.0f));
+
+		mCamera = CreateScopedPointer<HCamera>(DirectX::XMMatrixPerspectiveLH(1.0f, height / width, 0.5f, 2000.0f));
 	}
 
 	HEngine::~HEngine()
@@ -72,12 +68,12 @@ namespace Howlite {
 
 	int HEngine::Run()
 	{
-		mIsRun = true;
-
 		HGraphicSystem& graphicSystem = GetGraphicSystemInstance();
 
-		HLight light{ GetGraphicSystemInstance(), 0.3f };
-		HCube cube{ GetGraphicSystemInstance() };
+		mLight = CreateSharedPointer<HLight>(GetGraphicSystemInstance(), 10.0f);
+		//mModel = CreateScopedPointer<HModel>(GetGraphicSystemInstance(), "Assets\\SCPPolip_QUAD\\SCPPolip_QUAD.fbx");
+
+		mIsRun = true;
 
 		while (mIsRun)
 		{
@@ -85,9 +81,66 @@ namespace Howlite {
 
 			graphicSystem.BeginFrame(HColor::DarkGray);
 
-			light.Bind(GetGraphicSystemInstance());
-			cube.Draw(GetGraphicSystemInstance());
-			light.Draw(GetGraphicSystemInstance());
+			mLight->Bind(GetGraphicSystemInstance());
+			//mModel->Draw(GetGraphicSystemInstance());
+			mLight->Draw(GetGraphicSystemInstance());
+
+			// UI Drawing Pass
+			if (mUISystem->IsEnabled())
+			{
+				mUISystem->BeginFrame();
+
+				static bool lightWindowIsOpen = false;
+				static bool cameraWindowIsOpen = false;
+				static bool demoWindowIsOpen = false;
+
+				// =========================================================================
+				const ImGuiDockNodeFlags dockspaceFlags = ImGuiDockNodeFlags_NoDockingInCentralNode | ImGuiDockNodeFlags_PassthruCentralNode;
+				const ImGuiWindowFlags windowFlags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoBackground |
+					ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize |
+					ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
+
+				ImGuiViewport* viewport = ImGui::GetMainViewport();
+				ImGui::SetNextWindowPos(viewport->GetWorkPos());
+				ImGui::SetNextWindowSize(viewport->GetWorkSize());
+				ImGui::SetNextWindowViewport(viewport->ID);
+
+				ImGui::Begin("DockSpace Demo", (bool*)nullptr, windowFlags);
+
+				// DockSpace
+				ImGui::DockSpace(ImGui::GetID("HowliteDockspace"), ImVec2(0.0f, 0.0f), dockspaceFlags);
+
+				// MenuBar
+				if (ImGui::BeginMenuBar())
+				{
+					// File Menu
+					if (ImGui::BeginMenu("File"))
+					{
+						if (ImGui::MenuItem("Exit")) mIsRun = false;
+						ImGui::EndMenu();
+					}
+
+					// Window Menu
+					if (ImGui::BeginMenu("Window"))
+					{
+						ImGui::MenuItem("Light", nullptr, &lightWindowIsOpen);
+						ImGui::MenuItem("Camera", nullptr, &cameraWindowIsOpen);
+						ImGui::MenuItem("ImGui Demo", nullptr, &demoWindowIsOpen);
+						ImGui::EndMenu();
+					}
+
+					ImGui::EndMenuBar();
+				}
+
+				ImGui::End();
+
+				if (lightWindowIsOpen) mLight->DrawUIWindow(&lightWindowIsOpen);
+				if (cameraWindowIsOpen) mCamera->DrawUIWindow(&cameraWindowIsOpen);
+				if (demoWindowIsOpen) ImGui::ShowDemoWindow(&demoWindowIsOpen);
+				// =========================================================================
+
+				mUISystem->EndFrame();
+			}
 
 			graphicSystem.EndFrame(mVSyncIsEnabled);
 		}
@@ -115,7 +168,8 @@ namespace Howlite {
 
 	HUISystem& HEngine::GetUISystemInstance()
 	{
-		return mGraphicSystem->GetUISystemInstance();
+		H_ASSERT(mUISystem != nullptr, "Failed to get UI system instance.")
+		return *mUISystem;
 	}
 
 	HCamera& HEngine::GetCameraInstance()
@@ -128,7 +182,9 @@ namespace Howlite {
 	{
 		if (Event.GetKey() == VK_ESCAPE)
 		{
-			mIsRun = false;
+			HUISystem& uiSystem = GetUISystemInstance();
+			const bool isEnabled = !uiSystem.IsEnabled();
+			uiSystem.SetIsEnabled(isEnabled);
 			return true;
 		}
 		return false;
@@ -139,13 +195,13 @@ namespace Howlite {
 		const HInputSystem& inputSystem = GetInputSystemInstance();
 		const HInputSystem::HPoint& delta = Event.GetPoint();
 		HCamera& camera = GetCameraInstance();
-		if(inputSystem.IsKeyPressed(VK_MENU))
+		if (inputSystem.IsKeyPressed(VK_CONTROL))
 		{
-			if(inputSystem.IsLeftMouseButtonPressed())
+			if (inputSystem.IsLeftMouseButtonPressed())
 			{
 				camera.Rotate((float)delta.Y, (float)delta.X);
 			}
-			else if(inputSystem.IsRightMouseButtonPressed())
+			else if (inputSystem.IsRightMouseButtonPressed())
 			{
 				camera.Translate((float)delta.Y);
 			}
@@ -167,7 +223,7 @@ namespace Howlite {
 	{
 		const float width = static_cast<float>(Event.GetWidth());
 		const float height = static_cast<float>(Event.GetHeight());
-		GetCameraInstance().SetProjectionMatrix(DirectX::XMMatrixPerspectiveLH(1.0f, height / width, 0.5f, 100.0f));
+		GetCameraInstance().SetProjectionMatrix(DirectX::XMMatrixPerspectiveLH(1.0f, height / width, 0.5f, 2000.0f));
 		GetGraphicSystemInstance().ResizeBuffers(Event.GetWidth(), Event.GetHeight());
 		return true;
 	}
