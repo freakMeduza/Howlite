@@ -1,9 +1,9 @@
 #include "HowlitePCH.h"
 #include "Cube.h"
-#include "BindableCommon.h"
 #include "Engine/Engine.h"
 #include "Engine/Window.h"
 #include "UI/UISystem.h"
+#include "BindableCommon.h"
 
 namespace {
 	void Transform(DirectX::FXMMATRIX Matrix, Howlite::HBuffer& Buffer)

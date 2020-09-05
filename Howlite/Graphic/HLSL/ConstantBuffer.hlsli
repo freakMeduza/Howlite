@@ -3,7 +3,6 @@ cbuffer TransformBuffer : register(b0)
     matrix ModelMatrix;
     matrix ViewMatrix;
     matrix ProjectionMatrix;
-    float3 CameraPosition;
 };
 
 cbuffer LightBuffer : register(b1)
@@ -21,4 +20,11 @@ cbuffer MaterialBuffer : register(b2)
     float3 MaterialColor;
     float MaterialSpecularPower;
     float MaterialSpecularIntensity;
+    bool DiffuseMapEnabled;
+    bool NormalMapEnabled;
 };
+
+cbuffer CameraBuffer : register(b3)
+{
+    float3 CameraPosition;
+}

@@ -118,6 +118,7 @@
     <ClCompile Include="Graphic\Node.cpp" />
     <ClCompile Include="Graphic\PixelShader.cpp" />
     <ClCompile Include="Graphic\Sampler.cpp" />
+    <ClCompile Include="Graphic\ShaderTable.cpp" />
     <ClCompile Include="Graphic\Sphere.cpp" />
     <ClCompile Include="Graphic\Texture.cpp" />
     <ClCompile Include="Graphic\Topology.cpp" />
@@ -131,7 +132,6 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">HowlitePCH.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="Input\InputSystem.cpp" />
-    <ClCompile Include="Shader\ShaderTable.cpp" />
     <ClCompile Include="UI\Imgui\imgui.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
@@ -188,6 +188,7 @@
     <ClInclude Include="Graphic\Node.h" />
     <ClInclude Include="Graphic\PixelShader.h" />
     <ClInclude Include="Graphic\Sampler.h" />
+    <ClInclude Include="Graphic\ShaderTable.h" />
     <ClInclude Include="Graphic\Sphere.h" />
     <ClInclude Include="Graphic\Texture.h" />
     <ClInclude Include="Graphic\Topology.h" />
@@ -197,7 +198,6 @@
     <ClInclude Include="HowlitePCH.h" />
     <ClInclude Include="Input\InputSystem.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="Shader\ShaderTable.h" />
     <ClInclude Include="UI\Imgui\imconfig.h" />
     <ClInclude Include="UI\Imgui\imgui.h" />
     <ClInclude Include="UI\Imgui\imgui_impl_dx11.h" />
@@ -215,37 +215,26 @@
     <Image Include="Resource\Icons\icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Shader\Phong_PS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="Shader\Phong_VS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="Shader\Solid_PS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="Shader\Texture_VS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0_level_9_3</ShaderModel>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0_level_9_3</ShaderModel>
-    </FxCompile>
-    <FxCompile Include="Shader\Texture_PS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0_level_9_3</ShaderModel>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0_level_9_3</ShaderModel>
-    </FxCompile>
-    <FxCompile Include="Shader\Solid_VS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
+    <None Include="Graphic\HLSL\ConstantBuffer.hlsli" />
+    <None Include="Graphic\HLSL\Texture.hlsli" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shader\ConstantBuffer.hlsli" />
+    <FxCompile Include="Graphic\HLSL\PhongPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Graphic\HLSL\PhongVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Graphic\HLSL\SolidPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Graphic\HLSL\SolidVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

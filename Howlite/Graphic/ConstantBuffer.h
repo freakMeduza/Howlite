@@ -8,14 +8,19 @@ namespace Howlite {
 	{
 		Transform,
 		Light,
-		Material
+		Material,
+		Camera
 	};
 
-	struct HTransformData {
-	
+	struct HTransformData
+	{
+		DirectX::XMMATRIX ModelMatrix;
+		DirectX::XMMATRIX ViewMatrix;
+		DirectX::XMMATRIX ProjectionMatrix;
 	};
 
-	struct HLightData {
+	struct HLightData
+	{
 		alignas(16) DirectX::XMFLOAT3 Position;
 		alignas(16) DirectX::XMFLOAT3 Color;
 		float Intencity;
@@ -24,8 +29,18 @@ namespace Howlite {
 		float Kq;
 	};
 
-	struct HMaterialData {
+	struct HMaterialData
+	{
+		alignas(16) DirectX::XMFLOAT3 Color;
+		float SpecularIntensity;
+		float SpecularPower;
+		BOOL DiffuseMapEnabled = FALSE;
+		BOOL NormalMapEnabled = FALSE;
+	};
 
+	struct HCameraData
+	{
+		alignas(16) DirectX::XMFLOAT3 Position;
 	};
 
 	template<typename T>

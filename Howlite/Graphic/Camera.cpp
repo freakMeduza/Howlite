@@ -8,10 +8,15 @@
 
 namespace Howlite {
 
-	HCamera::HCamera(const DirectX::XMMATRIX& ProjectionMatrix) :
+	HCamera::HCamera(HGraphicSystem& GraphicSystem, const DirectX::XMMATRIX& ProjectionMatrix) :
 		mProjectionMatrix{ ProjectionMatrix }
 	{
 		OnReset();
+
+		HCameraData data;
+		data.Position = mPosition;
+
+		mCameraBuffer = CreateSharedPointer<HPixelConstantBuffer<HCameraData>>(GraphicSystem, data, EConstantBufferSlot::Camera);
 	}
 
 	void HCamera::Translate(const float Delta)
@@ -50,6 +55,14 @@ namespace Howlite {
 	const DirectX::XMFLOAT3 HCamera::GetPosition() const noexcept
 	{
 		return mPosition;
+	}
+
+	void HCamera::Bind(HGraphicSystem& GraphicSystem) const
+	{
+		HCameraData data;
+		data.Position = mPosition;
+		mCameraBuffer->Bind(GraphicSystem);
+		mCameraBuffer->Update(GraphicSystem, data);
 	}
 
 	void HCamera::DrawUIWindow(bool* IsOpen) noexcept

@@ -38,10 +38,9 @@ namespace Howlite {
 		const XMMATRIX& modelMatrix = mParent.GetTransform();
 		const XMMATRIX& viewMatrix = camera.GetViewMatrix();
 		const XMMATRIX& projectionMatrix = camera.GetProjectionMatrix();
-		const XMFLOAT3& position = camera.GetPosition();
-		mBufferPS->Update(GraphicSystem, TransformBuffer{ XMMatrixTranspose(modelMatrix), XMMatrixTranspose(viewMatrix), XMMatrixTranspose(projectionMatrix), position });
+		mBufferPS->Update(GraphicSystem, TransformBuffer{ XMMatrixTranspose(modelMatrix), XMMatrixTranspose(viewMatrix), XMMatrixTranspose(projectionMatrix) });
 		mBufferPS->Bind(GraphicSystem);
-		mBufferVS->Update(GraphicSystem, TransformBuffer{ XMMatrixTranspose(modelMatrix), XMMatrixTranspose(viewMatrix), XMMatrixTranspose(projectionMatrix), position });
+		mBufferVS->Update(GraphicSystem, TransformBuffer{ XMMatrixTranspose(modelMatrix), XMMatrixTranspose(viewMatrix), XMMatrixTranspose(projectionMatrix) });
 		mBufferVS->Bind(GraphicSystem);
 	}
 

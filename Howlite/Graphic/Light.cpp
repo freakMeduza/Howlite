@@ -31,8 +31,8 @@ namespace Howlite {
 	{
 		mMesh->SetPosition(mLightData.Position);
 		mMesh->SetColor(HColor{ mLightData.Color });
-		mLightBuffer->Update(GraphicSystem, mLightData);
 		mLightBuffer->Bind(GraphicSystem);
+		mLightBuffer->Update(GraphicSystem, mLightData);
 	}
 
 	void HLight::DrawUIWindow(bool* IsOpen) noexcept

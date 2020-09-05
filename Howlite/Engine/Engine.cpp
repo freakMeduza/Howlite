@@ -16,7 +16,6 @@
 #include "Common/UUID.h"
 #include "Common/Image.h"
 #include "Common/String.h"
-#include "Graphic/BindableCommon.h"
 
 namespace {
 	// TODO: replace with lua scripting settings
@@ -52,7 +51,7 @@ namespace Howlite {
 		const float width = static_cast<float>(GetWindowInstance().GetWidth());
 		const float height = static_cast<float>(GetWindowInstance().GetHeight());
 
-		mCamera = CreateScopedPointer<HCamera>(DirectX::XMMatrixPerspectiveLH(1.0f, height / width, 0.5f, 2000.0f));
+		mCamera = CreateScopedPointer<HCamera>(*mGraphicSystem, DirectX::XMMatrixPerspectiveLH(1.0f, height / width, 0.5f, 2000.0f));
 	}
 
 	HEngine::~HEngine()
@@ -71,7 +70,7 @@ namespace Howlite {
 		HGraphicSystem& graphicSystem = GetGraphicSystemInstance();
 
 		mLight = CreateSharedPointer<HLight>(GetGraphicSystemInstance(), 10.0f);
-		//mModel = CreateScopedPointer<HModel>(GetGraphicSystemInstance(), "Assets\\SCPPolip_QUAD\\SCPPolip_QUAD.fbx");
+		mModel = CreateScopedPointer<HModel>(GetGraphicSystemInstance(), "Assets\\monster\\monster.obj");
 
 		mIsRun = true;
 
@@ -82,7 +81,9 @@ namespace Howlite {
 			graphicSystem.BeginFrame(HColor::DarkGray);
 
 			mLight->Bind(GetGraphicSystemInstance());
-			//mModel->Draw(GetGraphicSystemInstance());
+			mCamera->Bind(GetGraphicSystemInstance());
+			mModel->Bind(GetGraphicSystemInstance());
+			mModel->Draw(GetGraphicSystemInstance());
 			mLight->Draw(GetGraphicSystemInstance());
 
 			// UI Drawing Pass
@@ -92,6 +93,7 @@ namespace Howlite {
 
 				static bool lightWindowIsOpen = false;
 				static bool cameraWindowIsOpen = false;
+				static bool materialWindowIsOpen = false;
 				static bool demoWindowIsOpen = false;
 
 				// =========================================================================
@@ -125,6 +127,7 @@ namespace Howlite {
 					{
 						ImGui::MenuItem("Light", nullptr, &lightWindowIsOpen);
 						ImGui::MenuItem("Camera", nullptr, &cameraWindowIsOpen);
+						ImGui::MenuItem("Material", nullptr, &materialWindowIsOpen);
 						ImGui::MenuItem("ImGui Demo", nullptr, &demoWindowIsOpen);
 						ImGui::EndMenu();
 					}
@@ -136,6 +139,7 @@ namespace Howlite {
 
 				if (lightWindowIsOpen) mLight->DrawUIWindow(&lightWindowIsOpen);
 				if (cameraWindowIsOpen) mCamera->DrawUIWindow(&cameraWindowIsOpen);
+				if (materialWindowIsOpen) mModel->DrawUIWindow(&materialWindowIsOpen);
 				if (demoWindowIsOpen) ImGui::ShowDemoWindow(&demoWindowIsOpen);
 				// =========================================================================
 

@@ -104,9 +104,6 @@
     <ClCompile Include="Graphic\Model.cpp">
       <Filter>Graphic\Drawable</Filter>
     </ClCompile>
-    <ClCompile Include="Shader\ShaderTable.cpp">
-      <Filter>Shader</Filter>
-    </ClCompile>
     <ClCompile Include="UI\UISystem.cpp">
       <Filter>UI</Filter>
     </ClCompile>
@@ -131,6 +128,9 @@
     <ClCompile Include="Common\UUID.cpp">
       <Filter>Common</Filter>
     </ClCompile>
+    <ClCompile Include="Graphic\ShaderTable.cpp">
+      <Filter>Graphic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -144,9 +144,6 @@
     </Filter>
     <Filter Include="Common">
       <UniqueIdentifier>{086d85d8-7ae0-4db7-8c4a-d2c8996a124e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shader">
-      <UniqueIdentifier>{96d9bbf0-3185-4964-97b6-ebfaeae8c0ac}</UniqueIdentifier>
     </Filter>
     <Filter Include="Graphic">
       <UniqueIdentifier>{d9253ca7-4ab5-410a-ac28-f9c278db2cc8}</UniqueIdentifier>
@@ -166,20 +163,14 @@
     <Filter Include="Graphic\Drawable\Geometry">
       <UniqueIdentifier>{d524e6a7-a5ba-4682-af96-9acdc9d0b35c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shader\HLSL">
-      <UniqueIdentifier>{037f0345-8acc-4455-9400-80f5f33d66ee}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shader\HLSL\VS">
-      <UniqueIdentifier>{beb46bb1-97d0-4e04-bb81-d3e9ee6ffee4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shader\HLSL\PS">
-      <UniqueIdentifier>{92e9b9c4-df75-432b-a702-550cb8ab0a81}</UniqueIdentifier>
-    </Filter>
     <Filter Include="UI">
       <UniqueIdentifier>{a014851b-fe19-4551-86a5-524a8fbf0052}</UniqueIdentifier>
     </Filter>
     <Filter Include="UI\Imgui">
       <UniqueIdentifier>{5d347265-889e-4348-9494-de383b536eb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphic\HLSL">
+      <UniqueIdentifier>{81affb1a-f65d-4d74-b79f-d011b60a371f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -225,9 +216,6 @@
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="Graphic\Bindable.h">
-      <Filter>Graphic\Bindable</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphic\BindableCommon.h">
       <Filter>Graphic\Bindable</Filter>
     </ClInclude>
     <ClInclude Include="Graphic\ConstantBuffer.h">
@@ -290,9 +278,6 @@
     <ClInclude Include="Graphic\Model.h">
       <Filter>Graphic\Drawable</Filter>
     </ClInclude>
-    <ClInclude Include="Shader\ShaderTable.h">
-      <Filter>Shader</Filter>
-    </ClInclude>
     <ClInclude Include="UI\UISystem.h">
       <Filter>UI</Filter>
     </ClInclude>
@@ -323,6 +308,12 @@
     <ClInclude Include="Common\UUID.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="Graphic\ShaderTable.h">
+      <Filter>Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic\BindableCommon.h">
+      <Filter>Graphic\Bindable</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Howlite.rc" />
@@ -331,28 +322,25 @@
     <Image Include="Resource\Icons\icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Shader\Phong_PS.hlsl">
-      <Filter>Shader\HLSL\PS</Filter>
-    </FxCompile>
-    <FxCompile Include="Shader\Solid_PS.hlsl">
-      <Filter>Shader\HLSL\PS</Filter>
-    </FxCompile>
-    <FxCompile Include="Shader\Texture_PS.hlsl">
-      <Filter>Shader\HLSL\PS</Filter>
-    </FxCompile>
-    <FxCompile Include="Shader\Phong_VS.hlsl">
-      <Filter>Shader\HLSL\VS</Filter>
-    </FxCompile>
-    <FxCompile Include="Shader\Texture_VS.hlsl">
-      <Filter>Shader\HLSL\VS</Filter>
-    </FxCompile>
-    <FxCompile Include="Shader\Solid_VS.hlsl">
-      <Filter>Shader\HLSL\VS</Filter>
-    </FxCompile>
+    <None Include="Graphic\HLSL\ConstantBuffer.hlsli">
+      <Filter>Graphic\HLSL</Filter>
+    </None>
+    <None Include="Graphic\HLSL\Texture.hlsli">
+      <Filter>Graphic\HLSL</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shader\ConstantBuffer.hlsli">
-      <Filter>Shader\HLSL</Filter>
-    </None>
+    <FxCompile Include="Graphic\HLSL\SolidVS.hlsl">
+      <Filter>Graphic\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Graphic\HLSL\SolidPS.hlsl">
+      <Filter>Graphic\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Graphic\HLSL\PhongVS.hlsl">
+      <Filter>Graphic\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Graphic\HLSL\PhongPS.hlsl">
+      <Filter>Graphic\HLSL</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

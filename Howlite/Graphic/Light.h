@@ -27,7 +27,7 @@ namespace Howlite {
 		 * @param GraphicSystem 
 		 */
 		void Bind(HGraphicSystem& GraphicSystem) const;
-
+		
 		/**
 		 * Draw UI Window
 		 * @param IsOpen 

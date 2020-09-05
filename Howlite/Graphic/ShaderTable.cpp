@@ -27,10 +27,10 @@ namespace Howlite {
 
 	HShaderTable::HShaderTable()
 	{
-		mTable.insert({ EShaderType::Phong_VS, HString::ToWideString("Phong_VS.cso") });
-		mTable.insert({ EShaderType::Phong_PS, HString::ToWideString("Phong_PS.cso") });
-		mTable.insert({ EShaderType::Solid_VS, HString::ToWideString("Solid_VS.cso") });
-		mTable.insert({ EShaderType::Solid_PS, HString::ToWideString("Solid_PS.cso") });
+		mTable.insert({ EShaderType::Phong_VS, HString::ToWideString("PhongVS.cso") });
+		mTable.insert({ EShaderType::Phong_PS, HString::ToWideString("PhongPS.cso") });
+		mTable.insert({ EShaderType::Solid_VS, HString::ToWideString("SolidVS.cso") });
+		mTable.insert({ EShaderType::Solid_PS, HString::ToWideString("SolidPS.cso") });
 	}
 
 	HShaderTable::~HShaderTable()

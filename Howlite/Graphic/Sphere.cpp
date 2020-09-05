@@ -5,7 +5,7 @@
 #include "Common/String.h"
 #include "Engine/Engine.h"
 #include "Engine/Window.h"
-#include "Shader/ShaderTable.h"
+#include "ShaderTable.h"
 
 namespace {
 	[[maybe_unused]] static void Transform(DirectX::FXMMATRIX Matrix, Howlite::HBuffer& Buffer)
@@ -118,7 +118,10 @@ namespace Howlite {
 		AddBind(CreateSharedPointer<HPixelShader>(GraphicSystem, HShaderTable::GetInstance()[EShaderType::Solid_PS]));
 		AddBind(CreateSharedPointer<HTransformBuffer>(GraphicSystem, *this, EConstantBufferSlot::Transform));
 		AddBind(CreateSharedPointer<HTopology>(GraphicSystem, D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
-		AddBind(CreateSharedPointer<HPixelConstantBuffer<DirectX::XMFLOAT4>>(GraphicSystem, mColor, EConstantBufferSlot::Material));
+		//AddBind(CreateSharedPointer<HPixelConstantBuffer<DirectX::XMFLOAT4>>(GraphicSystem, mColor, EConstantBufferSlot::Material));
+		HMaterialData data;
+		data.Color = { mColor.x, mColor.y, mColor.z };
+		AddBind(CreateSharedPointer<HPixelConstantBuffer<HMaterialData>>(GraphicSystem, data, EConstantBufferSlot::Material));
 
 		if (auto vertexShader = QueryBindable<HVertexShader>())
 		{
@@ -134,10 +137,12 @@ namespace Howlite {
 	void HSphere::SetColor(const HColor& Color) noexcept
 	{
 		mColor = Color.GetColorFloat4();
+		HMaterialData data;
+		data.Color = Color.GetColorFloat3();
 
-		if (auto constantBuffer = QueryBindable<HPixelConstantBuffer<DirectX::XMFLOAT4>>())
+		if (auto constantBuffer = QueryBindable<HPixelConstantBuffer<HMaterialData>>())
 		{
-			constantBuffer->Update(HEngine::GetInstance().GetGraphicSystemInstance(), mColor);
+			constantBuffer->Update(HEngine::GetInstance().GetGraphicSystemInstance(), data);
 		}
 	}
 

@@ -17,7 +17,7 @@ namespace Howlite {
 	{
 		using SystemType = DirectX::XMFLOAT2;
 		static constexpr DXGI_FORMAT DXGIFormat = DXGI_FORMAT_R32G32_FLOAT;
-		static constexpr const char* Semantic = "Position";
+		static constexpr const char* Semantic = "POSITION";
 		static constexpr const char* Code = "P2";
 	};
 
@@ -25,7 +25,7 @@ namespace Howlite {
 	{
 		using SystemType = DirectX::XMFLOAT3;
 		static constexpr DXGI_FORMAT DXGIFormat = DXGI_FORMAT_R32G32B32_FLOAT;
-		static constexpr const char* Semantic = "Position";
+		static constexpr const char* Semantic = "POSITION";
 		static constexpr const char* Code = "P3";
 	};
 
@@ -33,7 +33,7 @@ namespace Howlite {
 	{
 		using SystemType = DirectX::XMFLOAT3;
 		static constexpr DXGI_FORMAT DXGIFormat = DXGI_FORMAT_R32G32B32_FLOAT;
-		static constexpr const char* Semantic = "Normal";
+		static constexpr const char* Semantic = "NORMAL";
 		static constexpr const char* Code = "N3";
 	};
 
@@ -49,7 +49,7 @@ namespace Howlite {
 	{
 		using SystemType = DirectX::XMFLOAT3;
 		static constexpr DXGI_FORMAT DXGIFormat = DXGI_FORMAT_R32G32B32_FLOAT;
-		static constexpr const char* Semantic = "Color";
+		static constexpr const char* Semantic = "COLOR";
 		static constexpr const char* Code = "C3";
 	};
 
@@ -57,7 +57,7 @@ namespace Howlite {
 	{
 		using SystemType = DirectX::XMFLOAT4;
 		static constexpr DXGI_FORMAT DXGIFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
-		static constexpr const char* Semantic = "Color";
+		static constexpr const char* Semantic = "COLOR";
 		static constexpr const char* Code = "C4";
 	};
 

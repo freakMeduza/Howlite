@@ -3,7 +3,8 @@
 
 namespace Howlite {
 
-	HTexture::HTexture(HGraphicSystem& GraphicSystem, SharedPointer<HImage> Image)
+	HTexture::HTexture(HGraphicSystem& GraphicSystem, SharedPointer<HImage> Image, ETextureSlot Slot) :
+		mSlot{ Slot }
 	{
 		H_DXGI_INFOQUEUE(GraphicSystem)
 
@@ -53,7 +54,7 @@ namespace Howlite {
 
 	void HTexture::Bind(HGraphicSystem& GraphicSystem) const noexcept
 	{
-		GetContext(GraphicSystem).PSSetShaderResources(0u, 1u, mResource.GetAddressOf());
+		GetContext(GraphicSystem).PSSetShaderResources(static_cast<UINT>(mSlot), 1u, mResource.GetAddressOf());
 	}
 
 }

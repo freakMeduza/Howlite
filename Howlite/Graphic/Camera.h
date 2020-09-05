@@ -1,10 +1,12 @@
 #pragma once
 
+#include "ConstantBuffer.h"
+
 namespace Howlite {
 
 	class HCamera {
 	public:
-		HCamera(const DirectX::XMMATRIX& ProjectionMatrix);
+		HCamera(HGraphicSystem& GraphicSystem, const DirectX::XMMATRIX& ProjectionMatrix);
 		virtual ~HCamera() = default;
 
 		/**
@@ -47,6 +49,12 @@ namespace Howlite {
 		const DirectX::XMFLOAT3 GetPosition() const noexcept;
 
 		/**
+		 * Bind Camera Object
+		 * @param GraphicSystem 
+		 */
+		void Bind(HGraphicSystem& GraphicSystem) const;
+
+		/**
 		 * Draw UI Window
 		 * @param IsOpen
 		 * @return
@@ -67,6 +75,8 @@ namespace Howlite {
 		float mRadius;
 		float mSensitivity;
 		float mSpeed;
+
+		mutable SharedPointer<HPixelConstantBuffer<HCameraData>> mCameraBuffer{ nullptr };
 
 	};
 
