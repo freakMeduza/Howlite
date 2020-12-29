@@ -125,14 +125,6 @@ namespace Howlite {
 #define HL_WARN(Format, ...)  { Howlite::SetConsoleColor(Howlite::LogCategory::Warn); printf(Howlite::FormatLogMessage(Format).c_str(), __VA_ARGS__); }
 #define HL_ERROR(Format, ...) { Howlite::SetConsoleColor(Howlite::LogCategory::Error); printf(Howlite::FormatLogMessage(Format).c_str(), __VA_ARGS__); }
 
-// Even if we use WINDOWS_EXPORT_ALL_SYMBOLS in CMakeLists.txt
-// we have to use dllexport/dllimport for shared resources 
-#ifdef HL_EXPORT  
-	#define HL_API __declspec(dllexport)   
-#else  
-	#define HL_API __declspec(dllimport)   
-#endif 
-
 #ifdef _DEBUG
 	#define HL_ASSERT(Condition, Message) \
 	{ \

@@ -4,6 +4,7 @@
 #include "ECS/ComponentManager.h"
 #include "ECS/EntityManager.h"
 #include "ECS/SystemManager.h"
+#include "Graphics/RenderSystem.h"
 
 namespace Howlite {
 
@@ -26,8 +27,13 @@ namespace Howlite {
 		mEntityManager = std::make_unique<EntityManager>();
 		mSystemManager = std::make_unique<SystemManager>();
 
-		return mMemoryManager->Init() && mEventManager->Init() && 
+		const bool isInitialized = mMemoryManager->Init() && mEventManager->Init() && 
 			mComponentManager->Init() && mEntityManager->Init() && mSystemManager->Init();
+
+		mSystemManager->AddSystem<RenderSystem>();
+		mSystemManager->SortSystemPriorityOrder();
+
+		return isInitialized;
 	}
 
 	void Engine::Terminate()

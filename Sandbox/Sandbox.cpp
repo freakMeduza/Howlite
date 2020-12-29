@@ -43,10 +43,7 @@ struct MyComponentEx : public TComponent<MyComponentEx> {
 void test()
 {
 	SystemManager* systemManager = Engine::GetInstance()->GetSystemManager();
-	MySystem* system = systemManager->AddSystem<MySystem>();
-	system = systemManager->AddSystem<MySystem>();
-	system = systemManager->GetSystem<MySystem>();
-	systemManager->SortSystemPriorityOrder();
+	systemManager->AddSystem<MySystem>();
 }
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)

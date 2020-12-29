@@ -7,7 +7,7 @@ namespace Howlite {
 	using TypeId = size_t;
 
 	template<typename ParentType>
-	class HL_API TTypeRegistry {
+	class TTypeRegistry {
 		static TypeId mTypeCount;
 
 	public:

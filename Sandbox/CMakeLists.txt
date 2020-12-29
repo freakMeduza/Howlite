@@ -19,14 +19,5 @@ add_executable(${PROJECT_NAME} WIN32 ${HDRS} ${SRCS})
 
 target_link_libraries(${PROJECT_NAME} HowliteEngine)
 
-# copy engine dll to our executable
-add_custom_command(
-    TARGET ${PROJECT_NAME}
-    POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy
-        $<TARGET_FILE:HowliteEngine>
-        $<TARGET_FILE_DIR:${PROJECT_NAME}>
-)
-
 
 

@@ -7,8 +7,6 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-add_definitions(-DHL_EXPORT)
-
 find_package(DirectX11 REQUIRED)
 
 include_directories(
@@ -24,9 +22,7 @@ message(STATUS "CMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}")
 file(GLOB_RECURSE HDRS "*.h")
 file(GLOB_RECURSE SRCS "*.cpp")
 
-add_library(${PROJECT_NAME} SHARED ${HDRS} ${SRCS})
-
-set_target_properties(${PROJECT_NAME} PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
+add_library(${PROJECT_NAME} STATIC ${HDRS} ${SRCS})
 
 target_link_libraries(${PROJECT_NAME} PUBLIC ${DirectX11_LIBRARIES})
 
