@@ -1,4 +1,7 @@
 #include "Window.h"
+#include "Engine/Engine.h"
+#include "Engine/Event/EventManager.h"
+#include "Engine/Input/InputSystem.h"
 
 namespace Howlite {
 
@@ -106,6 +109,84 @@ namespace Howlite {
 
 		WINDOW_INSTANCE_COUNT++;
 
+		mMessageCallback = [this](HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)->LRESULT 
+		{
+			if (mHandle != hWnd)
+			{
+				return 0;
+			}
+
+			EventManager* eventManager = Engine::GetInstance()->GetEventManager();
+
+			switch (Msg)
+			{
+				case WM_CLOSE:
+				{
+					eventManager->Post<WindowCloseEvent>(mHandle);
+					return 0;
+				}
+				case WM_KEYUP:
+					[[fallthrough]];
+				case WM_SYSKEYUP:
+				{
+					break;
+				}
+				case WM_KEYDOWN:
+					[[fallthrough]];
+				case WM_SYSKEYDOWN:
+				{
+					break;
+				}
+				case WM_MOUSEMOVE:
+				{
+					break;
+				}
+				case WM_LBUTTONDOWN:
+				{
+					break;
+				}
+				case WM_RBUTTONDOWN:
+				{
+					break;
+				}
+				case WM_LBUTTONUP:
+				{
+					break;
+				}
+				case WM_RBUTTONUP:
+				{
+					break;
+				}
+				case WM_MOUSEWHEEL:
+				{
+					break;
+				}
+				case WM_INPUT:
+				{
+					std::vector<uint8_t> buffer;
+
+					UINT size = 0;
+					::GetRawInputData(reinterpret_cast<HRAWINPUT>(lParam), RID_INPUT, nullptr, &size, sizeof(RAWINPUTHEADER));
+					buffer.resize(size);
+					::GetRawInputData(reinterpret_cast<HRAWINPUT>(lParam), RID_INPUT, buffer.data(), &size, sizeof(RAWINPUTHEADER));
+
+					const auto& rawInput = reinterpret_cast<const RAWINPUT&>(*buffer.data());
+
+					if (rawInput.header.dwType == RIM_TYPEMOUSE && (rawInput.data.mouse.lLastX != 0 || rawInput.data.mouse.lLastY != 0))
+					{
+						eventManager->Post<MouseRawInputEvent>(rawInput.data.mouse.lLastX, rawInput.data.mouse.lLastY);
+					}
+
+					break;
+				}
+			}
+
+			return ::DefWindowProc(hWnd, Msg, wParam, lParam);
+		};
+
+		// NOTE: we wanna to immediately notify that window is created
+		Engine::GetInstance()->GetEventManager()->Invoke<WindowCreateEvent>(mHandle, mWidth, mHeight);
+
 		::ShowWindow(mHandle, SW_SHOWDEFAULT);
 		::UpdateWindow(mHandle);
 
@@ -114,6 +195,9 @@ namespace Howlite {
 
 	void Window::Terminate()
 	{
+		// NOTE: we wanna to immediately notify that window is terminated
+		Engine::GetInstance()->GetEventManager()->Invoke<WindowDestroyEvent>(mHandle);
+
 		if (mIsFullScreen)
 		{
 			// Restore the previous video mode (in case we were running in fullscreen)
@@ -134,6 +218,25 @@ namespace Howlite {
 	void Window::SetMessageCallback(MessageCallback&& InMessageCallback)
 	{
 		mMessageCallback = std::move(InMessageCallback);
+	}
+
+	void Window::SetCursor(const bool IsEnabled)
+	{
+		mIsCursorEnabled = IsEnabled;
+
+		if (mIsCursorEnabled)
+		{
+			while (::ShowCursor(TRUE) < 0);
+			RECT rectangle;
+			::GetClientRect(mHandle, &rectangle);
+			::MapWindowPoints(mHandle, nullptr, reinterpret_cast<LPPOINT>(&rectangle), 2);
+			::ClipCursor(&rectangle);
+		}
+		else
+		{
+			while (::ShowCursor(FALSE) >= 0);
+			::ClipCursor(nullptr);
+		}
 	}
 
 	void Window::RegisterWindowClass()

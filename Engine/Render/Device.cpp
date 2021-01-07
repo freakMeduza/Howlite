@@ -1,11 +1,9 @@
-#include "RenderSystem.h"
+#include "Device.h"
 
 namespace Howlite {
 
-	RenderSystem::RenderSystem() : TSystem(Priority::Low)
+	Device::Device()
 	{
-		HL_INFO("Initialize RenderSystem\n");
-
 		D3D_DRIVER_TYPE driverTypeList[]
 		{
 			D3D_DRIVER_TYPE_HARDWARE,
@@ -24,7 +22,7 @@ namespace Howlite {
 		flags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
 
-		HRESULT result = FALSE;
+		HRESULT result;
 		for (auto i = 0; i < ARRAYSIZE(driverTypeList); ++i)
 		{
 			result = D3D11CreateDevice(nullptr, driverTypeList[i], nullptr, flags, featureLevelList,
@@ -33,7 +31,7 @@ namespace Howlite {
 			if (SUCCEEDED(result)) break;
 		}
 
-		HL_ASSERT(SUCCEEDED(result), "Failed to initialize device");
+		HL_ASSERT(mDevice, "Failed to intialize device");
 		// initialize dxgi stuff
 		mDevice->QueryInterface(__uuidof(IDXGIDevice), &mDxgiDevice);
 		mDxgiDevice->GetParent(__uuidof(IDXGIAdapter), &mDxgiAdapter);
@@ -62,21 +60,12 @@ namespace Howlite {
 			HL_ERROR("Failed to load dxgidebug.dll\n");
 		}
 #endif
-	}
-	
-	RenderSystem::~RenderSystem()
-	{
-		HL_INFO("Release RenderSystem\n");
-		
-		mDevice.Reset();
-		mDeviceContext.Reset();
-		mDxgiFactory.Reset();
-		mDxgiAdapter.Reset();
-		mDxgiDevice.Reset();
 
-#ifdef _DEBUG
-		mDxgiInfoQueue.Reset();
-#endif
+	}
+
+	Device::~Device()
+	{
+
 	}
 
 }

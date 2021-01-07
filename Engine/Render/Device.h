@@ -1,26 +1,27 @@
 #pragma once
 
-#include "Engine/ECS/System.h"
+#include "Engine/Platform.h"
 
 namespace Howlite {
 
-	class RenderSystem final : public TSystem<RenderSystem>	{
+	class Device final {
 	public:
-		HL_DISABLE_COPY(RenderSystem);
+		HL_DISABLE_COPY(Device);
 
-		RenderSystem();
-		~RenderSystem();
+		Device();
+		~Device();
 
+		inline D3D_FEATURE_LEVEL GetFeatureLevel() const noexcept { return mFeatureLevel; }
 		inline ID3D11Device* GetDevice() const noexcept { return mDevice.Get(); }
 		inline ID3D11DeviceContext* GetDeviceContext() const noexcept { return mDeviceContext.Get(); }
-		inline D3D_FEATURE_LEVEL GetFeatureLevel() const noexcept { return mFeatureLevel; }
+		inline IDXGIFactory* GetDxgiFactory() const noexcept { return mDxgiFactory.Get(); }
 
 	private:
 		D3D_FEATURE_LEVEL mFeatureLevel = D3D_FEATURE_LEVEL_11_0;
-
+		
 		Microsoft::WRL::ComPtr<ID3D11Device> mDevice = nullptr;
 		Microsoft::WRL::ComPtr<ID3D11DeviceContext> mDeviceContext = nullptr;
-		// dxgi
+		
 		Microsoft::WRL::ComPtr<IDXGIDevice> mDxgiDevice = nullptr;
 		Microsoft::WRL::ComPtr<IDXGIAdapter> mDxgiAdapter = nullptr;
 		Microsoft::WRL::ComPtr<IDXGIFactory> mDxgiFactory = nullptr;

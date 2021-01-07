@@ -51,9 +51,11 @@
 #include <string>
 #include <sstream>
 #include <list>
+#include <array>
 #include <vector>
 #include <unordered_map>
 #include <ctime>
+#include <bitset>
 
 // Direct3D 
 #include <d3d11.h>

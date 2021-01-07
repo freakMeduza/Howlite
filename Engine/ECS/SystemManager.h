@@ -47,8 +47,6 @@ namespace Howlite {
 			return nullptr;
 		}
 
-		void SortSystemPriorityOrder();
-
 	private:
 		LinearAllocator mAllocator;
 		std::vector<ISystem*> mSystemPriorityOrder;

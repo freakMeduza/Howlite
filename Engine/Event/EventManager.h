@@ -44,13 +44,13 @@ namespace Howlite {
 
 			if (auto it = mEventCallbackRegistry.find(eventTypeId); it != mEventCallbackRegistry.end())
 			{
-				if (auto remove = std::find_if(it->second.begin(), it->second.end(), [&InCallbackName](const std::pair<std::string, EventCallback>& Other)
+				std::vector<std::pair<std::string, EventCallback>>& eventCallbackList = it->second;
+
+				eventCallbackList.erase(std::remove_if(eventCallbackList.begin(), eventCallbackList.end(), [&InCallbackName](const std::pair<std::string, EventCallback>& Other)
 				{
 					return Other.first == InCallbackName;
-				}))
-				{
-					it->second.erase(remove);
-				}
+				}),
+					eventCallbackList.end());
 			}
 		}
 
