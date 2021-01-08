@@ -26,3 +26,5 @@ add_library(${PROJECT_NAME} STATIC ${HDRS} ${SRCS})
 
 target_link_libraries(${PROJECT_NAME} PUBLIC ${DirectX11_LIBRARIES})
 
+add_subdirectory(Shaders)
+add_dependencies(HowliteEngine HowliteShaders)

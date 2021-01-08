@@ -96,8 +96,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	vertexBuffer = std::make_shared<VertexBuffer>(device, vertexList);
 	indexBuffer = std::make_shared<IndexBuffer>(device, indexList);
 
-	auto vertexShaderByteCode = renderSystem->CompileShader(L"test_vs.hlsl", "main", "vs_5_0");
-	auto pixelShaderByteCode = renderSystem->CompileShader(L"test_ps.hlsl", "main", "ps_5_0");
+	auto vertexShaderByteCode = renderSystem->ReadShader(L"..\\Shaders\\test_VS.cso");
+	auto pixelShaderByteCode = renderSystem->ReadShader(L"..\\Shaders\\test_PS.cso");
 	HL_ASSERT(vertexShaderByteCode, "Failed to compile vertex shader");
 	HL_ASSERT(pixelShaderByteCode, "Failed to compile pixel shader");
 	vertexShader = std::make_shared<VertexShader>(device, vertexShaderByteCode);
