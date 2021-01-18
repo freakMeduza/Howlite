@@ -1,6 +1,7 @@
 #include "Window.h"
 #include "Engine/Engine.h"
 #include "Engine/Event/EventManager.h"
+#include "Engine/ECS/SystemManager.h"
 #include "Engine/Input/InputSystem.h"
 
 namespace Howlite {
@@ -120,11 +121,49 @@ namespace Howlite {
 
 			switch (Msg)
 			{
+				// NOTE: Window events
 				case WM_CLOSE:
 				{
 					eventManager->Post<WindowCloseEvent>(mHandle);
 					return 0;
 				}
+				case WM_SETFOCUS:
+				{
+					eventManager->Post<WindowSetFocusEvent>(mHandle);
+					break;
+				}
+				case WM_KILLFOCUS:
+				{
+					eventManager->Post<WindowKillFocusEvent>(mHandle);
+					break;
+				}
+				case WM_SIZE:
+				{
+					if (wParam == SIZE_MINIMIZED)
+					{
+						eventManager->Post<WindowMinimizedEvent>(mHandle);
+						break;
+					}
+					else if (wParam == SIZE_MAXIMIZED)
+					{
+						eventManager->Post<WindowMaximizedEvent>(mHandle);
+						break;
+					}
+					else
+					{
+						mWidth = (UINT)LOWORD(lParam);
+						mHeight = (UINT)HIWORD(lParam);
+						eventManager->Post<WindowSizeEvent>(mHandle, mWidth, mHeight);
+						break;
+					}
+				}
+				case WM_SETCURSOR:
+				{
+					HCURSOR cursor = ::LoadCursor(nullptr, IDC_ARROW);
+					::SetCursor(cursor);
+					break;
+				}
+				// NOTE: Keyboard events
 				case WM_KEYUP:
 					[[fallthrough]];
 				case WM_SYSKEYUP:
@@ -139,6 +178,46 @@ namespace Howlite {
 				}
 				case WM_MOUSEMOVE:
 				{
+					const POINTS points = MAKEPOINTS(lParam);
+					
+					const auto& mouse = Engine::GetInstance()->GetSystemManager()->GetSystem<InputSystem>()->GetMouse();
+
+					if (!mIsCursorEnabled)
+					{
+						if (!mouse.IsInWindow())
+						{
+							::SetCapture(mHandle);
+							eventManager->Post<MouseEnterEvent>(mHandle);
+							while (::ShowCursor(FALSE) >= 0);
+						}
+						break;
+					}
+
+					const auto& x = points.x;
+					const auto& y = points.y;
+
+					if (x >= 0 && x < static_cast<int>(mWidth) && y >= 0 && y < static_cast<int>(mHeight))
+					{
+						eventManager->Post<MouseMoveEvent>(x, y);
+
+						if (!mouse.IsInWindow())
+						{
+							::SetCapture(mHandle);
+							eventManager->Post<MouseEnterEvent>(mHandle);
+						}
+					}
+					else
+					{
+						if (wParam & (MK_LBUTTON | MK_RBUTTON))
+						{
+							eventManager->Post<MouseMoveEvent>(x, y);
+						}
+						else
+						{
+							::ReleaseCapture();
+							eventManager->Post<MouseLeaveEvent>(mHandle);
+						}
+					}
 					break;
 				}
 				case WM_LBUTTONDOWN:
@@ -220,22 +299,22 @@ namespace Howlite {
 		mMessageCallback = std::move(InMessageCallback);
 	}
 
-	void Window::SetCursor(const bool IsEnabled)
+	void Window::SetCursorEnable(const bool IsEnabled)
 	{
 		mIsCursorEnabled = IsEnabled;
 
 		if (mIsCursorEnabled)
 		{
 			while (::ShowCursor(TRUE) < 0);
-			RECT rectangle;
-			::GetClientRect(mHandle, &rectangle);
-			::MapWindowPoints(mHandle, nullptr, reinterpret_cast<LPPOINT>(&rectangle), 2);
-			::ClipCursor(&rectangle);
+			::ClipCursor(nullptr);
 		}
 		else
 		{
 			while (::ShowCursor(FALSE) >= 0);
-			::ClipCursor(nullptr);
+			RECT rectangle;
+			::GetClientRect(mHandle, &rectangle);
+			::MapWindowPoints(mHandle, nullptr, reinterpret_cast<LPPOINT>(&rectangle), 2);
+			::ClipCursor(&rectangle);
 		}
 	}
 

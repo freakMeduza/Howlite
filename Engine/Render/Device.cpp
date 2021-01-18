@@ -40,10 +40,10 @@ namespace Howlite {
 #ifdef _DEBUG
 		typedef HRESULT(WINAPI* LPDXGIGETDEBUGINTERFACE)(REFIID, void**);
 
-		HMODULE dxgidebug = LoadLibraryEx("dxgidebug.dll", nullptr, LOAD_LIBRARY_SEARCH_SYSTEM32);
+		HMODULE dxgidebug = ::LoadLibraryEx("dxgidebug.dll", nullptr, LOAD_LIBRARY_SEARCH_SYSTEM32);
 		if (dxgidebug)
 		{
-			auto dxgiGetDebugInterface = reinterpret_cast<LPDXGIGETDEBUGINTERFACE>(reinterpret_cast<void*>(GetProcAddress(dxgidebug, "DXGIGetDebugInterface")));
+			auto dxgiGetDebugInterface = reinterpret_cast<LPDXGIGETDEBUGINTERFACE>(reinterpret_cast<void*>(::GetProcAddress(dxgidebug, "DXGIGetDebugInterface")));
 
 			if (SUCCEEDED(dxgiGetDebugInterface(IID_PPV_ARGS(mDxgiInfoQueue.GetAddressOf()))))
 			{

@@ -65,6 +65,17 @@ namespace Howlite {
 		}
 	}
 
+	SwapChain* RenderSystem::GetSwapChain(HWND InWindowHandle) const
+	{
+		if (auto it = mSwapChainRegistry.find(InWindowHandle); it != mSwapChainRegistry.end())
+		{
+			return it->second.get();
+		}
+
+		HL_ERROR("Swap chain for window %p doesn't exists\n", InWindowHandle);
+		return nullptr;
+	}
+
 	ID3DBlob* RenderSystem::ReadShader(const wchar_t* InFileName)
 	{
 		ID3DBlob* shaderBlob = nullptr;

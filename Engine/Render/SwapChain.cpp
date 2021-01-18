@@ -4,7 +4,7 @@
 namespace Howlite {
 
 	SwapChain::SwapChain(const Device* InDevice, HWND InHandle, const uint32_t InWidth, const uint32_t InHeight) :
-		mDevice{ InDevice }
+		mDevice{ InDevice }, mWidth{ InWidth }, mHeight{ InHeight }
 	{
 		// create swapchain
 		DXGI_SWAP_CHAIN_DESC swapChainDesc;

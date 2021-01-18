@@ -14,15 +14,96 @@
 #include <Engine/Render/InputLayout.h>
 #include <Engine/Render/Topology.h>
 #include <Engine/Render/ConstantBuffer.h>
-#include <Engine/Scene/Camera.h>
+#include <Engine/Render/SwapChain.h>
+#include <Engine/Scene/Component/CameraComponent.h>
+#include <Engine/Scene/Component/TransformComponent.h>
 
 #include <utility>
 #include <algorithm>
 
 using namespace Howlite;
 
-struct TickEvent : public TEvent<TickEvent> {};
 struct DrawEvent : public TEvent<DrawEvent> {};
+
+struct TickEvent : public TEvent<TickEvent> 
+{
+	TickEvent(const float InDeltaTime) : mDeltaTime{ InDeltaTime }
+	{
+
+	}
+
+	float mDeltaTime = 0.0f;
+};
+
+class Camera : public TEntity<Camera> {
+public:
+	HL_CLASS_DEFAULT(Camera);
+
+	void SetupCamera(const float InWidth, const float InHeight)
+	{
+		mCameraComponent = Engine::GetInstance()->GetComponentManager()->AddComponent<CameraComponent>(GetEntityId());
+		mTransformComponent = Engine::GetInstance()->GetComponentManager()->AddComponent<TransformComponent>(GetEntityId());
+		HL_ASSERT(mCameraComponent, "Failed to add camera component");
+		HL_ASSERT(mTransformComponent, "Failed to add transform component");
+		mCameraComponent->SetPerspective(45.0f, InWidth / InHeight, 0.1f, 100.0f);
+		mTransformComponent->TranslateZ(3.0f);
+		mPrevMousePosition = Engine::GetInstance()->GetSystemManager()->GetSystem<InputSystem>()->GetMouse().GetPosition();
+	}
+
+	void OnMouseRawInput(const MouseRawInputEvent* InEvent)
+	{
+		InputSystem* inputSystem = Engine::GetInstance()->GetSystemManager()->GetSystem<InputSystem>();
+
+		if (inputSystem->GetKeyboard().IsKeyPressed(VK_LMENU)) // left alt
+		{
+			const auto& mousePosition = inputSystem->GetMouse().GetPosition();
+			
+			const Mouse::Position& offset = { mousePosition.first - mPrevMousePosition.first, mousePosition.second - mPrevMousePosition.second };
+
+			if (inputSystem->GetMouse().IsLeftButtonPressed())
+			{
+				mPitch += InEvent->mDeltaY * mSensitive;
+				mYaw += InEvent->mDeltaX * mSensitive;
+				mPitch = std::clamp(mPitch, 0.99f * -DirectX::XM_PIDIV2, 0.99f * DirectX::XM_PIDIV2);
+				mYaw = std::clamp(mYaw, 0.99f * -DirectX::XM_PIDIV2, 0.99f * DirectX::XM_PIDIV2);
+				const auto& rotation = DirectX::XMQuaternionRotationRollPitchYaw(-mPitch, mYaw, 0.0f);
+				mTransformComponent->SetRotation(rotation);
+			}
+			else if (inputSystem->GetMouse().IsRightButtonPressed())
+			{
+				float radius = mTransformComponent->GetTranslation().z;
+				radius += offset.second * mSensitive;
+				if (radius <= 1.5f)
+				{
+					radius = 1.5f;
+				}
+				mTransformComponent->SetTranslation({ 0.0f, 0.0f, radius });
+			}
+			mPrevMousePosition = mousePosition;
+		}
+	}
+
+	const DirectX::XMMATRIX& GetProjectionMatrix() const
+	{
+		return mCameraComponent->GetProjectionMatrix();
+	}
+
+	[[nodiscard]] const DirectX::XMMATRIX GetViewMatrix() const
+	{
+		const auto& translation = mTransformComponent->GetTranslation();
+		const auto& rotation = mTransformComponent->GetRotation();
+		const auto& position = DirectX::XMVector3Transform(DirectX::XMLoadFloat3(&translation), DirectX::XMMatrixRotationQuaternion(rotation));
+		return DirectX::XMMatrixLookAtLH(position, DirectX::XMVectorZero(), DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f));
+	}
+
+private:
+	CameraComponent* mCameraComponent = nullptr;
+	TransformComponent* mTransformComponent = nullptr;
+	Mouse::Position mPrevMousePosition = { 0, 0 };
+	float mSensitive = 0.015f;
+	float mPitch = 0.0f;
+	float mYaw = 0.0f;
+};
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
 {
@@ -33,23 +114,19 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	Engine engine;
 	Window window;
+	Camera* camera;
 	
 	bool isRunning = true;
 	
 	engine.Init();
-	window.Init(1280, 720, "Some window", Window::Style::Close | Window::Style::Title);
-	window.SetCursor(false);
+	window.Init(1280, 720, "Howlite - Sandbox", Window::Style::Close | Window::Style::Title);
 
 	const float width = static_cast<float>(window.GetWidth());
 	const float height = static_cast<float>(window.GetHeight());
-
-	PerspectiveCamera camera;
-	camera.SetPosition({ 0.0f, 0.0f, -5.0f });
-	camera.SetFieldOfView(75.0f);
-	camera.SetNearPlane(0.1f);
-	camera.SetFarPlane(100.0f);
-	camera.SetAspectRatio(width / height);
 	
+	camera = engine.GetEntityManager()->CreateEntity<Camera>();
+	camera->SetupCamera(width, height);
+
 	std::shared_ptr<VertexBuffer> vertexBuffer = nullptr;
 	std::shared_ptr<IndexBuffer> indexBuffer = nullptr;
 	std::shared_ptr<VertexShader> vertexShader = nullptr;
@@ -102,7 +179,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	HL_ASSERT(pixelShaderByteCode, "Failed to compile pixel shader");
 	vertexShader = std::make_shared<VertexShader>(device, vertexShaderByteCode);
 	pixelShader = std::make_shared<PixelShader>(device, pixelShaderByteCode);
-
 	inputLayout = std::make_shared<InputLayout>(device, Vertex::GetLayoutDescription(), vertexShaderByteCode);
 	topology = std::make_shared<Topology>(device, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
@@ -114,8 +190,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	TransformBuffer transformBuffer;
 	transformBuffer.mWorldMatrix = DirectX::XMMatrixTranspose(DirectX::XMMatrixIdentity());
-	transformBuffer.mViewMatrix = DirectX::XMMatrixTranspose(camera.GetViewMatrix());
-	transformBuffer.mProjectionMatrix = DirectX::XMMatrixTranspose(camera.GetProjectionMatrix());
+	transformBuffer.mViewMatrix = DirectX::XMMatrixTranspose(camera->GetViewMatrix());
+	transformBuffer.mProjectionMatrix = DirectX::XMMatrixTranspose(camera->GetProjectionMatrix());
 
 	std::shared_ptr<TConstantBuffer<TransformBuffer, ShaderStage::Vertex, 0>> constantBuffer = nullptr;
 
@@ -130,31 +206,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	renderable.push_back(topology);
 	renderable.push_back(constantBuffer);
 
-	engine.GetEventManager()->Subscribe<MouseRawInputEvent>("mouse_raw_input_event", [&camera, &window](const MouseRawInputEvent* InEvent)
+	engine.GetEventManager()->Subscribe<MouseRawInputEvent>("mouse_raw_input_event", [&window, &camera](const MouseRawInputEvent* InEvent)
 	{
-		using namespace DirectX;
-
-		static float yaw = 0.0f;
-		static float pitch = 0.0f;
-
-		InputSystem* inputSystem = Engine::GetInstance()->GetSystemManager()->GetSystem<InputSystem>();
-
-		if (inputSystem->GetMouse().IsRightButtonPressed())
-		{
-			const float width = static_cast<float>(window.GetWidth());
-			const float height = static_cast<float>(window.GetHeight());
-
-			const float x = std::min(width / 1000.0f, 2.4f); // max = 2.4f
-			const float xFactor = 0.0366f * (x * x) - 0.1778f * x + 0.3021f;
-			
-			const float y = std::min(height / 1000.0f, 2.4f); // max = 2.4f
-			const float yFactor = 0.0366f * (y * y) - 0.1778f * y + 0.3021f;
-
-			yaw = yaw + InEvent->mDeltaX * xFactor;
-			pitch = pitch + InEvent->mDeltaY * yFactor;
-		
-			camera.SetRotation(XMQuaternionRotationRollPitchYaw(-XMConvertToRadians(pitch), -XMConvertToRadians(yaw), 0.0f));
-		}
+		camera->OnMouseRawInput(InEvent);
 	});
 
 	engine.GetEventManager()->Subscribe<WindowCloseEvent>("window_close_event", [&isRunning](const WindowCloseEvent*)
@@ -162,21 +216,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		isRunning = false;
 	});
 
-	engine.GetEventManager()->Subscribe<TickEvent>("tick_event", [&constantBuffer, &transformBuffer, &camera, &isRunning](const TickEvent*)
+	engine.GetEventManager()->Subscribe<TickEvent>("tick_event", [&constantBuffer, &transformBuffer, &isRunning, &window, &camera](const TickEvent* InEvent)
 	{
-		static float elapsedTime = 0.0f;
-		static float deltaTime = 0.0f;
-		static ULONGLONG timeStart = 0;
-		static ULONGLONG timeLast = 0;
-		ULONGLONG timeCur = ::GetTickCount64();
-		if (timeStart == 0)
-		{
-			timeStart = timeCur;
-		}
-		elapsedTime = (timeCur - timeStart) / 1000.0f;
-		deltaTime = (timeCur - timeLast) / 1000.0f;
-		timeLast = timeCur;
-
 		InputSystem* inputSystem = Engine::GetInstance()->GetSystemManager()->GetSystem<InputSystem>();
 		RenderSystem* renderSystem = Engine::GetInstance()->GetSystemManager()->GetSystem<RenderSystem>();
 
@@ -185,45 +226,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			isRunning = false;
 		}
 
-		if (inputSystem->GetMouse().IsRightButtonPressed())
-		{
-			DirectX::XMFLOAT3 translation = { 0.0f, 0.0f, 0.0f };
-
-			const float speed = 10.0f * deltaTime;
-
-			if (inputSystem->GetKeyboard().IsKeyPressed('W'))
-			{
-				translation = { 0.0f, 0.0f, speed };
-			}
-			else if (inputSystem->GetKeyboard().IsKeyPressed('S'))
-			{
-				translation = { 0.0f, 0.0f, -speed };
-			}
-
-			if (inputSystem->GetKeyboard().IsKeyPressed('D'))
-			{
-				translation = { -speed, 0.0f, 0.0f };
-			}
-			else if (inputSystem->GetKeyboard().IsKeyPressed('A'))
-			{
-				translation = { speed, 0.0f, 0.0f };
-			}
-
-			DirectX::XMStoreFloat3(&translation, DirectX::XMVector3Transform(DirectX::XMLoadFloat3(&translation), DirectX::XMMatrixRotationQuaternion(camera.GetRotation())));
-
-			DirectX::XMFLOAT3 position = camera.GetPosition();
-
-			position.x += translation.x;
-			position.y += translation.y;
-			position.z += translation.z;
-
-			camera.SetPosition(position);
-		}
-
-		transformBuffer.mProjectionMatrix = DirectX::XMMatrixTranspose(camera.GetProjectionMatrix());
-		transformBuffer.mViewMatrix = DirectX::XMMatrixTranspose(camera.GetViewMatrix());
-		transformBuffer.mWorldMatrix = DirectX::XMMatrixTranspose(DirectX::XMMatrixRotationY(elapsedTime) * DirectX::XMMatrixRotationX(elapsedTime));
-
+		transformBuffer.mWorldMatrix = DirectX::XMMatrixTranspose(DirectX::XMMatrixIdentity());
+		transformBuffer.mViewMatrix = DirectX::XMMatrixTranspose(camera->GetViewMatrix());
+		transformBuffer.mProjectionMatrix = DirectX::XMMatrixTranspose(camera->GetProjectionMatrix());
 		constantBuffer->Update(renderSystem->GetDevice(), transformBuffer);
 	});
 
@@ -261,7 +266,20 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			::DispatchMessage(&msg);
 		}
 
-		engine.GetEventManager()->Post<TickEvent>();
+		static float elapsedTime = 0.0f;
+		static float deltaTime = 0.0f;
+		static ULONGLONG timeStart = 0;
+		static ULONGLONG timeLast = 0;
+		ULONGLONG timeCur = ::GetTickCount64();
+		if (timeStart == 0)
+		{
+			timeStart = timeCur;
+		}
+		elapsedTime = (timeCur - timeStart) / 1000.0f;
+		deltaTime = (timeCur - timeLast) / 1000.0f;
+		timeLast = timeCur;
+
+		engine.GetEventManager()->Post<TickEvent>(deltaTime);
 		engine.GetEventManager()->Post<DrawEvent>();
 		engine.GetEventManager()->Notify();
 	}

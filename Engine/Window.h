@@ -37,6 +37,58 @@ namespace Howlite {
 		}
 	};
 
+	class WindowSetFocusEvent : public TEvent<WindowSetFocusEvent> {
+	public:
+		HWND mHandle;
+
+		WindowSetFocusEvent(HWND InHandle) :
+			mHandle{ InHandle }
+		{
+		}
+	};
+
+	class WindowKillFocusEvent : public TEvent<WindowKillFocusEvent> {
+	public:
+		HWND mHandle;
+
+		WindowKillFocusEvent(HWND InHandle) :
+			mHandle{ InHandle }
+		{
+		}
+	};
+
+	class WindowMinimizedEvent : public TEvent<WindowMinimizedEvent> {
+	public:
+		HWND mHandle;
+
+		WindowMinimizedEvent(HWND InHandle) :
+			mHandle{ InHandle }
+		{
+		}
+	};
+
+	class WindowMaximizedEvent : public TEvent<WindowMaximizedEvent> {
+	public:
+		HWND mHandle;
+
+		WindowMaximizedEvent(HWND InHandle) :
+			mHandle{ InHandle }
+		{
+		}
+	};
+
+	class WindowSizeEvent : public TEvent<WindowSizeEvent> {
+	public:
+		HWND mHandle;
+		uint32_t mWidth;
+		uint32_t mHeight;
+
+		WindowSizeEvent(HWND InHandle, const uint32_t InWidth, const uint32_t InHeight) :
+			mHandle{ InHandle }, mWidth{ InWidth }, mHeight{ InHeight }
+		{
+		}
+	};
+
 	class Window {
 		static size_t WINDOW_INSTANCE_COUNT;
 
@@ -61,11 +113,12 @@ namespace Howlite {
 		inline HWND GetHandle() const noexcept { return mHandle; }
 		inline uint32_t GetWidth() const noexcept { return mWidth; }
 		inline uint32_t GetHeight() const noexcept { return mHeight; }
+		inline bool IsCursorEnabled() const noexcept { return mIsCursorEnabled; }
 
 		using MessageCallback = std::function<LRESULT(HWND, UINT, WPARAM, LPARAM)>;
 
 		void SetMessageCallback(MessageCallback&& InMessageCallback);
-		void SetCursor(const bool IsEnabled);
+		void SetCursorEnable(const bool IsEnabled);
 
 	private:
 		void RegisterWindowClass();

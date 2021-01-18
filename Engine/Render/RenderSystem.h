@@ -26,6 +26,8 @@ namespace Howlite {
 
 		inline Device* GetDevice() const noexcept { return mDevice.get(); }
 
+		SwapChain* GetSwapChain(HWND InWindowHandle) const;
+
 		ID3DBlob* ReadShader(const wchar_t* InFileName);
 		ID3DBlob* CompileShader(const wchar_t* InFileName, const char* InEntryPoint, const char* InProfile);
 

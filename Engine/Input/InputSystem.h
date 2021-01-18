@@ -17,17 +17,53 @@ namespace Howlite {
 		}
 	};
 
+	class MouseEnterEvent : public TEvent<MouseEnterEvent> {
+	public:
+		HWND mHandle;
+
+		MouseEnterEvent(HWND InHandle) :
+			mHandle{ InHandle }
+		{
+
+		}
+	};
+
+	class MouseLeaveEvent : public TEvent<MouseLeaveEvent> {
+	public:
+		HWND mHandle;
+
+		MouseLeaveEvent(HWND InHandle) :
+			mHandle{ InHandle }
+		{
+
+		}
+	};
+
+	class MouseMoveEvent : public TEvent<MouseMoveEvent> {
+	public:
+		int mPositionX;
+		int mPositionY;
+
+		MouseMoveEvent(const int InPositionX, const int InPositionY) :
+			mPositionX{ InPositionX }, mPositionY{ InPositionY }
+		{
+
+		}
+	};
+
 	struct Mouse {
 		HL_CLASS_DEFAULT(Mouse);
 
 		using Position = std::pair<int, int>;
 
+		bool IsInWindow() const noexcept;
 		bool IsLeftButtonPressed() const noexcept;
 		bool IsMiddleButtonPressed() const noexcept;
 		bool IsRightButtonPressed() const noexcept;
 		Position GetPosition() const noexcept;
 
 		bool mIsRawInputInitialized = false;
+		bool mIsInWindow = false;
 	};
 
 	struct Keyboard {
@@ -45,12 +81,18 @@ namespace Howlite {
 
 		inline const Mouse& GetMouse() const noexcept { return mMouse; }
 		inline const Keyboard& GetKeyboard() const noexcept { return mKeyboard; }
+		inline const HWND GetWindowHandle() const noexcept { return mHandle; }
 
 	private:
 		void OnWindowCreated(const class WindowCreateEvent* InEvent);
+		void OnWindowDestroyed(const class WindowDestroyEvent* InEvent);
+		void OnMouseEntered(const MouseEnterEvent* InEvent);
+		void OnMouseLeaved(const MouseLeaveEvent* InEvent);
 
 		Mouse mMouse;
 		Keyboard mKeyboard;
+
+		HWND mHandle = nullptr;
 
 	};
 

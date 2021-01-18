@@ -16,7 +16,7 @@ function(compile_shader ownerTarget shaderFileName shaderProfile shaderEntryPoin
 		DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${shaderFileName}
 		COMMAND ${FXC} /T "${shaderProfile}" /E "${shaderEntryPoint}" /Od /Zi /nologo /Fo "${CMAKE_BINARY_DIR}/Shaders/${fileName}.cso" ${CMAKE_CURRENT_SOURCE_DIR}/${shaderFileName}
 		BYPRODUCTS ${CMAKE_BINARY_DIR}/Shaders/${fileName}.cso
-        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+		WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 	)
 endfunction()
 
