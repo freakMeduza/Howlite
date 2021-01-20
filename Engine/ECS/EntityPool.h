@@ -23,6 +23,7 @@ namespace Howlite {
 		// Inherited via IEntityPool
 		virtual void DestroyEntity(IEntity* InEntity) override
 		{
+			InEntity->~IEntity();
 			this->DestroyObject((void*)InEntity);
 		}
 

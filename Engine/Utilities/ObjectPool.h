@@ -51,23 +51,18 @@ namespace Howlite {
 			mAllocator.Terminate();
 		}
 
-		template<typename ... Args>
-		ObjectType* CreateObject(Args&& ... InArgs)
+		void* CreateObject()
 		{
 			if (mObjectList.size() < MEMORY_BLOCK_CAPACITY)
 			{
-				ObjectType* object = nullptr;
-
 				void* memory = mAllocator.Allocate(OBJECT_SIZE, OBJECT_ALIGNMENT);
 
 				if (memory)
 				{
-					new(memory)ObjectType(std::forward<Args>(InArgs)...);
-					object = (ObjectType*)memory;
-					mObjectList.push_back(object);
+					mObjectList.push_back((ObjectType*)memory);
 				}
 
-				return object;
+				return memory;
 			}
 
 			return nullptr;
@@ -77,7 +72,6 @@ namespace Howlite {
 		{
 			if (auto it = std::find(mObjectList.begin(), mObjectList.end(), InObject); it != mObjectList.end())
 			{
-				((ObjectType*)InObject)->~ObjectType();
 				mObjectList.remove((ObjectType*)InObject);
 				mAllocator.Free((void*)InObject);
 			}

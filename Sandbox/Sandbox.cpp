@@ -37,17 +37,20 @@ struct TickEvent : public TEvent<TickEvent>
 
 class Camera : public TEntity<Camera> {
 public:
-	HL_CLASS_DEFAULT(Camera);
-
-	void SetupCamera(const float InWidth, const float InHeight)
+	Camera(const float InWidth, const float InHeight)
 	{
-		mCameraComponent = Engine::GetInstance()->GetComponentManager()->AddComponent<CameraComponent>(GetEntityId());
-		mTransformComponent = Engine::GetInstance()->GetComponentManager()->AddComponent<TransformComponent>(GetEntityId());
+		mCameraComponent = AddComponent<CameraComponent>();
+		mTransformComponent = AddComponent<TransformComponent>();
 		HL_ASSERT(mCameraComponent, "Failed to add camera component");
 		HL_ASSERT(mTransformComponent, "Failed to add transform component");
 		mCameraComponent->SetPerspective(45.0f, InWidth / InHeight, 0.1f, 100.0f);
 		mTransformComponent->TranslateZ(3.0f);
 		mPrevMousePosition = Engine::GetInstance()->GetSystemManager()->GetSystem<InputSystem>()->GetMouse().GetPosition();
+	}
+
+	~Camera()
+	{
+
 	}
 
 	void OnMouseRawInput(const MouseRawInputEvent* InEvent)
@@ -124,8 +127,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	const float width = static_cast<float>(window.GetWidth());
 	const float height = static_cast<float>(window.GetHeight());
 	
-	camera = engine.GetEntityManager()->CreateEntity<Camera>();
-	camera->SetupCamera(width, height);
+	camera = engine.GetEntityManager()->CreateEntity<Camera>(width, height);
 
 	std::shared_ptr<VertexBuffer> vertexBuffer = nullptr;
 	std::shared_ptr<IndexBuffer> indexBuffer = nullptr;

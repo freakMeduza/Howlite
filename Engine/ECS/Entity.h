@@ -44,7 +44,10 @@ namespace Howlite {
 		static const EntityTypeId STATIC_ENTITY_TYPE_ID;
 
 	private:
-		EntityId mEntityId = HL_INVALID_ID;
+		// NOTE: These properties will be set explicetly by
+		// entity manager, we shouldn't give them default value
+		// in class constructor
+		EntityId mEntityId;
 
 	};
 

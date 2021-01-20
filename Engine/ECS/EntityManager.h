@@ -15,8 +15,14 @@ namespace Howlite {
 		template<typename EntityType, typename ... Args>
 		EntityType* CreateEntity(Args&& ... InArgs)
 		{
-			EntityType* entity = GetEntityPool<EntityType>()->CreateObject(std::forward<Args>(InArgs)...);
-			entity->mEntityId = CaptureEntityId(entity);
+			void* entityMemory = GetEntityPool<EntityType>()->CreateObject();
+
+			const EntityId entityId = CaptureEntityId((EntityType*)entityMemory);
+
+			((EntityType*)entityMemory)->mEntityId = entityId;
+			
+			EntityType* entity = new (entityMemory)EntityType(std::forward<Args>(InArgs)...);
+			
 			return entity;
 		}
 

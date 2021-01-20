@@ -29,8 +29,11 @@ namespace Howlite {
 		static const ComponentTypeId STATIC_COMPONENT_TYPE_ID;
 
 	private:
-		ComponentId mComponentId = HL_INVALID_ID;
-		EntityId mParentId = HL_INVALID_ID;
+		// NOTE: These properties will be set explicetly by
+		// component manager, we shouldn't give them default value
+		// in class constructor
+		ComponentId mComponentId;
+		EntityId mParentId;
 
 	};
 

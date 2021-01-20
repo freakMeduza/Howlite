@@ -23,6 +23,7 @@ namespace Howlite {
 		// Inherited via IComponentPool
 		virtual void DestoryComponent(IComponent* InComponent) override
 		{
+			InComponent->~IComponent();
 			this->DestroyObject((void*)InComponent);
 		}
 

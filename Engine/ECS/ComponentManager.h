@@ -15,14 +15,16 @@ namespace Howlite {
 		template<typename ComponentType, typename ... Args>
 		ComponentType* AddComponent(const EntityId InEntityId, Args&& ... InArgs)
 		{
-			ComponentType* component = GetComponentPool<ComponentType>()->CreateObject(std::forward<Args>(InArgs)...);
+			void* componentMemory = GetComponentPool<ComponentType>()->CreateObject();
 
-			const ComponentId componentId = CaptureComponentId(component);
+			const ComponentId componentId = CaptureComponentId((ComponentType*)componentMemory);
 
-			component->mComponentId = componentId;
-			component->mParentId = InEntityId;
+			((ComponentType*)componentMemory)->mComponentId = componentId;
+			((ComponentType*)componentMemory)->mParentId = InEntityId;
 
 			Map(InEntityId, componentId, ComponentType::STATIC_COMPONENT_TYPE_ID);
+
+			ComponentType* component = new (componentMemory)ComponentType(std::forward<Args>(InArgs)...);
 
 			return component;
 		}
